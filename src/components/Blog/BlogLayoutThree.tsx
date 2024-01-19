@@ -1,20 +1,17 @@
 import { Blog } from "@/.contentlayer/generated";
+import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
-import { format } from "date-fns";
 
-type BlogLayoutTwoProps = {
+type BlogLayoutThreeProps = {
   blog: Blog;
 };
 
-const BlogLayoutTwo = ({ blog }: BlogLayoutTwoProps) => {
+const BlogLayoutThree = ({ blog }: BlogLayoutThreeProps) => {
   const firstTag = blog?.tags?.[0];
   return (
-    <div className="group grid grid-cols-12 gap-4 items-center text-dark">
-      <Link
-        href={blog.url}
-        className="col-span-4 h-full rounded-xl overflow-hidden"
-      >
+    <div className="group flex flex-col items-center text-dark">
+      <Link href={blog.url} className="h-full rounded-xl overflow-hidden">
         {blog?.image ? (
           <Image
             src={blog.image?.filePath.replace("../public", "")}
@@ -23,12 +20,12 @@ const BlogLayoutTwo = ({ blog }: BlogLayoutTwoProps) => {
             blurDataURL={blog.image?.blurhashDataUrl}
             height={blog.image?.height}
             width={blog.image?.width}
-            className="aspect-square w-full h-full object-center object-cover group-hover:scale-105 transition-all ease duration-300"
+            className="aspect-[4/3] w-full h-full object-center object-cover group-hover:scale-105 transition-all ease duration-300"
           />
         ) : null}
       </Link>
       {firstTag ? (
-        <div className="col-span-12 lg:col-span-8 w-full">
+        <div className="flex flex-col w-full mt-4">
           <span className="block w-full uppercase text-accent dark:text-accentDark font-semibold text-xs sm:text-sm">
             {firstTag}
           </span>
@@ -48,4 +45,4 @@ const BlogLayoutTwo = ({ blog }: BlogLayoutTwoProps) => {
   );
 };
 
-export default BlogLayoutTwo;
+export default BlogLayoutThree;
