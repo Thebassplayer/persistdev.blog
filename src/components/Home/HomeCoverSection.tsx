@@ -3,6 +3,7 @@ import { sortBlogs } from "@/src/utils";
 import Image from "next/image";
 import Link from "next/link";
 import Tag from "../Elements/Tag";
+import Description from "../Elements/Description";
 
 type HomeCoverSectionProps = {
   blogs: Blog[];
@@ -37,9 +38,7 @@ const HomeCoverSection = ({ blogs }: HomeCoverSectionProps) => {
                 </span>
               </h1>
             </Link>
-            <p className="inline-block mt-4 text-xl font-in">
-              {latestBlog?.description}
-            </p>
+            <Description description={latestBlog?.description} />
           </div>
         ) : null}
       </article>
