@@ -24,7 +24,7 @@ const RecentPost = ({ blogs }: RecentPostProps) => {
           view all
         </Link>
       </div>
-      <div className="grid grid-cols-3 grid-rows-3 gap-16 mt-16">
+      <div className="grid grid-cols-3 grid-rows-2 gap-16 mt-16">
         {sortedBlogs.slice(4, 10).map(blog => (
           <article key={blog._id} className="col-span-1 row-span-1 relative">
             <BlogLayoutThree blog={blog} />
