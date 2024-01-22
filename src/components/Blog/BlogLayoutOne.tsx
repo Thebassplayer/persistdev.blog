@@ -2,6 +2,7 @@ import { Blog } from "@/.contentlayer/generated";
 import Image from "next/image";
 import Link from "next/link";
 import Tag from "../Elements/Tag";
+import { slug } from "github-slugger";
 
 type BlogLayoutOneProps = {
   blog: Blog;
@@ -26,7 +27,7 @@ const BlogLayoutOne = ({ blog }: BlogLayoutOneProps) => {
       {firstTag ? (
         <div className="absolute bottom-0 p-10 z-20 w-fll">
           <Tag
-            link={`/categories/${firstTag}`}
+            link={`/categories/${slug(firstTag)}`}
             name={firstTag}
             className="px-6 text-sm py-2 !border"
           />

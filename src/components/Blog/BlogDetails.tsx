@@ -1,5 +1,6 @@
 import { Blog } from "@/.contentlayer/generated";
 import { format, parseISO } from "date-fns";
+import { slug } from "github-slugger";
 import Link from "next/link";
 
 type BlogDetailsProps = {
@@ -7,10 +8,10 @@ type BlogDetailsProps = {
   slug: string;
 };
 
-const BlogDetails = ({ blog, slug }: BlogDetailsProps) => {
+const BlogDetails = ({ blog, slug: blogSlug }: BlogDetailsProps) => {
   console.log("blog: ", blog);
   console.log("flattenedPath: ", blog._raw.flattenedPath);
-  console.log("slug: ", slug);
+  console.log("blogSlug: ", blogSlug);
 
   return (
     <div
@@ -23,7 +24,7 @@ const BlogDetails = ({ blog, slug }: BlogDetailsProps) => {
       <span className="m-3">10 views</span>
       <div className="m-3">{blog.readingTime.text}</div>
       {blog?.tags ? (
-        <Link href={`/gategories/${blog.tags[0]}`} className="m-3">
+        <Link href={`/categories/${slug(blog.tags[0])}`} className="m-3">
           #{blog.tags[0]}
         </Link>
       ) : null}

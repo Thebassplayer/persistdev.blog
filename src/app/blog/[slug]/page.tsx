@@ -2,6 +2,7 @@ import { allBlogs } from "@/.contentlayer/generated";
 import BlogDetails from "@/src/components/Blog/BlogDetails";
 import RenderMdx from "@/src/components/Blog/RenderMdx";
 import Tag from "@/src/components/Elements/Tag";
+import GithubSlugger, { slug } from "github-slugger";
 import Image from "next/image";
 
 type Heading = {
@@ -9,6 +10,12 @@ type Heading = {
   slug: string;
   text: string;
 };
+
+const slugger = new GithubSlugger();
+
+export async function generateStaticParams() {
+  return allBlogs.map(blog => ({ slug: blog._raw.flattenedPath }));
+}
 
 const BlogPage = ({ params }: { params: { slug: string } }) => {
   const blog = allBlogs.find(blog => blog._raw.flattenedPath === params.slug);
@@ -21,8 +28,8 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
         <div className="w-full z-10 flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           {firstTag ? (
             <Tag
-              link={`/categories/${firstTag}`}
               name={firstTag}
+              link={`/categories/${slug(firstTag)}`}
               className="px-6 text-sm py-2"
             />
           ) : null}
@@ -60,12 +67,7 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
                     <a
                       href={`#${heading.slug}`}
                       data-level={heading.level}
-                      className="data-[level=two]:pl-0  data-[level=two]:pt-2
-                                       data-[level=two]:border-t border-solid border-dark/40
-                                       data-[level=three]:pl-4
-                                       sm:data-[level=three]:pl-6
-                                       flex items-center justify-start
-                                       "
+                      className="data-[level=two]:pl-0  data-[level=two]:pt-2 data-[level=two]:border-t border-solid border-dark/40 data-[level=three]:pl-4 sm:data-[level=three]:pl-6 flex items-center justify-start"
                     >
                       {heading.level === "three" ? (
                         <span className="flex w-1 h-1 rounded-full bg-dark mr-2">

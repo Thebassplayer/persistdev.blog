@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Tag from "../Elements/Tag";
 import Description from "../Elements/Description";
+import { slug } from "github-slugger";
 
 type HomeCoverSectionProps = {
   blogs: Blog[];
@@ -30,7 +31,7 @@ const HomeCoverSection = ({ blogs }: HomeCoverSectionProps) => {
         ) : null}
         {firstTag ? (
           <div className="w-3/4 p-16 flex flex-col items-start justify-center z-0 text-light">
-            <Tag link={`/categories/${firstTag}`} name={firstTag} />
+            <Tag link={`/categories/${slug(firstTag)}`} name={firstTag} />
             <Link href={latestBlog.url} className="mt-6">
               <h1 className="font-bold capitalize text-4xl">
                 <span className="bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] hover:bg-[length:100%_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
