@@ -7,7 +7,12 @@ const Contact = () => {
         <LottieAnimation />
       </div>
       <div className="w-3/5 flex flex-col items-start justify-center px-16 pb-8">
-        <h2 className="font-bold capitalize text-4xl">Let's Connect!</h2>
+        <h2
+          className="font-bold capitalize text-4xlccccccvccujbrjtivekjdhlllbblbutbldthglktrkdg
+        "
+        >
+          Let's Connect!
+        </h2>
       </div>
     </section>
   );
