@@ -1,5 +1,5 @@
 import ContactForm from "@/src/components/Contact/ContactForm";
-import LottieAnimation from "../../components/Contact/LottieAnimation";
+import LottieAnimation from "../../../components/Contact/LottieAnimation";
 
 const Contact = (): JSX.Element => {
   return (
