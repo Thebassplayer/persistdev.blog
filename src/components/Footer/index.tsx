@@ -15,7 +15,6 @@ const Footer = () => {
     formState: { errors },
   } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = data => console.log(data);
-  console.log(errors);
   return (
     <footer className="mt-16 rounded-2xl bg-dark dark:bg-accentDark/90 m-2 sm:m-10 flex flex-col items-center text-light dark:text-dark">
       <h3 className="mt-16 font-md text-center capitalize text-4xl px-2">
@@ -38,7 +37,7 @@ const Footer = () => {
 
         <input
           type="submit"
-          className="bg-dark text-light cursor-pointer font-medium rounded px-5 pb-1"
+          className="bg-dark text-light cursor-pointer font-medium rounded px-5 py-1"
         />
       </form>
       <div className="flex items-center mt-8">

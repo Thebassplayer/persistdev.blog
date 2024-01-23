@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import profileImg from "@/public/profile-img.png";
+import profileImg from "@/public/AI-Roy.png";
 
 const Logo = () => (
   <Link href={"/"} className="flex items-center text-dark">
