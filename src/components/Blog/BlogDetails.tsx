@@ -2,6 +2,7 @@ import { Blog } from "@/.contentlayer/generated";
 import { format, parseISO } from "date-fns";
 import { slug } from "github-slugger";
 import Link from "next/link";
+import ViewCounter from "./ViewCounter";
 
 type BlogDetailsProps = {
   blog: Blog;
@@ -21,7 +22,9 @@ const BlogDetails = ({ blog, slug: blogSlug }: BlogDetailsProps) => {
       <time className="m-3">
         {format(parseISO(blog.publishedAt), "LLLL d, yyyy")}
       </time>
-      <span className="m-3">10 views</span>
+      <span className="m-3">
+        <ViewCounter slug={blogSlug} />
+      </span>
       <div className="m-3">{blog.readingTime.text}</div>
       {blog?.tags ? (
         <Link href={`/categories/${slug(blog.tags[0])}`} className="m-3">
