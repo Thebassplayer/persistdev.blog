@@ -8,7 +8,7 @@ const useThemeSwitch = (): [
   mode: Theme,
   setMode: React.Dispatch<React.SetStateAction<Theme>>
 ] => {
-  const preferDarQuery = "(prefers-color-scheme: dark)";
+  const preferDarkQuery = "(prefers-color-scheme: dark)";
   const storageKey = "theme";
 
   const toggleTheme = (theme: Theme) => {
@@ -25,13 +25,13 @@ const useThemeSwitch = (): [
     if (userPref) {
       return userPref as Theme;
     }
-    return window.matchMedia(preferDarQuery).matches ? "dark" : "light";
+    return window.matchMedia(preferDarkQuery).matches ? "dark" : "light";
   };
 
   const [mode, setMode] = useState<Theme>("dark");
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia(preferDarQuery);
+    const mediaQuery = window.matchMedia(preferDarkQuery);
 
     const handleChange = () => {
       const newMode = getUserPreference();
@@ -44,6 +44,10 @@ const useThemeSwitch = (): [
 
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
+
+  useEffect(() => {
+    toggleTheme(mode);
+  }, [mode]);
 
   return [mode, setMode];
 };

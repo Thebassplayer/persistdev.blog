@@ -1,6 +1,4 @@
 import InsightRoll from "@/src/components/About/InsightRoll";
-import { siteMetadata } from "@/src/utils/siteMetadata";
-import { Metadata } from "next";
 
 const insights = [
   "20+ Projects Completed",

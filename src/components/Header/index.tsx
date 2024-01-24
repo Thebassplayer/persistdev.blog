@@ -1,7 +1,9 @@
+"use client";
 import Link from "next/link";
 import Logo from "./Logo";
 import { SunIcon } from "../Icons";
 import { socialLinks } from "@/src/constants/SOCIAL_LINKS";
+import useThemeSwitch from "../Hooks/useThemeSwitch";
 
 const navButtons = [
   {
@@ -19,6 +21,12 @@ const navButtons = [
 ];
 
 const Header = () => {
+  const [mode, setMode] = useThemeSwitch();
+
+  const toggleMode = () => {
+    setMode(mode === "light" ? "dark" : "light");
+  };
+
   return (
     <header className="w-full p-4 px-10 flex items-center justify-between">
       <Logo />
@@ -28,7 +36,7 @@ const Header = () => {
             {label}
           </Link>
         ))}
-        <button>
+        <button onClick={toggleMode}>
           <SunIcon />
         </button>
       </nav>
