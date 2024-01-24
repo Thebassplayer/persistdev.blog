@@ -79,17 +79,17 @@ export default function RootLayout({
           "font-mr bg-light dark:bg-dark"
         )}
       >
-        <Header />
-        {children}
-        <Footer />
-      </body>
-      <Script id="theme-switcher">
-        {`if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        <Script id="theme-switcher" strategy="beforeInteractive">
+          {`if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark')
   } else {
     document.documentElement.classList.remove('dark')
   }`}
-      </Script>
+        </Script>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

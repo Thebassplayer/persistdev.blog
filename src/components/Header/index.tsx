@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
 import Logo from "./Logo";
-import { SunIcon } from "../Icons";
+import { MoonIcon, SunIcon } from "../Icons";
 import { socialLinks } from "@/src/constants/SOCIAL_LINKS";
-import useThemeSwitch from "../Hooks/useThemeSwitch";
+import useThemeSwitch from "../../Hooks/useThemeSwitch";
+import { cx } from "@/src/utils";
 
 const navButtons = [
   {
@@ -36,8 +37,19 @@ const Header = () => {
             {label}
           </Link>
         ))}
-        <button onClick={toggleMode}>
-          <SunIcon />
+        <button
+          onClick={toggleMode}
+          className={cx(
+            "w-6 h-6 ease ml-2 flex items-center justify-center rounded-full p-1",
+            mode === "light" ? "bg-dark text-light" : "bg-light text-dark"
+          )}
+          aria-label="theme-switcher"
+        >
+          {mode === "light" ? (
+            <MoonIcon className={"fill-dark"} />
+          ) : (
+            <SunIcon className={"fill-dark"} />
+          )}
         </button>
       </nav>
       <div>
