@@ -12,7 +12,9 @@ const Header = () => {
           <a
             href={href}
             key={`${label}-${index}`}
-            className="inline-block h-6 w-6 mr-4"
+            className={`inline-block h-6 w-6 mr-4 ${
+              label === "Github" ? "fill-light" : ""
+            }`}
           >
             {svg}
           </a>
