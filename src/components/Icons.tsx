@@ -1,7 +1,11 @@
 import React from "react";
 import { cx } from "../utils";
 
-export const SunIcon = ({ className, ...rest }: { className: string }) => (
+type IconProps = {
+  className?: string;
+};
+
+export const SunIcon = ({ className, ...rest }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -157,7 +161,7 @@ export const SunIcon = ({ className, ...rest }: { className: string }) => (
   </svg>
 );
 
-export const MoonIcon = ({ className, ...rest }: { className: string }) => (
+export const MoonIcon = ({ className, ...rest }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -335,7 +339,7 @@ export const MoonIcon = ({ className, ...rest }: { className: string }) => (
   </svg>
 );
 
-export const LinkedinIcon = ({ className, ...rest }: { className: string }) => {
+export const LinkedinIcon = ({ className, ...rest }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -364,7 +368,7 @@ export const LinkedinIcon = ({ className, ...rest }: { className: string }) => {
   );
 };
 
-export const TwitterIcon = ({ className, ...rest }: { className: string }) => {
+export const TwitterIcon = ({ className, ...rest }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -389,7 +393,7 @@ export const TwitterIcon = ({ className, ...rest }: { className: string }) => {
   );
 };
 
-export const GithubIcon = ({ className, ...rest }: { className: string }) => {
+export const GithubIcon = ({ className, ...rest }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -409,7 +413,7 @@ export const GithubIcon = ({ className, ...rest }: { className: string }) => {
   );
 };
 
-export const DribbbleIcon = ({ className, ...rest }: { className: string }) => {
+export const DribbbleIcon = ({ className, ...rest }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
