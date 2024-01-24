@@ -1,9 +1,11 @@
-import { allBlogs } from "@/.contentlayer/generated";
+import type { Metadata } from "next";
+import { ImageFieldData, allBlogs } from "@/.contentlayer/generated";
 import BlogDetails from "@/src/components/Blog/BlogDetails";
 import RenderMdx from "@/src/components/Blog/RenderMdx";
 import Tag from "@/src/components/Elements/Tag";
 import GithubSlugger, { slug } from "github-slugger";
 import Image from "next/image";
+import { siteMetadata } from "@/src/utils/siteMetadata";
 
 type Heading = {
   level: "one" | "two" | "three" | "four" | "five" | "six";
@@ -11,10 +13,59 @@ type Heading = {
   text: string;
 };
 
-const slugger = new GithubSlugger();
-
 export async function generateStaticParams() {
   return allBlogs.map(blog => ({ slug: blog._raw.flattenedPath }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata | void> {
+  const blog = allBlogs.find(blog => blog._raw.flattenedPath === params.slug);
+  if (!blog) return;
+
+  const publishedAt = new Date(blog.publishedAt).toISOString();
+  const modifiedAt = new Date(
+    blog.publishedAt || blog.publishedAt
+  ).toISOString();
+  let imageList: string[] = [siteMetadata.socialBanner];
+  if (blog.image && typeof blog.image.filePath === "string") {
+    imageList = [
+      siteMetadata.siteUrl + blog.image.filePath.replace("../public", ""),
+    ];
+  }
+
+  const ogImages = imageList.map(image => {
+    return {
+      url: image.includes("http") ? image : siteMetadata.siteUrl + image,
+    };
+  });
+  const authors = blog?.author ? [blog.author] : siteMetadata.author;
+
+  return {
+    title: blog.title,
+    description: blog.description,
+    openGraph: {
+      title: blog.title,
+      description: blog.description,
+      url: siteMetadata.siteUrl + blog.url,
+      siteName: siteMetadata.title,
+      images: ogImages,
+      locale: siteMetadata.locale,
+      type: "article",
+      publishedTime: publishedAt,
+      modifiedTime: modifiedAt,
+      authors: authors.length > 0 ? authors : siteMetadata.author,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteMetadata.title,
+      description: siteMetadata.description,
+      creator: siteMetadata.author,
+      images: ogImages,
+    },
+  };
 }
 
 const BlogPage = ({ params }: { params: { slug: string } }) => {

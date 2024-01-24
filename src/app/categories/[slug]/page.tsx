@@ -1,13 +1,49 @@
 import { allBlogs } from "@/.contentlayer/generated";
 import BlogLayoutThree from "@/src/components/Blog/BlogLayoutThree";
 import Categories from "@/src/components/Blog/Categories";
-import { slug } from "github-slugger";
+import { siteMetadata } from "@/src/utils/siteMetadata";
+import GithubSlugger, { slug } from "github-slugger";
+import { Metadata } from "next";
 
 type CategoryPageParams = {
   params: {
     slug: string;
   };
 };
+
+const slugger = new GithubSlugger();
+
+export async function generateStaticParams() {
+  const categories: any = [];
+  const paths = [{ slug: "all" }];
+
+  allBlogs.map(blog => {
+    if (blog.isPublished) {
+      blog.tags?.map(tag => {
+        let slugified = slugger.slug(tag);
+        if (!categories.includes(slugified)) {
+          categories.push(slugified);
+          paths.push({ slug: slugified });
+        }
+      });
+    }
+  });
+
+  return paths;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata | void> {
+  return {
+    title: `${params.slug.replaceAll("-", " ")} Blogs`,
+    description: `Learn more about ${
+      params.slug === "all" ? "Web development" : params.slug
+    } from our blogs`,
+  };
+}
 
 const CategoryPage = ({ params }: CategoryPageParams) => {
   const allCategories = ["all"];

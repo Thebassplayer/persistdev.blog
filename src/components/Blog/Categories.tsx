@@ -17,6 +17,7 @@ export async function generateStaticParams() {
     if (blog.isPublished) {
       blog.tags?.map(tag => {
         let slugified = slugger.slug(tag);
+        console.log(slugified);
         if (!categories.includes(slugified)) {
           categories.push(slugified);
           paths.push({

@@ -1,5 +1,12 @@
 import ContactForm from "@/src/components/Contact/ContactForm";
 import LottieAnimation from "../../../components/Contact/LottieAnimation";
+import { Metadata } from "next";
+import { siteMetadata } from "@/src/utils/siteMetadata";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description: `Contact me for any queries or project idea @ ${siteMetadata.email}`,
+};
 
 const Contact = (): JSX.Element => {
   return (
