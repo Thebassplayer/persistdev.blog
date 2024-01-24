@@ -1,21 +1,22 @@
 import { LinkedinIcon, TwitterIcon, GithubIcon } from "../components/Icons";
+import { siteMetadata } from "../utils/siteMetadata";
 
 const socialLinksClasses = "hover:scale-125 transition-all ease duration-200";
 
 export const socialLinks = [
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/roylopezdev/",
+    href: siteMetadata.linkedin,
     svg: <LinkedinIcon className={socialLinksClasses} />,
   },
   {
     label: "Twitter",
-    href: "https://twitter.com/roylopezdev",
+    href: siteMetadata.twitter,
     svg: <TwitterIcon className={socialLinksClasses} />,
   },
   {
     label: "Github",
-    href: "https://github.com/Thebassplayer",
+    href: siteMetadata.github,
     svg: <GithubIcon className={socialLinksClasses} />,
   },
 ];
