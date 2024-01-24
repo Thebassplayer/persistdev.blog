@@ -1,14 +1,14 @@
 import React from "react";
 import { cx } from "../utils";
 
-export const SunIcon = ({ className, ...rest }: { className: string }) => (
+export const SunIcon = ({ className, ...rest }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
     height="24"
     viewBox="0 0 24 24"
     {...rest}
-    className={cx("w-full h-auto", className)}
+    className={cx("w-full h-auto", className ? className : "")}
   >
     <rect x="0" y="0" width="24" height="24" fill="rgba(255, 255, 255, 0)" />
     <g
