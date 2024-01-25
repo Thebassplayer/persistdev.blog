@@ -3,7 +3,11 @@ type DescriptionProps = {
 };
 
 const Description = ({ description }: DescriptionProps) => {
-  return <p className="inline-block mt-4 text-xl font-in">{description}</p>;
+  return (
+    <p className="mt-4 md:tex-lg sm:inline-block hidden lg:text-xl font-in">
+      {description}
+    </p>
+  );
 };
 
 export default Description;

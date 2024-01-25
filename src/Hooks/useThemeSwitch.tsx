@@ -6,7 +6,7 @@ type Theme = "light" | "dark";
 
 const useThemeSwitch = (): [
   mode: Theme,
-  setMode: React.Dispatch<React.SetStateAction<Theme>>
+  setMode: React.Dispatch<React.SetStateAction<Theme>>,
 ] => {
   const preferDarkQuery = "(prefers-color-scheme: dark)";
   const storageKey = "theme";
