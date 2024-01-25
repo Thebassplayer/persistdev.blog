@@ -10,7 +10,7 @@ type BlogLayoutTwoProps = {
 const BlogLayoutTwo = ({ blog }: BlogLayoutTwoProps) => {
   const firstTag = blog?.tags?.[0];
   return (
-    <div className="group grid grid-cols-12 gap-4 items-center text-dark">
+    <div className="group grid grid-cols-12 gap-4 items-center text-dark dark:text-light">
       <Link
         href={blog.url}
         className="col-span-4 h-full rounded-xl overflow-hidden"
@@ -34,12 +34,12 @@ const BlogLayoutTwo = ({ blog }: BlogLayoutTwoProps) => {
           </span>
           <Link href={blog.url} className="block my-1">
             <h2 className="font-semibold capitalize text-lg">
-              <span className="bg-gradient-to-r from-accent/50 to-accent/50 bg-[length:0px_5px] group-hover:bg-[length:100%_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
+              <span className="bg-gradient-to-r from-accent/50 to-accent/50 dark:from-accentDark/50 dark:to-accentDark/50 bg-[length:0px_5px] group-hover:bg-[length:100%_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
                 {blog?.title}
               </span>
             </h2>
           </Link>
-          <span className="block capitalize text-dark/50 font-semibold text-base">
+          <span className="block capitalize text-dark/50 dark:text-light/50 font-semibold text-base">
             {format(new Date(blog.publishedAt), "MMMM dd, yyyy")}
           </span>
         </div>

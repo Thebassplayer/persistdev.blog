@@ -34,7 +34,7 @@ const HomeCoverSection = ({ blogs }: HomeCoverSectionProps) => {
             <Tag link={`/categories/${slug(firstTag)}`} name={firstTag} />
             <Link href={latestBlog.url} className="mt-6">
               <h1 className="font-bold capitalize lg:text-4xl md-text-3xl text-lg sm:text-xl">
-                <span className="bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] hover:bg-[length:100%_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
+                <span className="bg-gradient-to-r from-accent to-accent dark:from-accentDark bg-[length:0px_5px] hover:bg-[length:100%_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 dark:to-accentDark/50">
                   {latestBlog?.title}
                 </span>
               </h1>
