@@ -25,18 +25,18 @@ const BlogLayoutOne = ({ blog }: BlogLayoutOneProps) => {
         />
       ) : null}
       {firstTag ? (
-        <div className="w-fll absolute bottom-0 z-20 p-10">
+        <div className="w-fll absolute bottom-0 z-20 p-4 xs:p-6 sm:p-10">
           <Tag
             link={`/categories/${slug(firstTag)}`}
             name={firstTag}
-            className="!border px-6 py-2 text-sm"
+            className="!border px-6 py-1 text-xs sm:py-2 sm:text-sm"
           />
           <Link href={blog.url} className="mt-6">
-            <h1 className="mt-4 text-2xl font-bold capitalize text-light">
+            <h2 className="ms:text-xl mt-2 text-sm font-bold capitalize text-light xs:text-base sm:mt-4 md:text-2xl">
               <span className="bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_5px]">
                 {blog?.title}
               </span>
-            </h1>
+            </h2>
           </Link>
         </div>
       ) : null}

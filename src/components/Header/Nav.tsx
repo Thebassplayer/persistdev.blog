@@ -26,7 +26,7 @@ const Nav = () => {
     setMode(mode === "light" ? "dark" : "light");
   };
   return (
-    <nav className="fixed right-1/2 top-6 z-50 hidden w-max translate-x-1/2 items-center rounded-full border border-solid border-dark bg-light/80 px-8 py-3 font-medium capitalize backdrop-blur-sm sm:flex">
+    <nav className="fixed right-1/2 top-6 z-50 hidden w-max translate-x-1/2 items-center rounded-full border border-solid border-dark bg-light/80 px-8 py-3 font-medium capitalize backdrop-blur-sm dark:border-light sm:flex">
       {navButtons.map(({ label, href }, index) => (
         <Link href={href} key={`${label}-${index}`} className="mx-2">
           {label}

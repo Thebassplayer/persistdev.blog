@@ -16,13 +16,13 @@ const FeaturedPost = ({ blogs }: FeaturedPostProps) => {
       </h2>
 
       <div className="mt:10 grid grid-cols-2 grid-rows-2 gap-6 sm:mt-16">
-        <article className="relative col-span-1 row-span-2">
+        <article className="relative col-span-2 row-span-2 sxl:col-span-1">
           <BlogLayoutOne blog={sortedBlogs[1]} />
         </article>
-        <article className="relative col-span-1 row-span-1">
+        <article className="relative col-span-2 row-span-1 sm:col-span-1">
           <BlogLayoutTwo blog={sortedBlogs[2]} />
         </article>
-        <article className="relative col-span-1 row-span-1">
+        <article className="relative col-span-2 row-span-1 sm:col-span-1">
           <BlogLayoutTwo blog={sortedBlogs[3]} />
         </article>
       </div>
