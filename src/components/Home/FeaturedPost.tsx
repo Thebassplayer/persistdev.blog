@@ -10,7 +10,7 @@ type FeaturedPostProps = {
 const FeaturedPost = ({ blogs }: FeaturedPostProps) => {
   const sortedBlogs = sortBlogs(blogs);
   return (
-    <section className="sxg:px-32 mt-16 flex w-full flex-col items-center justify-center px-5 sm:mt-24 sm:px-10 md:mt-32 md:px-24">
+    <section className="mt-16 flex w-full flex-col items-center justify-center px-5 sm:mt-24 sm:px-10 md:mt-32 md:px-24 sxl:px-32">
       <h2 className="inline-block w-full font-bold capitalize dark:text-light md:text-4xl">
         Featured Posts
       </h2>

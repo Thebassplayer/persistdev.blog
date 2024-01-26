@@ -10,7 +10,7 @@ type BlogLayoutThreeProps = {
 const BlogLayoutThree = ({ blog }: BlogLayoutThreeProps) => {
   const firstTag = blog?.tags?.[0];
   return (
-    <div className="group flex flex-col items-center text-dark">
+    <div className="group flex flex-col items-center text-dark dark:text-light">
       <Link href={blog.url} className="h-full overflow-hidden rounded-xl">
         {blog?.image ? (
           <Image
@@ -31,7 +31,7 @@ const BlogLayoutThree = ({ blog }: BlogLayoutThreeProps) => {
           </span>
           <Link href={blog.url} className="my-1 block">
             <h2 className="text-lg font-semibold capitalize">
-              <span className="bg-gradient-to-r from-accent/50 to-accent/50 bg-[length:0px_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_5px]">
+              <span className="bg-gradient-to-r from-accent/50 to-accent/50 bg-[length:0px_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_5px] dark:from-accentDark/50 dark:to-accentDark/50">
                 {blog?.title}
               </span>
             </h2>

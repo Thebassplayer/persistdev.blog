@@ -126,7 +126,7 @@ const Header = () => {
             href={href}
             key={`${label}-${index}`}
             className={`ease mr-4 inline-block h-6 w-6 transition-all duration-200 hover:scale-125 ${
-              label === "Github" ? "fill-light" : ""
+              label === "Github" ? "fill-dark dark:fill-light" : ""
             }`}
           >
             {svg}

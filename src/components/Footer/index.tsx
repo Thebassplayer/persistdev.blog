@@ -46,7 +46,7 @@ const Footer = () => {
             href={href}
             key={`${label}-${index}`}
             className={`mr-4 inline-block h-6 w-6 ${
-              label === "Github" ? "fill-light" : ""
+              label === "Github" ? "fill-light dark:fill-dark" : ""
             }`}
           >
             {svg}
