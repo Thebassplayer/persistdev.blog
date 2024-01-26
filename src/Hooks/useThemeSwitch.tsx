@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
@@ -12,18 +12,21 @@ const useThemeSwitch = (): [
 
   const isClient = typeof window === "object"; // Check if window is defined
 
-  const toggleTheme = (theme: Theme) => {
-    if (isClient) {
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
+  const toggleTheme = useCallback(
+    (theme: Theme) => {
+      if (isClient) {
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+        window.localStorage.setItem(storageKey, theme);
       }
-      window.localStorage.setItem(storageKey, theme);
-    }
-  };
+    },
+    [isClient, storageKey],
+  ); // Memoize the function with dependencies
 
-  const getUserPreference = () => {
+  const getUserPreference = useCallback(() => {
     if (isClient) {
       const userPref = window.localStorage.getItem(storageKey);
       if (userPref) {
@@ -33,7 +36,7 @@ const useThemeSwitch = (): [
     }
     // Return default theme for server-side rendering
     return "light";
-  };
+  }, [isClient, preferDarkQuery, storageKey]);
 
   const [mode, setMode] = useState<Theme>(() => getUserPreference()); // Initialize with user preference
 
@@ -52,11 +55,11 @@ const useThemeSwitch = (): [
 
       return () => mediaQuery.removeEventListener("change", handleChange);
     }
-  }, [isClient]);
+  }, [isClient, getUserPreference, toggleTheme]);
 
   useEffect(() => {
     toggleTheme(mode);
-  }, [mode, isClient]);
+  }, [mode, isClient, toggleTheme]);
 
   return [mode, setMode];
 };
