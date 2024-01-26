@@ -4,7 +4,7 @@ type DescriptionProps = {
 
 const Description = ({ description }: DescriptionProps) => {
   return (
-    <p className="mt-4 md:tex-lg sm:inline-block hidden lg:text-xl font-in">
+    <p className="md:tex-lg mt-4 hidden font-in sm:inline-block lg:text-xl">
       {description}
     </p>
   );

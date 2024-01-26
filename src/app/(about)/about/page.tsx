@@ -15,11 +15,11 @@ const About = () => {
     <>
       <AboutCoverSection />
       <Skills />
-      <h2 className="mt-8 font-semibold text-2xl self-start mx-20 text-dark">
+      <h2 className="mx-20 mt-8 self-start text-2xl font-semibold text-dark">
         Have a project in mind? Reach out to me 📞 from{" "}
         <Link
           href="/contact"
-          className="!underline underline-offset-2 text-red-700"
+          className="text-red-700 !underline underline-offset-2"
         >
           here
         </Link>{" "}

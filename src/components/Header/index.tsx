@@ -16,18 +16,18 @@ const Header = () => {
     setClick(!click);
   };
   return (
-    <header className="w-full p-4  px-5 sm:px-10 flex items-center justify-between">
+    <header className="flex w-full  items-center justify-between p-4 px-5 sm:px-10">
       <Logo />
 
       <button
-        className="inline-block sm:hidden z-50"
+        className="z-50 inline-block sm:hidden"
         onClick={toggle}
         aria-label="Hamburger Menu"
       >
-        <div className="w-6 cursor-pointer transition-all ease duration-300">
+        <div className="ease w-6 cursor-pointer transition-all duration-300">
           <div className="relative">
             <span
-              className="absolute top-0 inline-block w-full h-0.5 bg-dark dark:bg-light rounded transition-all ease duration-200"
+              className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-all duration-200 dark:bg-light"
               style={{
                 transform: click
                   ? "rotate(-45deg) translateY(0)"
@@ -37,7 +37,7 @@ const Header = () => {
               &nbsp;
             </span>
             <span
-              className="absolute top-0 inline-block w-full h-0.5 bg-dark dark:bg-light rounded transition-all ease duration-200"
+              className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-all duration-200 dark:bg-light"
               style={{
                 opacity: click ? 0 : 1,
               }}
@@ -45,7 +45,7 @@ const Header = () => {
               &nbsp;
             </span>
             <span
-              className="absolute top-0 inline-block w-full h-0.5 bg-dark dark:bg-light rounded transition-all ease duration-200"
+              className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-all duration-200 dark:bg-light"
               style={{
                 transform: click
                   ? "rotate(45deg) translateY(0)"
@@ -59,9 +59,9 @@ const Header = () => {
       </button>
 
       <nav
-        className=" w-max py-3 px-6 sm:px-8 border border-solid border-dark rounded-full font-medium capitalize  items-center flex  sm:hidden
-        fixed top-6 right-1/2 translate-x-1/2 bg-light/80 backdrop-blur-sm z-50
-        transition-all ease duration-300
+        className=" ease fixed right-1/2 top-6 z-50 flex w-max translate-x-1/2 items-center rounded-full  border border-solid  border-dark
+        bg-light/80 px-6 py-3 font-medium capitalize backdrop-blur-sm transition-all
+        duration-300 sm:hidden sm:px-8
         "
         style={{
           top: click ? "1rem" : "-5rem",
@@ -79,7 +79,7 @@ const Header = () => {
         <button
           onClick={() => setMode(mode === "light" ? "dark" : "light")}
           className={cx(
-            "w-6 h-6 ease ml-2 flex items-center justify-center rounded-full p-1",
+            "ease ml-2 flex h-6 w-6 items-center justify-center rounded-full p-1",
             mode === "light" ? "bg-dark text-light" : "bg-light text-dark",
           )}
           aria-label="theme-switcher"
@@ -93,8 +93,8 @@ const Header = () => {
       </nav>
 
       <nav
-        className=" w-max py-3 px-8 border border-solid border-dark rounded-full font-medium capitalize  items-center hidden sm:flex
-        fixed top-6 right-1/2 translate-x-1/2 bg-light/80 backdrop-blur-sm z-50"
+        className=" fixed right-1/2 top-6 z-50 hidden w-max translate-x-1/2 items-center rounded-full  border border-solid border-dark
+        bg-light/80 px-8 py-3 font-medium capitalize backdrop-blur-sm sm:flex"
       >
         <Link href="/" className="mr-2">
           Home
@@ -108,7 +108,7 @@ const Header = () => {
         <button
           onClick={() => setMode(mode === "light" ? "dark" : "light")}
           className={cx(
-            "w-6 h-6 ease ml-2 flex items-center justify-center rounded-full p-1",
+            "ease ml-2 flex h-6 w-6 items-center justify-center rounded-full p-1",
             mode === "light" ? "bg-dark text-light" : "bg-light text-dark",
           )}
           aria-label="theme-switcher"
@@ -120,12 +120,12 @@ const Header = () => {
           )}
         </button>
       </nav>
-      <div className="sm:flex items-center hidden">
+      <div className="hidden items-center sm:flex">
         {socialLinks.map(({ label, href, svg }, index) => (
           <a
             href={href}
             key={`${label}-${index}`}
-            className={`hover:scale-125 transition-all ease duration-200 inline-block h-6 w-6 mr-4 ${
+            className={`ease mr-4 inline-block h-6 w-6 transition-all duration-200 hover:scale-125 ${
               label === "Github" ? "fill-light" : ""
             }`}
           >

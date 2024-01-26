@@ -12,21 +12,21 @@ type RecentPostProps = {
 const RecentPost = ({ blogs }: RecentPostProps) => {
   const sortedBlogs = sortBlogs(blogs);
   return (
-    <section className="w-full mt-32 px-32 flex flex-col items-center justify-center">
+    <section className="mt-32 flex w-full flex-col items-center justify-center px-32">
       <div className="flex w-full justify-between">
-        <h2 className="inline-block font-bold capitalize text-4xl">
+        <h2 className="inline-block text-4xl font-bold capitalize">
           Recent Posts
         </h2>
         <Link
           href={"/categories/all"}
-          className="inline-block font-medium text-accent underline underline-offset-2 text-lg"
+          className="inline-block text-lg font-medium text-accent underline underline-offset-2"
         >
           view all
         </Link>
       </div>
-      <div className="grid grid-cols-3 grid-rows-2 gap-16 mt-16">
-        {sortedBlogs.slice(4, 10).map(blog => (
-          <article key={blog._id} className="col-span-1 row-span-1 relative">
+      <div className="mt-16 grid grid-cols-3 grid-rows-2 gap-16">
+        {sortedBlogs.slice(4, 10).map((blog) => (
+          <article key={blog._id} className="relative col-span-1 row-span-1">
             <BlogLayoutThree blog={blog} />
           </article>
         ))}

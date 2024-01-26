@@ -4,14 +4,14 @@ import profileImg from "@/public/AI-Roy.png";
 
 const Logo = () => (
   <Link href={"/"} className="flex items-center text-dark dark:text-light">
-    <div className="w-12 md:w-16 rounded-full overflow-hidden border border-solid border-dark dark:border-light mr-2 md:mr-4">
+    <div className="mr-2 w-12 overflow-hidden rounded-full border border-solid border-dark dark:border-light md:mr-4 md:w-16">
       <Image
         src={profileImg}
         alt="Roy Lopez"
-        className="w-full h-auto rounded-full"
+        className="h-auto w-full rounded-full"
       />
     </div>
-    <span className="font-bold text-lg md:text-xl">RoyLopez.dev</span>
+    <span className="text-lg font-bold md:text-xl">RoyLopez.dev</span>
   </Link>
 );
 export default Logo;

@@ -16,7 +16,7 @@ export default function AboutLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="w-full flex flex-col items-center justify-between">
+    <main className="flex w-full flex-col items-center justify-between">
       <InsightRoll insights={insights} />
       {children}
     </main>

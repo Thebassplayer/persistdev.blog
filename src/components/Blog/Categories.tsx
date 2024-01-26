@@ -13,9 +13,9 @@ export async function generateStaticParams() {
   const categories: any = [];
   const paths = [{ slug: "all" }];
 
-  allBlogs.map(blog => {
+  allBlogs.map((blog) => {
     if (blog.isPublished) {
-      blog.tags?.map(tag => {
+      blog.tags?.map((tag) => {
         let slugified = slugger.slug(tag);
         console.log(slugified);
         if (!categories.includes(slugified)) {
@@ -32,7 +32,7 @@ export async function generateStaticParams() {
 
 const Categories = ({ categories, currentSlug }: CategoriesProps) => {
   return (
-    <div className="px-0 md:px-10 xl:px-20 mt-10 border-t-2 text-dark dark:text-light border-b-2 border-solid border-dark dark:border-light py-4 flex items-start flex-wrap font-medium mx-5 md:mx-10">
+    <div className="mx-5 mt-10 flex flex-wrap items-start border-b-2 border-t-2 border-solid border-dark px-0 py-4 font-medium text-dark dark:border-light dark:text-light md:mx-10 md:px-10 xl:px-20">
       {categories.map((category: any) => {
         const isCurrentSlug = currentSlug === slug(category);
         return (

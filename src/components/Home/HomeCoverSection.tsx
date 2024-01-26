@@ -16,9 +16,9 @@ const HomeCoverSection = ({ blogs }: HomeCoverSectionProps) => {
   const firstTag = latestBlog?.tags?.[0];
 
   return (
-    <div className="w-full inline-block">
-      <article className="flex flex-col items-start justify-end sm:mx-10 mx-5 h-[60vh] relative sm:h-[85vh]">
-        <div className="absolute top-0 left-0 bottom-0 right-0 h-full bg-gradient-to-b from-transparent from-0% to-dark/90 rounded-3xl z-0" />
+    <div className="inline-block w-full">
+      <article className="relative mx-5 flex h-[60vh] flex-col items-start justify-end sm:mx-10 sm:h-[85vh]">
+        <div className="absolute bottom-0 left-0 right-0 top-0 z-0 h-full rounded-3xl bg-gradient-to-b from-transparent from-0% to-dark/90" />
         {latestBlog?.image ? (
           <Image
             src={latestBlog.image?.filePath.replace("../public", "")}
@@ -26,15 +26,15 @@ const HomeCoverSection = ({ blogs }: HomeCoverSectionProps) => {
             placeholder="blur"
             blurDataURL={latestBlog.image?.blurhashDataUrl}
             fill={true}
-            className="w-full h-full object-center object-cover rounded-3xl -z-10"
+            className="-z-10 h-full w-full rounded-3xl object-cover object-center"
           />
         ) : null}
         {firstTag ? (
-          <div className="w-full lg:w-3/4 md:p-12 sm:p-8 p-6 lg:p-16 flex flex-col items-start justify-center z-0 text-light">
+          <div className="z-0 flex w-full flex-col items-start justify-center p-6 text-light sm:p-8 md:p-12 lg:w-3/4 lg:p-16">
             <Tag link={`/categories/${slug(firstTag)}`} name={firstTag} />
             <Link href={latestBlog.url} className="mt-6">
-              <h1 className="font-bold capitalize lg:text-4xl md-text-3xl text-lg sm:text-xl">
-                <span className="bg-gradient-to-r from-accent to-accent dark:from-accentDark bg-[length:0px_5px] hover:bg-[length:100%_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 dark:to-accentDark/50">
+              <h1 className="md-text-3xl text-lg font-bold capitalize sm:text-xl lg:text-4xl">
+                <span className="bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 hover:bg-[length:100%_5px] dark:from-accentDark dark:to-accentDark/50">
                   {latestBlog?.title}
                 </span>
               </h1>

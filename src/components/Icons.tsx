@@ -12,7 +12,7 @@ export const SunIcon = ({ className, ...rest }: IconProps) => (
     height="24"
     viewBox="0 0 24 24"
     {...rest}
-    className={cx("w-full h-auto", className ? className : "")}
+    className={cx("h-auto w-full", className ? className : "")}
   >
     <rect x="0" y="0" width="24" height="24" fill="rgba(255, 255, 255, 0)" />
     <g
@@ -168,7 +168,7 @@ export const MoonIcon = ({ className, ...rest }: IconProps) => (
     height="24"
     viewBox="0 0 24 24"
     {...rest}
-    className={cx("w-full h-auto", className ? className : "")}
+    className={cx("h-auto w-full", className ? className : "")}
   >
     <g
       fill="none"
@@ -346,7 +346,7 @@ export const LinkedinIcon = ({ className, ...rest }: IconProps) => {
       width={42}
       height={43}
       viewBox="0 0 42 43"
-      className={cx("w-full h-auto", className ? className : "")}
+      className={cx("h-auto w-full", className ? className : "")}
       {...rest}
     >
       <g clipPath="url(#a)">
@@ -375,7 +375,7 @@ export const TwitterIcon = ({ className, ...rest }: IconProps) => {
       width={42}
       height={43}
       viewBox="0 0 42 43"
-      className={cx("w-full h-auto", className ? className : "")}
+      className={cx("h-auto w-full", className ? className : "")}
       {...rest}
     >
       <g clipPath="url(#a)">
@@ -400,7 +400,7 @@ export const GithubIcon = ({ className, ...rest }: IconProps) => {
       width={42}
       height={44}
       viewBox="0 0 42 44"
-      className={cx("w-full h-auto", className ? className : "")}
+      className={cx("h-auto w-full", className ? className : "")}
       {...rest}
     >
       <path
@@ -420,7 +420,7 @@ export const DribbbleIcon = ({ className, ...rest }: IconProps) => {
       width={42}
       height={43}
       viewBox="0 0 42 43"
-      className={cx("w-full h-auto", className ? className : "")}
+      className={cx("h-auto w-full", className ? className : "")}
       {...rest}
     >
       <g clipPath="url(#a)">

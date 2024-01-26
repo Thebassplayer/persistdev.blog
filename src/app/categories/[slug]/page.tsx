@@ -17,9 +17,9 @@ export async function generateStaticParams() {
   const categories: any = [];
   const paths = [{ slug: "all" }];
 
-  allBlogs.map(blog => {
+  allBlogs.map((blog) => {
     if (blog.isPublished) {
-      blog.tags?.map(tag => {
+      blog.tags?.map((tag) => {
         let slugified = slugger.slug(tag);
         if (!categories.includes(slugified)) {
           categories.push(slugified);
@@ -47,8 +47,8 @@ export async function generateMetadata({
 
 const CategoryPage = ({ params }: CategoryPageParams) => {
   const allCategories = ["all"];
-  const blogs = allBlogs.filter(blog => {
-    return blog.tags?.some(tag => {
+  const blogs = allBlogs.filter((blog) => {
+    return blog.tags?.some((tag) => {
       const slugified = slug(tag);
       if (!allCategories.includes(slugified)) {
         allCategories.push(slugified);
@@ -61,8 +61,8 @@ const CategoryPage = ({ params }: CategoryPageParams) => {
   });
   return (
     <article className="mt-12 flex flex-col text-dark dark:text-light">
-      <div className=" px-5 sm:px-10  md:px-24  sxl:px-32 flex flex-col">
-        <h1 className="mt-6 font-semibold text-2xl md:text-4xl lg:text-5xl">
+      <div className=" flex flex-col  px-5  sm:px-10 md:px-24 sxl:px-32">
+        <h1 className="mt-6 text-2xl font-semibold md:text-4xl lg:text-5xl">
           #{params.slug}
         </h1>
         <span className="mt-2 inline-block">
@@ -70,10 +70,10 @@ const CategoryPage = ({ params }: CategoryPageParams) => {
         </span>
       </div>
       <Categories categories={allCategories} currentSlug={params.slug} />
-      <div className="grid grid-cols-3 grid-rows-2 gap-16 mt-24 px-32">
+      <div className="mt-24 grid grid-cols-3 grid-rows-2 gap-16 px-32">
         {blogs.map((blog, index) => {
           return (
-            <article className="col-span-1 row-span-1 relative" key={index}>
+            <article className="relative col-span-1 row-span-1" key={index}>
               <BlogLayoutThree blog={blog} />
             </article>
           );

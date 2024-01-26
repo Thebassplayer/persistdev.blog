@@ -14,29 +14,29 @@ const ContactForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = data => console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mt-6 w-full flex flex-col items-center justify-center"
+      className="mt-6 flex w-full flex-col items-center justify-center"
     >
       <input
         type="text"
         placeholder="name"
         {...register("name", { required: true })}
-        className="w-[20rem] bg-transparent text-dark focus:border-dark focus:ring-0 border-0 border-b mr-2 pb-1"
+        className="mr-2 w-[20rem] border-0 border-b bg-transparent pb-1 text-dark focus:border-dark focus:ring-0"
       />
       <input
         type="email"
         placeholder="email"
         {...register("email", { required: true })}
-        className="w-[20rem] bg-transparent text-dark focus:border-dark focus:ring-0 border-0 border-b mr-2 pb-1"
+        className="mr-2 w-[20rem] border-0 border-b bg-transparent pb-1 text-dark focus:border-dark focus:ring-0"
       />
 
       <input
         type="submit"
-        className="bg-dark text-light cursor-pointer font-medium rounded px-5 py-1 mt-6"
+        className="mt-6 cursor-pointer rounded bg-dark px-5 py-1 font-medium text-light"
       />
     </form>
   );

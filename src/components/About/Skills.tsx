@@ -16,15 +16,15 @@ const SkillList = [
 
 const Skills = () => {
   return (
-    <section className="w-full flex flex-col p-20 border-b-2 border-solid border-dark text-dark">
-      <span className="font-semibold text-4xl text-accent">
+    <section className="flex w-full flex-col border-b-2 border-solid border-dark p-20 text-dark">
+      <span className="text-4xl font-semibold text-accent">
         I'm confortanble in...
       </span>
-      <ul className="flex flex-wrap mt-8 justify-start">
+      <ul className="mt-8 flex flex-wrap justify-start">
         {SkillList.map((skill, index) => (
           <li
             key={index}
-            className="font-semibold inline-block capitalize text-2xl py-5 px-12 border-2 border-solid border-dark rounded mr-6 mb-6 hover:scale-105 transition-all ease duration-200 cursor-pointer"
+            className="ease mb-6 mr-6 inline-block cursor-pointer rounded border-2 border-solid border-dark px-12 py-5 text-2xl font-semibold capitalize transition-all duration-200 hover:scale-105"
           >
             {skill}
           </li>

@@ -8,5 +8,5 @@ export const sortBlogs = (blogs: Blog[]) =>
   blogs
     .slice()
     .sort((a: any, b: any) =>
-      compareDesc(parseISO(a.publishedAt), parseISO(b.publishedAt))
+      compareDesc(parseISO(a.publishedAt), parseISO(b.publishedAt)),
     );

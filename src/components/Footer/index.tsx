@@ -14,38 +14,38 @@ const Footer = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = data => console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
   return (
-    <footer className="mt-16 rounded-2xl bg-dark dark:bg-accentDark/90 m-2 sm:m-10 flex flex-col items-center text-light dark:text-dark">
-      <h3 className="mt-16 font-md text-center capitalize text-4xl px-2">
+    <footer className="m-2 mt-16 flex flex-col items-center rounded-2xl bg-dark text-light dark:bg-accentDark/90 dark:text-dark sm:m-10">
+      <h3 className="font-md mt-16 px-2 text-center text-4xl capitalize">
         Interesting Stories | Updates | Guides
       </h3>
-      <p className="mt-5 px-4 text-center w-3/5 font-light text-base">
+      <p className="mt-5 w-3/5 px-4 text-center text-base font-light">
         Subscribe to learn about new technology and updates. Join over 5000+
         members community to stay up to date with latest news.
       </p>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-6 min-w-[384px] flex items-stretch bg-light p-2 rounded mx-4"
+        className="mx-4 mt-6 flex min-w-[384px] items-stretch rounded bg-light p-2"
       >
         <input
           type="email"
           placeholder="Enter your email"
           {...register("email", { required: true })}
-          className="w-full bg-transparent text-dark focus:border-dark focus:ring-0 border-0 border-b mr-2 pb-1"
+          className="mr-2 w-full border-0 border-b bg-transparent pb-1 text-dark focus:border-dark focus:ring-0"
         />
 
         <input
           type="submit"
-          className="bg-dark text-light cursor-pointer font-medium rounded px-5 py-1"
+          className="cursor-pointer rounded bg-dark px-5 py-1 font-medium text-light"
         />
       </form>
-      <div className="flex items-center mt-8">
+      <div className="mt-8 flex items-center">
         {socialLinks.map(({ label, href, svg }, index) => (
           <a
             href={href}
             key={`${label}-${index}`}
-            className={`inline-block h-6 w-6 mr-4 ${
+            className={`mr-4 inline-block h-6 w-6 ${
               label === "Github" ? "fill-light" : ""
             }`}
           >
@@ -53,7 +53,7 @@ const Footer = () => {
           </a>
         ))}
       </div>
-      <div className="w-full mt-16 relative font-medium border-t border-solid border-light py-6 px-8 flex flex-row items-center justify-between">
+      <div className="relative mt-16 flex w-full flex-row items-center justify-between border-t border-solid border-light px-8 py-6 font-medium">
         <span className="text-center">
           &copy;2023 CodeBucks. All rights reserved.
         </span>

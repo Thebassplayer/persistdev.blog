@@ -26,7 +26,7 @@ const Nav = () => {
     setMode(mode === "light" ? "dark" : "light");
   };
   return (
-    <nav className="w-max py-3 px-8 border border-solid border-dark rounded-full font-medium capitalize hidden sm:flex items-center fixed top-6 right-1/2 translate-x-1/2 bg-light/80 backdrop-blur-sm z-50">
+    <nav className="fixed right-1/2 top-6 z-50 hidden w-max translate-x-1/2 items-center rounded-full border border-solid border-dark bg-light/80 px-8 py-3 font-medium capitalize backdrop-blur-sm sm:flex">
       {navButtons.map(({ label, href }, index) => (
         <Link href={href} key={`${label}-${index}`} className="mx-2">
           {label}
@@ -35,8 +35,8 @@ const Nav = () => {
       <button
         onClick={toggleMode}
         className={cx(
-          "w-6 h-6 ease ml-2 flex items-center justify-center rounded-full p-1",
-          mode === "light" ? "bg-dark text-light" : "bg-light text-dark"
+          "ease ml-2 flex h-6 w-6 items-center justify-center rounded-full p-1",
+          mode === "light" ? "bg-dark text-light" : "bg-light text-dark",
         )}
         aria-label="theme-switcher"
       >

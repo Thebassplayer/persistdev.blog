@@ -16,8 +16,8 @@ const BlogDetails = ({ blog, slug: blogSlug }: BlogDetailsProps) => {
 
   return (
     <div
-      className="px-10 bg-ccent text-light py-2 flex
-    items-center justify-around flex-wrap text-xl font-medium mx-10 rounded-lg bg-accent"
+      className="bg-ccent mx-10 flex flex-wrap items-center
+    justify-around rounded-lg bg-accent px-10 py-2 text-xl font-medium text-light"
     >
       <time className="m-3">
         {format(parseISO(blog.publishedAt), "LLLL d, yyyy")}

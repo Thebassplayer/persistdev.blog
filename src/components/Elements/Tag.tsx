@@ -15,8 +15,8 @@ const Tag = ({ link = "#", name, ...props }: TagProps) => {
     <Link
       href={link}
       className={cx(
-        "inline-block py-3 px-10 bg-dark text-light rounded-full capitalize font-semibold border-solid border-light border-2 hover:scale-105 ease duration-200",
-        className
+        "ease inline-block rounded-full border-2 border-solid border-light bg-dark px-10 py-3 font-semibold capitalize text-light duration-200 hover:scale-105",
+        className,
       )}
     >
       {name}
