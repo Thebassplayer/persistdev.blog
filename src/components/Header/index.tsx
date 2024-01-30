@@ -5,56 +5,19 @@ import { useState } from "react";
 import Link from "next/link";
 import useThemeSwitch from "@/src/Hooks/useThemeSwitch";
 import ThemeButton from "./ThemeButton";
+import Hamburger from "./Hamburger";
 
 const Header = () => {
-  const [mode, setMode] = useThemeSwitch();
-  const [click, setClick] = useState(false);
+  const [theme, setTheme] = useThemeSwitch();
+  const [showNavBar, setShowNavBar] = useState(false);
 
   const toggle = () => {
-    setClick(!click);
+    setShowNavBar(!showNavBar);
   };
   return (
-    <header className="flex w-full  items-center justify-between p-4 px-5 sm:px-10">
-      <Logo />
-
-      <button
-        className="z-50 inline-block sm:hidden"
-        onClick={toggle}
-        aria-label="Hamburger Menu"
-      >
-        <div className="ease w-6 cursor-pointer transition-all duration-300">
-          <div className="relative">
-            <span
-              className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-all duration-200 dark:bg-light"
-              style={{
-                transform: click
-                  ? "rotate(-45deg) translateY(0)"
-                  : "rotate(0deg) translateY(6px)",
-              }}
-            >
-              &nbsp;
-            </span>
-            <span
-              className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-all duration-200 dark:bg-light"
-              style={{
-                opacity: click ? 0 : 1,
-              }}
-            >
-              &nbsp;
-            </span>
-            <span
-              className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-all duration-200 dark:bg-light"
-              style={{
-                transform: click
-                  ? "rotate(45deg) translateY(0)"
-                  : "rotate(0deg) translateY(-6px)",
-              }}
-            >
-              &nbsp;
-            </span>
-          </div>
-        </div>
-      </button>
+    <header className="flex h-20 w-full items-center justify-between p-4 px-5 sm:px-10">
+      <Logo showNavBar={showNavBar} />
+      <Hamburger showNavBar={showNavBar} toggle={toggle} />
 
       <nav
         className=" ease fixed right-1/2 top-6 z-50 flex w-max translate-x-1/2 items-center rounded-full  border border-solid  border-dark
@@ -62,7 +25,7 @@ const Header = () => {
         duration-300 sm:hidden sm:px-8
         "
         style={{
-          top: click ? "1rem" : "-5rem",
+          top: showNavBar ? "1rem" : "-5rem",
         }}
       >
         <Link href="/" className="mr-2">
@@ -74,7 +37,7 @@ const Header = () => {
         <Link href="/contact" className="mx-2">
           Contact
         </Link>
-        <ThemeButton mode={mode} setMode={setMode} />
+        <ThemeButton theme={theme} setTheme={setTheme} />
       </nav>
 
       <nav
@@ -90,7 +53,7 @@ const Header = () => {
         <Link href="/contact" className="mx-2">
           Contact
         </Link>
-        <ThemeButton mode={mode} setMode={setMode} />
+        <ThemeButton theme={theme} setTheme={setTheme} />
       </nav>
       <div className="hidden items-center sm:flex">
         {socialLinks.map(({ label, href, svg }, index) => (

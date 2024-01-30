@@ -38,16 +38,16 @@ const useThemeSwitch = (): [
     return "light";
   }, [isClient, preferDarkQuery, storageKey]);
 
-  const [mode, setMode] = useState<Theme>(() => getUserPreference()); // Initialize with user preference
+  const [theme, setTheme] = useState<Theme>(() => getUserPreference()); // Initialize with user preference
 
   useEffect(() => {
     if (isClient) {
       const mediaQuery = window.matchMedia(preferDarkQuery);
 
       const handleChange = () => {
-        const newMode = getUserPreference();
-        setMode(newMode);
-        toggleTheme(newMode);
+        const newTheme = getUserPreference();
+        setTheme(newTheme);
+        toggleTheme(newTheme);
       };
       handleChange();
 
@@ -58,10 +58,10 @@ const useThemeSwitch = (): [
   }, [isClient, getUserPreference, toggleTheme]);
 
   useEffect(() => {
-    toggleTheme(mode);
-  }, [mode, isClient, toggleTheme]);
+    toggleTheme(theme);
+  }, [theme, isClient, toggleTheme]);
 
-  return [mode, setMode];
+  return [theme, setTheme];
 };
 
 export default useThemeSwitch;
