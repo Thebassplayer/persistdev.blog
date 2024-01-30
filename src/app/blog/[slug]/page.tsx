@@ -102,10 +102,10 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
         ) : null}
       </div>
       {blog ? <BlogDetails blog={blog} slug={params.slug} /> : null}
-      <div className="mt-8 grid grid-cols-12 gap-16 px-10">
-        <div className="col-span-4">
+      <div className="mt-8 grid grid-cols-12 gap-y-8 px-10 lg:gap-8 sxl:gap-16">
+        <div className="col-span-12 lg:col-span-4">
           <details
-            className="sticky top-6 max-h-[80vh] overflow-hidden overflow-y-auto rounded-lg border border-solid border-dark p-4 text-dark"
+            className="sticky top-6 max-h-[80vh] overflow-hidden overflow-y-auto rounded-lg border border-solid border-dark p-4 text-dark dark:border-light dark:text-light"
             open
           >
             <summary className="ont-semibold cursor-pointer text-lg capitalize">
@@ -118,7 +118,7 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
                     <a
                       href={`#${heading.slug}`}
                       data-level={heading.level}
-                      className="flex  items-center justify-start border-solid border-dark/40 data-[level=two]:border-t data-[level=three]:pl-4 data-[level=two]:pl-0 data-[level=two]:pt-2 sm:data-[level=three]:pl-6"
+                      className="flex  items-center justify-start border-solid border-dark/40 text-sm data-[level=two]:border-t data-[level=three]:pl-4 data-[level=two]:pl-0 data-[level=two]:pt-2 sm:text-base  sm:data-[level=three]:pl-6 md:text-lg"
                     >
                       {heading.level === "three" ? (
                         <span className="mr-2 flex h-1 w-1 rounded-full bg-dark">
