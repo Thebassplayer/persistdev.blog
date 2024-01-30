@@ -3,7 +3,7 @@ import { ImageFieldData, allBlogs } from "@/.contentlayer/generated";
 import BlogDetails from "@/src/components/Blog/BlogDetails";
 import RenderMdx from "@/src/components/Blog/RenderMdx";
 import Tag from "@/src/components/Elements/Tag";
-import GithubSlugger, { slug } from "github-slugger";
+import { slug } from "github-slugger";
 import Image from "next/image";
 import { siteMetadata } from "@/src/utils/siteMetadata";
 
@@ -84,11 +84,11 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
               className="px-6 py-2 text-sm"
             />
           ) : null}
-          <h1 className="relative mt-6 inline-block w-5/6 text-5xl font-semibold capitalize leading-normal text-light">
+          <h1 className="relative mt-6 inline-block w-5/6 text-2xl font-semibold capitalize leading-normal text-light md:text-3xl lg:text-5xl">
             {blog?.title}
           </h1>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 top-0 h-full bg-dark/60" />
+        <div className="absolute bottom-0 left-0 right-0 top-0 h-full bg-dark/60 dark:bg-dark/40" />
         {blog?.image ? (
           <Image
             src={blog.image?.filePath.replace("../public", "")}

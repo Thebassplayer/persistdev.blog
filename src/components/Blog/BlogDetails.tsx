@@ -10,14 +10,10 @@ type BlogDetailsProps = {
 };
 
 const BlogDetails = ({ blog, slug: blogSlug }: BlogDetailsProps) => {
-  console.log("blog: ", blog);
-  console.log("flattenedPath: ", blog._raw.flattenedPath);
-  console.log("blogSlug: ", blogSlug);
-
   return (
     <div
-      className="bg-ccent mx-10 flex flex-wrap items-center
-    justify-around rounded-lg bg-accent px-10 py-2 text-xl font-medium text-light"
+      className="bg-ccent first-letter mx-5 flex flex-wrap items-center
+    justify-around rounded-lg bg-accent px-2 py-2 text-lg font-medium text-light dark:bg-accentDark dark:text-dark sm:text-xl md:mx-10 md:px-10"
     >
       <time className="m-3">
         {format(parseISO(blog.publishedAt), "LLLL d, yyyy")}
