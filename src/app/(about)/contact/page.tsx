@@ -10,12 +10,9 @@ export const metadata: Metadata = {
 
 const Contact = (): JSX.Element => {
   return (
-    <section className="w-full h-[75hv] border-b-2 border-solid border-dark flex flex-row items-center justify-center text-dark ">
-      <div className="inline-block w-1/4 h-[400px] border-r-2 border-solid border-dark">
-        <LottieAnimation />
-      </div>
-      <div className="w-3/4 flex flex-col items-start justify-center px-16 pb-8">
-        <h2 className="font-bold capitalize text-6xl w-full text-center">
+    <section className="flex w-full flex-col items-center justify-center border-b-2 border-solid border-dark text-dark dark:border-light dark:text-light md:h-[75vh] md:flex-row">
+      <div className="mt-16 flex w-3/4 flex-col items-start justify-center px-16 pb-8">
+        <h2 className="w-full text-center text-4xl font-bold capitalize xs:text-5xl lg:text-left sxl:text-6xl">
           Let's Connect!
         </h2>
         <ContactForm />

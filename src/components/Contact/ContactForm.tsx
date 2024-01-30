@@ -25,18 +25,18 @@ const ContactForm = () => {
         type="text"
         placeholder="name"
         {...register("name", { required: true })}
-        className="mr-2 w-[20rem] border-0 border-b bg-transparent pb-1 text-dark focus:border-dark focus:ring-0"
+        className="mr-2 border-0 border-b bg-transparent pb-1 text-dark focus:border-dark focus:ring-0 dark:border-light dark:text-light sm:w-[20rem]"
       />
       <input
         type="email"
         placeholder="email"
         {...register("email", { required: true })}
-        className="mr-2 w-[20rem] border-0 border-b bg-transparent pb-1 text-dark focus:border-dark focus:ring-0"
+        className="mr-2 border-0 border-b bg-transparent pb-1 text-dark focus:border-dark focus:ring-0 dark:border-light dark:text-light sm:w-[20rem]"
       />
 
       <input
         type="submit"
-        className="mt-6 cursor-pointer rounded bg-dark px-5 py-1 font-medium text-light"
+        className="mt-6 cursor-pointer rounded bg-dark px-5 py-1 font-medium text-light dark:bg-light dark:text-dark"
       />
     </form>
   );
