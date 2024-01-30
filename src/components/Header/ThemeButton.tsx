@@ -1,10 +1,11 @@
 import React from "react";
 import { MoonIcon, SunIcon } from "../Icons";
 import { cx } from "@/src/utils";
+import { Theme } from "@/src/types";
 
 type ThemeButtonProps = {
   mode: string;
-  setMode: (mode: string) => void;
+  setMode: React.Dispatch<React.SetStateAction<Theme>>;
 };
 
 const ThemeButton = ({ mode, setMode }: ThemeButtonProps) => {

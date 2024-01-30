@@ -1,11 +1,8 @@
 "use client";
 import Logo from "./Logo";
 import { socialLinks } from "@/src/constants/SOCIAL_LINKS";
-import Nav from "./Nav";
 import { useState } from "react";
 import Link from "next/link";
-import { MoonIcon, SunIcon } from "../Icons";
-import { cx } from "@/src/utils";
 import useThemeSwitch from "@/src/Hooks/useThemeSwitch";
 import ThemeButton from "./ThemeButton";
 
@@ -77,7 +74,7 @@ const Header = () => {
         <Link href="/contact" className="mx-2">
           Contact
         </Link>
-        <ThemeButton mode={mode} setMode={() => setMode} />
+        <ThemeButton mode={mode} setMode={setMode} />
       </nav>
 
       <nav
@@ -93,7 +90,7 @@ const Header = () => {
         <Link href="/contact" className="mx-2">
           Contact
         </Link>
-        <ThemeButton mode={mode} setMode={() => setMode} />
+        <ThemeButton mode={mode} setMode={setMode} />
       </nav>
       <div className="hidden items-center sm:flex">
         {socialLinks.map(({ label, href, svg }, index) => (
