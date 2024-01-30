@@ -105,7 +105,7 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
       <div className="mt-8 grid grid-cols-12 gap-y-8 px-5 md:px-10 lg:gap-8 sxl:gap-16">
         <div className="col-span-12 lg:col-span-4">
           <details
-            className="sticky top-6 max-h-[80vh] overflow-hidden overflow-y-auto rounded-lg border border-solid border-dark p-4 text-dark dark:border-light dark:text-light"
+            className="sticky top-6 overflow-hidden overflow-y-auto rounded-lg border border-solid border-dark p-4 text-dark dark:border-light dark:text-light md:max-h-[80vh]"
             open
           >
             <summary className="ont-semibold cursor-pointer text-lg capitalize">
