@@ -20,21 +20,20 @@ const Header = () => {
       <Hamburger showNavBar={showNavBar} toggle={toggle} />
 
       <nav
-        className=" ease fixed right-1/2 top-6 z-50 flex w-max translate-x-1/2 items-center rounded-full  border border-solid  border-dark
-        bg-light/80 px-6 py-3 font-medium capitalize backdrop-blur-sm transition-all
-        duration-300 sm:hidden sm:px-8
-        "
+        className="ease fixed right-1/2 top-6 z-50 flex w-max translate-x-1/2 items-center rounded-full  border border-solid  border-dark
+        bg-light/80 px-4 py-2 font-medium capitalize backdrop-blur-sm transition-all duration-300 sm:hidden
+        sm:px-8 md:px-6 md:py-3  "
         style={{
           top: showNavBar ? "1rem" : "-5rem",
         }}
       >
-        <Link href="/" className="mr-2">
+        <Link href="/" className="mr-2 text-sm md:text-base">
           Home
         </Link>
-        <Link href="/about" className="mx-2">
+        <Link href="/about" className="mx-2 text-sm md:text-base">
           About
         </Link>
-        <Link href="/contact" className="mx-2">
+        <Link href="/contact" className="mx-2 text-sm md:text-base">
           Contact
         </Link>
         <ThemeButton theme={theme} setTheme={setTheme} />
