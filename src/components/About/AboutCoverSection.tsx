@@ -4,8 +4,8 @@ import profileCharacter from "@/public/AI-Roy.png";
 
 const AboutCoverSection = () => {
   return (
-    <section className="flex w-full flex-row items-center justify-center border-b-2 border-solid border-dark text-dark">
-      <div className="flex h-[400px] w-1/2 flex-row items-center border-r-2 border-solid border-dark">
+    <section className="flex w-full flex-row items-center justify-center border-b-2 border-solid border-dark text-dark dark:border-light dark:text-light">
+      <div className="flex h-[400px] w-1/2 flex-row items-center border-r-2 border-solid border-dark dark:border-light">
         <Image
           src={profileCharacter}
           alt="Roy codign in a laptop computer"

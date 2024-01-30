@@ -4,8 +4,8 @@ type InsightRollProps = {
 
 const InsightRoll = ({ insights }: InsightRollProps) => {
   return (
-    <div className="w-full overflow-hidden whitespace-nowrap bg-accent text-light">
-      <div className="flex w-full animate-roll items-center justify-center py-3 text-base font-semibold capitalize tracking-wider">
+    <div className="w-full overflow-hidden whitespace-nowrap bg-accent text-light dark:bg-accentDark dark:text-dark">
+      <div className="flex w-full animate-roll items-center justify-center py-2 text-sm font-semibold capitalize tracking-wider sm:py-3 sm:text-base">
         {insights.map((insight) => (
           <div key={insight}>
             {insight}

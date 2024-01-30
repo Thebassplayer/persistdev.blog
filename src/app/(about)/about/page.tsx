@@ -15,7 +15,7 @@ const About = () => {
     <>
       <AboutCoverSection />
       <Skills />
-      <h2 className="mx-20 mt-8 self-start text-2xl font-semibold text-dark">
+      <h2 className="mx-20 mt-8 self-start text-2xl font-semibold text-dark dark:text-light">
         Have a project in mind? Reach out to me 📞 from{" "}
         <Link
           href="/contact"
