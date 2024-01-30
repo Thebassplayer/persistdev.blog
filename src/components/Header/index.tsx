@@ -93,7 +93,7 @@ const Header = () => {
       </nav>
 
       <nav
-        className=" fixed right-1/2 top-6 z-50 hidden w-max translate-x-1/2 items-center rounded-full  border border-solid border-dark
+        className=" fixed right-1/2 top-6 z-50 hidden w-max translate-x-1/2 items-center rounded-full border border-solid border-dark
         bg-light/80 px-8 py-3 font-medium capitalize backdrop-blur-sm sm:flex"
       >
         <Link href="/" className="mr-2">
