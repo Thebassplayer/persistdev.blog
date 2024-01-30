@@ -54,9 +54,7 @@ const Footer = () => {
         ))}
       </div>
       <div className="relative mt-16 flex w-full flex-row items-center justify-between border-t border-solid border-light px-8 py-6 font-medium">
-        <span className="text-center">
-          &copy;2023 CodeBucks. All rights reserved.
-        </span>
+        <span className="text-center">&copy;2023 3R. All rights reserved.</span>
         <Link href="/sitemap.xml" className="text-center underline">
           sitemap.xml
         </Link>
