@@ -7,6 +7,7 @@ import Link from "next/link";
 import { MoonIcon, SunIcon } from "../Icons";
 import { cx } from "@/src/utils";
 import useThemeSwitch from "@/src/Hooks/useThemeSwitch";
+import ThemeButton from "./ThemeButton";
 
 const Header = () => {
   const [mode, setMode] = useThemeSwitch();
@@ -76,20 +77,7 @@ const Header = () => {
         <Link href="/contact" className="mx-2">
           Contact
         </Link>
-        <button
-          onClick={() => setMode(mode === "light" ? "dark" : "light")}
-          className={cx(
-            "ease ml-2 flex h-6 w-6 items-center justify-center rounded-full p-1",
-            mode === "light" ? "bg-dark text-light" : "bg-light text-dark",
-          )}
-          aria-label="theme-switcher"
-        >
-          {mode === "light" ? (
-            <MoonIcon className={"fill-dark"} />
-          ) : (
-            <SunIcon className={"fill-dark"} />
-          )}
-        </button>
+        <ThemeButton mode={mode} setMode={() => setMode} />
       </nav>
 
       <nav
@@ -105,20 +93,7 @@ const Header = () => {
         <Link href="/contact" className="mx-2">
           Contact
         </Link>
-        <button
-          onClick={() => setMode(mode === "light" ? "dark" : "light")}
-          className={cx(
-            "ease ml-2 flex h-6 w-6 items-center justify-center rounded-full p-1",
-            mode === "light" ? "bg-dark text-light" : "bg-light text-dark",
-          )}
-          aria-label="theme-switcher"
-        >
-          {mode === "light" ? (
-            <MoonIcon className={"fill-dark"} />
-          ) : (
-            <SunIcon className={"fill-dark"} />
-          )}
-        </button>
+        <ThemeButton mode={mode} setMode={() => setMode} />
       </nav>
       <div className="hidden items-center sm:flex">
         {socialLinks.map(({ label, href, svg }, index) => (
