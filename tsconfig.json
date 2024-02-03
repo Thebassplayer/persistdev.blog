@@ -17,13 +17,13 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next"
-      }
+        "name": "next",
+      },
     ],
     "paths": {
       "@/*": ["./*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
-    }
+      "contentlayer/generated": ["./.contentlayer/generated"],
+    },
   },
   "include": [
     "next-env.d.ts",
@@ -34,7 +34,8 @@
     "<path-to-your-source>.ts",
     "<path-to-your-source>.tsx",
     ".next/types/**/*.ts",
-    "contentlayer.config.ts"
+    "contentlayer.config.ts",
+    "next-sitemap.config.ts",
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }
