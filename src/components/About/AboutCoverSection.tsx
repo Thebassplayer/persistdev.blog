@@ -10,6 +10,7 @@ const AboutCoverSection = () => {
           src={profileCharacter}
           alt="Roy codign in a laptop computer"
           className="h-full w-4/5 object-contain object-center xs:w-3/4 md:w-full"
+          sizes="(max-width: 768px) 100vw,(max-width: 1180px) 50vw, 50vw"
         />
       </div>
       <div className="pb-a1 flex w-full flex-col items-start justify-center px-5 text-left xs:p-10 md:w-1/2 lg:px-16">

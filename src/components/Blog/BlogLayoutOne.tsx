@@ -22,6 +22,7 @@ const BlogLayoutOne = ({ blog }: BlogLayoutOneProps) => {
           height={blog.image?.height}
           width={blog.image?.width}
           className="ease h-full w-full rounded-xl object-cover object-center transition-all duration-300 group-hover:scale-105"
+          sizes="(max-width: 1180px) 100vw, 50vw"
         />
       ) : null}
       {firstTag ? (

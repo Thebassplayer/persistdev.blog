@@ -28,6 +28,7 @@ const HomeCoverSection = ({ blogs }: HomeCoverSectionProps) => {
             fill={true}
             className="-z-10 h-full w-full rounded-3xl object-cover object-center"
             priority
+            sizes="100vw"
           />
         ) : null}
         {firstTag ? (

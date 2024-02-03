@@ -24,6 +24,7 @@ const BlogLayoutTwo = ({ blog }: BlogLayoutTwoProps) => {
             height={blog.image?.height}
             width={blog.image?.width}
             className="ease aspect-square h-full w-full object-cover object-center transition-all duration-300 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw,(max-width: 1124px) 50vw, 33vw"
           />
         ) : null}
       </Link>
