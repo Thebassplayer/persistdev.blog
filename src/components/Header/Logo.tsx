@@ -19,6 +19,8 @@ const Logo = ({ showNavBar }: LogoProps): JSX.Element => (
         src={profileImg}
         alt="Roy Lopez"
         className="h-auto w-full rounded-full"
+        sizes="33vw"
+        priority
       />
     </div>
     <span
