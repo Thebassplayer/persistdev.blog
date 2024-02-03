@@ -15,7 +15,7 @@ const Header = () => {
     setShowNavBar(!showNavBar);
   };
   return (
-    <header className="sticky top-0 z-50 flex h-20 w-full items-center justify-between p-4 px-5 backdrop-blur-sm sm:px-10">
+    <header className="sticky top-0 z-50 flex h-20 w-full items-center justify-between px-6 py-4 backdrop-blur-sm sm:px-10 sm:py-12">
       <Logo showNavBar={showNavBar} />
       <Hamburger showNavBar={showNavBar} toggle={toggle} />
 
