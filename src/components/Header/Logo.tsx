@@ -26,7 +26,7 @@ const Logo = ({ showNavBar }: LogoProps): JSX.Element => (
     <span
       className={cx(
         "text-base font-bold transition-all duration-300 ease-in-out md:text-xl",
-        showNavBar ? "hidden" : "",
+        showNavBar ? "text-transparent" : "",
       )}
     >
       Persist.dev
