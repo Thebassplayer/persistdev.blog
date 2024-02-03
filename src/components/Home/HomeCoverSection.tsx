@@ -27,6 +27,7 @@ const HomeCoverSection = ({ blogs }: HomeCoverSectionProps) => {
             blurDataURL={latestBlog.image?.blurhashDataUrl}
             fill={true}
             className="-z-10 h-full w-full rounded-3xl object-cover object-center"
+            priority
           />
         ) : null}
         {firstTag ? (
