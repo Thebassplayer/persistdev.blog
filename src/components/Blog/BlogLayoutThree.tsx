@@ -8,7 +8,7 @@ type BlogLayoutThreeProps = {
 };
 
 const BlogLayoutThree = ({ blog }: BlogLayoutThreeProps) => {
-  const firstTag = blog?.tags?.[0];
+  const firstBlogTag = blog?.tags?.[0];
   return (
     <div className="group flex flex-col items-center text-dark dark:text-light">
       <Link href={blog.url} className="h-full overflow-hidden rounded-xl">
@@ -25,10 +25,10 @@ const BlogLayoutThree = ({ blog }: BlogLayoutThreeProps) => {
           />
         ) : null}
       </Link>
-      {firstTag ? (
+      {firstBlogTag ? (
         <div className="mt-4 flex w-full flex-col">
           <span className="block w-full text-xs font-semibold uppercase text-accent dark:text-accentDark sm:text-sm">
-            {firstTag}
+            {firstBlogTag}
           </span>
           <Link href={blog.url} className="my-1 block">
             <h2 className="text-base font-semibold capitalize sm:text-lg">

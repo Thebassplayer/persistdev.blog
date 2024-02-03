@@ -9,7 +9,7 @@ type BlogLayoutOneProps = {
 };
 
 const BlogLayoutOne = ({ blog }: BlogLayoutOneProps) => {
-  const firstTag = blog?.tags?.[0];
+  const firstBlogTag = blog?.tags?.[0];
   return (
     <div className="group inline-block cursor-pointer overflow-hidden rounded-xl">
       <div className="absolute bottom-0 left-0 right-0 top-0 z-10 h-full rounded-3xl bg-gradient-to-b from-transparent from-0% to-dark/90" />
@@ -25,11 +25,11 @@ const BlogLayoutOne = ({ blog }: BlogLayoutOneProps) => {
           sizes="(max-width: 1180px) 100vw, 50vw"
         />
       ) : null}
-      {firstTag ? (
+      {firstBlogTag ? (
         <div className="w-fll absolute bottom-0 z-20 p-4 xs:p-6 sm:p-10">
           <Tag
-            link={`/categories/${slug(firstTag)}`}
-            name={firstTag}
+            link={`/categories/${slug(firstBlogTag)}`}
+            name={firstBlogTag}
             className="!border px-6 py-1 text-xs sm:py-2 sm:text-sm"
           />
           <Link href={blog.url} className="mt-6">
