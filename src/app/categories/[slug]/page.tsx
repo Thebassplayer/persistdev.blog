@@ -60,8 +60,8 @@ const CategoryPage = ({ params }: CategoryPageParams) => {
     });
   });
   return (
-    <article className="mt-12 flex flex-col text-dark dark:text-light">
-      <div className=" flex flex-col  px-5  sm:px-10 md:px-24 sxl:px-32">
+    <article className="mt-2 flex flex-col text-dark dark:text-light lg:mt-12">
+      <div className=" flex flex-col px-5 sm:px-10 md:px-24 sxl:px-32">
         <h1 className="mt-6 text-2xl font-semibold md:text-4xl lg:text-5xl">
           #{params.slug}
         </h1>
@@ -70,7 +70,7 @@ const CategoryPage = ({ params }: CategoryPageParams) => {
         </span>
       </div>
       <Categories categories={allCategories} currentSlug={params.slug} />
-      <div className="mt-24 grid grid-cols-3 grid-rows-2 gap-16 px-32">
+      <div className="mt-10 grid grid-cols-1 gap-8 px-8 sm:grid-cols-2 sm:gap-10 sm:px-24 lg:mt-24 lg:grid-cols-3 lg:gap-16 lg:px-32">
         {blogs.map((blog, index) => {
           return (
             <article className="relative col-span-1 row-span-1" key={index}>
