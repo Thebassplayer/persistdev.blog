@@ -12,10 +12,10 @@ const Hamburger = ({ showNavBar, toggle }: HamburgerProps): JSX.Element => {
       onClick={toggle}
       aria-label="Hamburger Menu"
     >
-      <div className="ease w-6 cursor-pointer transition-all duration-300">
+      <div className="ease w-6 cursor-pointer transition-transform duration-300">
         <div className="relative">
           <span
-            className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-all duration-200 dark:bg-light"
+            className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-transform duration-200 dark:bg-light"
             style={{
               transform: showNavBar
                 ? "rotate(-45deg) translateY(0)"
@@ -25,7 +25,7 @@ const Hamburger = ({ showNavBar, toggle }: HamburgerProps): JSX.Element => {
             &nbsp;
           </span>
           <span
-            className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-all duration-200 dark:bg-light"
+            className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-transform duration-200 dark:bg-light"
             style={{
               opacity: showNavBar ? 0 : 1,
             }}
@@ -33,7 +33,7 @@ const Hamburger = ({ showNavBar, toggle }: HamburgerProps): JSX.Element => {
             &nbsp;
           </span>
           <span
-            className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-all duration-200 dark:bg-light"
+            className="ease absolute top-0 inline-block h-0.5 w-full rounded bg-dark transition-transform duration-200 dark:bg-light"
             style={{
               transform: showNavBar
                 ? "rotate(45deg) translateY(0)"
