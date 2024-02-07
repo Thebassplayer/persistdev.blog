@@ -25,7 +25,7 @@ const Logo = ({ showNavBar }: LogoProps): JSX.Element => (
     </div>
     <span
       className={cx(
-        "text-base font-bold transition-all duration-300 ease-in-out md:text-xl",
+        "text-shadow text-base font-bold shadow-light transition-all duration-300 ease-in-out md:text-xl",
         showNavBar ? "text-transparent" : "",
       )}
     >
