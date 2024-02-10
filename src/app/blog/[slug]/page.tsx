@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ImageFieldData, allBlogs } from "@/.contentlayer/generated";
+import { allBlogs } from "@/.contentlayer/generated";
 import BlogDetails from "@/src/components/Blog/BlogDetails";
 import RenderMdx from "@/src/components/Blog/RenderMdx";
 import Tag from "@/src/components/Elements/Tag";
