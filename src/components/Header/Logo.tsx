@@ -25,11 +25,11 @@ const Logo = ({ showNavBar }: LogoProps): JSX.Element => (
     </div>
     <span
       className={cx(
-        "text-shadow dark:text-shadow-none text-base font-bold shadow-light transition-transform duration-300 ease-in-out md:text-xl",
+        "text-base font-bold shadow-light transition-transform duration-300 ease-in-out text-shadow dark:text-shadow-none md:text-xl",
         showNavBar ? "text-transparent" : "",
       )}
     >
-      Persist.dev
+      PersistDev.blog
     </span>
   </Link>
 );
