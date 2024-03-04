@@ -2,7 +2,7 @@ import { Blog } from "@/.contentlayer/generated";
 import { sortBlogs } from "@/src/utils";
 import Image from "next/image";
 import Link from "next/link";
-import Tag from "../Elements/Tag";
+import ButtonTag from "../Elements/ButtonTag";
 import Description from "../Elements/Description";
 import { slug } from "github-slugger";
 
@@ -33,7 +33,7 @@ const HomeCoverSection = ({ blogs }: HomeCoverSectionProps) => {
         ) : null}
         {firstBlogTag ? (
           <div className="z-0 flex w-full flex-col items-start justify-center p-6 text-light sm:p-8 md:p-12 lg:w-3/4 lg:p-16">
-            <Tag
+            <ButtonTag
               link={`/categories/${slug(firstBlogTag)}`}
               name={firstBlogTag}
             />

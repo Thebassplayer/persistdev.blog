@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { allBlogs } from "@/.contentlayer/generated";
 import BlogDetails from "@/src/components/Blog/BlogDetails";
 import RenderMdx from "@/src/components/Blog/RenderMdx";
-import Tag from "@/src/components/Elements/Tag";
+import ButtonTag from "@/src/components/Elements/ButtonTag";
 import { slug } from "github-slugger";
 import Image from "next/image";
 import { siteMetadata } from "@/src/utils/siteMetadata";
@@ -111,7 +111,7 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
         <div className="relative mb-8 h-[70vh] w-full bg-dark text-center">
           <div className="absolute left-1/2 top-1/2 z-10 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center">
             {firstBlogTag ? (
-              <Tag
+              <ButtonTag
                 name={firstBlogTag}
                 link={`/categories/${slug(firstBlogTag)}`}
                 className="px-6 py-2 text-sm"

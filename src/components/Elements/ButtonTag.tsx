@@ -8,7 +8,7 @@ type TagProps = {
   className?: string;
 };
 
-const Tag = ({ link = "#", name, ...props }: TagProps) => {
+const ButtonTag = ({ link = "#", name, ...props }: TagProps) => {
   const className = props.className ? props.className : "";
 
   return (
@@ -19,9 +19,9 @@ const Tag = ({ link = "#", name, ...props }: TagProps) => {
         className,
       )}
     >
-      {name}
+      #{name}
     </Link>
   );
 };
 
-export default Tag;
+export default ButtonTag;

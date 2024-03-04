@@ -1,7 +1,7 @@
 import { Blog } from "@/.contentlayer/generated";
 import Image from "next/image";
 import Link from "next/link";
-import Tag from "../Elements/Tag";
+import ButtonTag from "../Elements/ButtonTag";
 import { slug } from "github-slugger";
 
 type BlogLayoutOneProps = {
@@ -27,7 +27,7 @@ const BlogLayoutOne = ({ blog }: BlogLayoutOneProps) => {
       ) : null}
       {firstBlogTag ? (
         <div className="w-fll absolute bottom-0 z-20 p-4 xs:p-6 sm:p-10">
-          <Tag
+          <ButtonTag
             link={`/categories/${slug(firstBlogTag)}`}
             name={firstBlogTag}
             className="!border px-6 py-1 text-xs sm:py-2 sm:text-sm"
