@@ -1,7 +1,7 @@
 export const siteMetadata = {
-  title: "Persist.dev",
+  title: "PersistDev.blog",
   author: "RoyLopez",
-  headerTitle: "Persist.dev",
+  headerTitle: "PersistDev.blog",
   description: "A blog about Web Development and Software Engineering",
   language: "en-us",
   theme: "system", // system, dark or light
