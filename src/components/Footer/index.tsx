@@ -23,12 +23,12 @@ const Footer = () => {
         </Link>
         <div className="text-center text-xs md:text-base">
           Made with &hearts; by{" "}
-          <a
-            href="https//roylopez.dev"
+          <Link
+            href="https://roylopez.dev"
             className="text-xs underline md:text-base"
           >
             Roy Lopez
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
