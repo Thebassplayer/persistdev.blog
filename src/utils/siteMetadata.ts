@@ -5,7 +5,7 @@ export const siteMetadata = {
   description: "A blog about Web Development and Software Engineering",
   language: "en-us",
   theme: "system", // system, dark or light
-  siteUrl: process.env.SITE_URL, // your website URL
+  siteUrl: process.env.SITE_URL || "https://persistdev.blog", // your website URL
   siteLogo: "/logo.png",
   socialBanner: "/social-banner.png", // add social banner in the public folder
   email: "roylopezdev@gmail.com",
