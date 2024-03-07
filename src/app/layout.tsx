@@ -7,6 +7,7 @@ import Header from "@/src/components/Header";
 import Footer from "../components/Footer";
 import { siteMetadata } from "../utils/siteMetadata";
 import Script from "next/script";
+import GoogleAnalytics from "../components/GoogleAnalytics";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -72,6 +73,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+          <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+        ) : null}
+      </head>
       <body
         className={cx(
           inter.variable,
