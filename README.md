@@ -2,11 +2,11 @@
 
 ## This repository contains my personal blog code
 
-**The idea with this proyect is to start the jorney of creating and maintaining a blog focused on my programming journey. I will be sharing my experiences, my learning process, and my thoughts about the programming world.**
+**The idea with this project is to start creating and maintaining a blog focused on my programming journey. In it, I share my experiences, learning process, and thoughts about the programming world.**
 
 #### Contact
 
-🌎 [**roylopez.dev**](https://www.roylopezdev.dev)
+🌎 [**roylopez.dev**](https://www.roylopezdev.dev) <br>
 ✉️ [**roylopezdev@gmail.com**](mailto:roylopezdev@gmail.com)
 
 #### Resources Used in This Project
