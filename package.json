@@ -39,9 +39,13 @@
   "devDependencies": {
     "@iconify/react": "^4.1.1",
     "@iconify/tailwind": "^0.1.4",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.2",
     "@types/react": "18.2.48",
     "encoding": "^0.1.13",
     "eslint-config-prettier": "^9.1.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.2.4",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "sharp": "^0.32.6"
