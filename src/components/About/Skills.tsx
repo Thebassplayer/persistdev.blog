@@ -1,4 +1,4 @@
-const SkillList = [
+export const skillList = [
   "next.js",
   "tailwind css",
   "figma",
@@ -21,7 +21,7 @@ const Skills = () => {
         I'm confortanble in...
       </span>
       <ul className="mt-8 flex flex-wrap justify-center xs:justify-start">
-        {SkillList.map((skill, index) => (
+        {skillList.map((skill, index) => (
           <li
             key={index}
             className="ease mb-3 mr-3 inline-block cursor-pointer rounded border-2 border-solid border-dark px-4 py-2 text-base font-semibold capitalize transition-all duration-200 hover:scale-105 dark:border-light dark:font-normal xs:mb-4 xs:mr-4 xs:px-6 xs:py-3 xs:text-lg sm:px-8 sm:py-4 sm:text-xl md:mb-6 md:mr-6 md:text-2xl lg:px-12 lg:py-5"
