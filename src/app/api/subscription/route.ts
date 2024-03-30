@@ -12,6 +12,16 @@ export const POST = async (req: Request) => {
       throw new Error(validBody.error.errors[0].message);
     }
 
+    const emailAlreadySubscribed = await prisma.subscription.findUnique({
+      where: {
+        email: validBody.data.email,
+      },
+    });
+
+    if (emailAlreadySubscribed) {
+      throw new Error("Subscription already exists");
+    }
+
     await prisma.subscription.create({
       data: {
         email: validBody.data.email,
@@ -22,7 +32,7 @@ export const POST = async (req: Request) => {
       status: 201,
     });
   } catch (error) {
-    return new Response(JSON.stringify(`${error}`), {
+    return new Response(JSON.stringify("Subscription error"), {
       status: 500,
     });
   }
