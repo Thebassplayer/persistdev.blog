@@ -1,0 +1,92 @@
+---
+title: "Understanding 'this' in JavaScript"
+description: "In this article, we will learn about the `this` keyword in JavaScript and how it works."
+image: "../../public/blogs/brad-_Js9c6w_FDk-unsplash.jpg"
+publishedAt: "2024-04-30"
+updatedAt: "2024-04-30"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - javascript
+  - programming
+  - scope
+---
+
+In Object Oriented JavaScript, it's essential to grasp the concept of the "this" keyword. This article explores how "this" works, why it's crucial, and how to leverage methods like bind(), call(), and apply() for better control over its behavior.
+
+## The Essence of "this"
+
+In JavaScript, everything is an object, including functions. This means we can set and access additional properties to functions. However, accessing these properties and methods can sometimes be tricky, which is where the this keyword comes into play.
+
+Introduction to "this"
+The this keyword is automatically assigned to every function in JavaScript. It refers to the object that invokes (calls) the function where this is used. Initially, understanding this might be challenging, but once mastered, its utility becomes apparent.
+
+```javascript
+function greet() {
+  console.log("Hello, " + this.name);
+}
+
+const person = {
+  name: "John",
+  greet: greet,
+};
+
+person.greet(); // Output: Hello, John
+```
+
+### Challenges with "this"
+
+However, life in JavaScript isn't always perfect. Sometimes, we lose reference to this, leading to confusion. Consider the following scenario:
+
+```javascript
+const deleteBtn = document.getElementById("deleteBtn");
+
+deleteBtn.addEventListener("click", function () {
+  // Inside this function, `this` refers to `deleteBtn` instead of the expected context
+  console.log(this); // Output: [object HTMLButtonElement]
+});
+```
+
+Enter "bind()", "call()", and "apply()"
+To address the challenges posed by this, JavaScript provides three methods: bind(), call(), and apply(). Let's explore each of them.
+
+### bind()
+
+The bind() method creates a new function with a specified this value, allowing explicit definition of this when calling a function.
+
+```javascript
+function pokemonName() {
+  console.log(this.name);
+}
+
+const pokemon = {
+  name: "Pikachu",
+};
+
+const logPokemon = pokemonName.bind(pokemon);
+
+logPokemon(); // Output: Pikachu
+```
+
+### call() and apply()
+
+Both call() and apply() allow explicit setting of this when invoking a function, with slight differences in usage.
+
+```javascript
+function introduce(greeting) {
+  console.log(greeting + ", I'm " + this.name);
+}
+
+const person = {
+  name: "Alice",
+};
+
+introduce.call(person, "Hi"); // Output: Hi, I'm Alice
+
+const params = ["Hello"];
+introduce.apply(person, params); // Output: Hello, I'm Alice
+```
+
+These methods provide flexibility in managing this references and are invaluable tools in JavaScript programming.
+
+In conclusion, mastering the this keyword and its associated methods (bind(), call(), apply()) is essential for writing clean and maintainable JavaScript code. Whether you're a beginner or an experienced developer, understanding this will greatly enhance your proficiency in JavaScript programming.
