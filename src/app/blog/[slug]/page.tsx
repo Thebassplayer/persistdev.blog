@@ -20,10 +20,9 @@ export async function generateMetadata({
   const blog = allBlogs.find((blog) => blog._raw.flattenedPath === params.slug);
   if (!blog) return;
 
+  console.log(blog.publishedAt);
   const publishedAt = new Date(blog.publishedAt).toISOString();
-  const modifiedAt = new Date(
-    blog.publishedAt || blog.publishedAt,
-  ).toISOString();
+  const modifiedAt = new Date(blog.updatedAt || blog.publishedAt).toISOString();
   let blogMainImageList: string[] = [siteMetadata.socialBanner];
   if (blog.image && typeof blog.image.filePath === "string") {
     blogMainImageList = [
