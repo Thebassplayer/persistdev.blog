@@ -2,6 +2,18 @@ import Footer from "@/src/components/Footer";
 import { render, screen } from "@testing-library/react";
 
 describe("Footer Component", () => {
+  it("renders footer component", () => {
+    render(<Footer />);
+    expect(screen.getByRole("contentinfo")).toBeInTheDocument();
+  });
+  it("renders subscription form", () => {
+    render(<Footer />);
+    expect(screen.getByRole("textbox")).toBeInTheDocument();
+    const emailInput = screen.getByPlaceholderText("Enter your email");
+    expect(emailInput).toBeInTheDocument();
+    expect(emailInput).toHaveAttribute("type", "email");
+    expect(screen.getByRole("button")).toBeInTheDocument();
+  });
   it("renders copyright text", () => {
     render(<Footer />);
     expect(
