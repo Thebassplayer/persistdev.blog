@@ -34,12 +34,14 @@ const person = {
   greet: greet,
 };
 
-person.greet(); // Output: Hello, John
+greet(); // Output: Hello, undefined - Here `this` refers to the global object, where `name` is not defined
+
+person.greet(); // Output: Hello, John - Here `this` refers to the `person` object, the object to the left of the dot
 ```
 
 ### Global Context
 
-When a function is called without an object, this refers to the global object. In a browser, this refers to the window object.
+When a function is called without an object, this refers to the global object. In a browser, this refers to the window object. In Node JS, this refers to the global object.
 
 ### Challenges with "this"
 
