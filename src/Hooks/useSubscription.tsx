@@ -1,22 +1,29 @@
 "use client";
 import { useState } from "react";
-import { Email } from "../schemas/zod.schemas";
+import { SubscriptionSchema } from "../schemas/zod.schemas";
+
+if (!process.env.NEXT_PUBLIC_SUBSCRIPTION_API) {
+  throw new Error("NEXT_PUBLIC_SUBSCRIPTION_API is not defined");
+}
 
 const useSubscription = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
 
-  const subscribe = async (email: Email) => {
+  const subscribe = async (data: SubscriptionSchema) => {
     try {
       setLoading(true);
-      const response = await fetch("/api/subscription", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_SUBSCRIPTION_API as string,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(email),
-      });
+      );
       if (!response.ok) {
         setLoading(false);
         setError(true);
