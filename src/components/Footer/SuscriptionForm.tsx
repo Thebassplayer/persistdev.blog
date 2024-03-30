@@ -1,6 +1,11 @@
 "use client";
 import useSubscription from "@/src/Hooks/useSubscription";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  SubscriptionSchema,
+  subscriptionSchema,
+} from "@/src/schemas/zod.schemas";
 
 type FormValues = {
   email: string;
@@ -14,8 +19,10 @@ const SuscriptionForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = (data) => subscribe(data);
+  } = useForm<SubscriptionSchema>({
+    resolver: zodResolver(subscriptionSchema),
+  });
+  const onSubmit: SubmitHandler<SubscriptionSchema> = (data) => subscribe(data);
   return (
     <>
       <p className="mt-5 w-full px-4 text-center text-sm font-light dark:font-medium sm:w-3/5 sm:text-base">
