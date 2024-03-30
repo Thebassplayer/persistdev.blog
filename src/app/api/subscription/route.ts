@@ -22,17 +22,21 @@ export const POST = async (req: Request) => {
       throw new Error("Subscription already exists");
     }
 
-    await prisma.subscription.create({
+    const subscriptionSuccess = await prisma.subscription.create({
       data: {
         email: validBody.data.email,
       },
     });
 
+    if (!subscriptionSuccess) {
+      throw new Error("Subscription error");
+    }
+
     return new Response(JSON.stringify("Subscription created"), {
       status: 201,
     });
   } catch (error) {
-    return new Response(JSON.stringify("Subscription error"), {
+    return new Response(JSON.stringify(`${error}`), {
       status: 500,
     });
   }
