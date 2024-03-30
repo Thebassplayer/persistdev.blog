@@ -18,8 +18,11 @@ In Object Oriented JavaScript, it's essential to grasp the concept of the "this"
 
 In JavaScript, everything is an object, including functions. This means we can set and access additional properties to functions. However, accessing these properties and methods can sometimes be tricky, which is where the this keyword comes into play.
 
-Introduction to "this"
+### Introduction to "this"
+
 The this keyword is automatically assigned to every function in JavaScript. It refers to the object that invokes (calls) the function where this is used. Initially, understanding this might be challenging, but once mastered, its utility becomes apparent.
+
+In the following example, this.name refers to the name property of the object that invokes the greet() function. In this case, it's the person object. Therefore, this.name is equivalent to person.name.
 
 ```javascript
 function greet() {
@@ -33,6 +36,10 @@ const person = {
 
 person.greet(); // Output: Hello, John
 ```
+
+### Global Context
+
+When a function is called without an object, this refers to the global object. In a browser, this refers to the window object.
 
 ### Challenges with "this"
 
