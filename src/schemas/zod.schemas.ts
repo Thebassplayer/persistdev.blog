@@ -8,4 +8,4 @@ export const subscriptionSchema = z.object({
     .email("Invalid email address"),
 });
 
-export type Email = z.infer<typeof subscriptionSchema>;
+export type SubscriptionSchema = z.infer<typeof subscriptionSchema>;
