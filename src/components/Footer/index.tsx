@@ -22,7 +22,7 @@ const Footer = () => {
           sitemap.xml
         </Link>
         <div className="text-center text-xs md:text-base">
-          Made with &hearts; by{" "}
+          Made by{" "}
           <Link
             href="https://roylopez.dev"
             className="text-xs underline md:text-base"
