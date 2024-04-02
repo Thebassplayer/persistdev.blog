@@ -15,14 +15,14 @@ const Header = () => {
     setShowNavBar(!showNavBar);
   };
   return (
-    <header className="sticky top-0 z-50 flex h-20 w-full items-center justify-between px-6 py-4 backdrop-blur-sm sm:px-10 sm:py-12">
+    <header className="sticky top-0 z-10 flex h-20 w-full items-center justify-between px-6 py-4 backdrop-blur-sm sm:px-10 sm:py-12">
       <Logo showNavBar={showNavBar} />
       <Hamburger showNavBar={showNavBar} toggle={toggle} />
 
       <nav
-        className="ease fixed right-1/2 top-6 z-50 flex w-max translate-x-1/2 items-center rounded-full  border border-solid  border-dark
+        className="ease fixed right-1/2 top-6 z-20 flex w-max translate-x-1/2 items-center rounded-full  border border-solid border-dark
         bg-light/80 px-4 py-2 font-medium capitalize backdrop-blur-sm transition-all duration-300 sm:hidden
-        sm:px-8 md:px-6 md:py-3  "
+        sm:px-8 md:px-6 md:py-3"
         style={{
           top: showNavBar ? "1rem" : "-5rem",
         }}
@@ -37,7 +37,7 @@ const Header = () => {
       </nav>
 
       <nav
-        className=" fixed right-1/2 top-6 z-50 hidden w-max translate-x-1/2 items-center rounded-full border border-solid border-dark
+        className=" fixed right-1/2 top-6 z-20 hidden w-max translate-x-1/2 items-center rounded-full border border-solid border-dark
         bg-light/80 px-8 py-3 font-medium capitalize backdrop-blur-sm sm:flex"
       >
         <Link href="/" className="mr-2">
