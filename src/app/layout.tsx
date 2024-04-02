@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import { siteMetadata } from "../utils/siteMetadata";
 import Script from "next/script";
 import GoogleAnalytics from "../components/GoogleAnalytics";
+import ToastProvider from "../lib/react-toastify/ToastProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -92,9 +93,11 @@ export default function RootLayout({
     document.documentElement.classList.remove('dark')
   }`}
         </Script>
-        <Header />
-        {children}
-        <Footer />
+        <ToastProvider>
+          <Header />
+          {children}
+          <Footer />
+        </ToastProvider>
       </body>
     </html>
   );
