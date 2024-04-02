@@ -30,7 +30,17 @@ const useSubscription = () => {
       if (!response.ok) {
         setLoading(false);
         setError(true);
-        toastify(NotificationId.SUBSCRIPTION_ERROR);
+        const error = await response.json();
+
+        // Print error message
+        console.log("Error subscribing: ", data);
+        if (error.includes("Subscription already exists")) {
+          toastify(NotificationId.SUBSCRIPTION_ALREADY_EXISTS);
+        } else if (error.includes("Invalid email address")) {
+          toastify(NotificationId.SUBSCRIPTION_INVALID_EMAIL);
+        } else {
+          toastify(NotificationId.SUBSCRIPTION_ERROR);
+        }
       } else {
         setLoading(false);
         setSuccess(true);
