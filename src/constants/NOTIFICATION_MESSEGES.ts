@@ -24,6 +24,7 @@ export enum NotificationId {
   SUBSCRIPTION_SUCCESS = "subscription_success",
   SUBSCRIPTION_ERROR = "subscription_error",
   SUBSCRIPTION_ALREADY_EXISTS = "subscription_already_exists",
+  SUBSCRIPTION_INVALID_EMAIL = "subscription_invalid_email",
 }
 
 export const NotificationMessages: Record<NotificationId, NotificationMessage> =
@@ -184,6 +185,14 @@ export const NotificationMessages: Record<NotificationId, NotificationMessage> =
       message: {
         [NotificationTranslations.EN]: "Subscription already exists.",
         [NotificationTranslations.ES]: "La suscripción ya existe.",
+      },
+      type: NotificationType.ERROR,
+    },
+    [NotificationId.SUBSCRIPTION_INVALID_EMAIL]: {
+      id: NotificationId.SUBSCRIPTION_INVALID_EMAIL,
+      message: {
+        [NotificationTranslations.EN]: "Invalid email.",
+        [NotificationTranslations.ES]: "Correo electrónico inválido.",
       },
       type: NotificationType.ERROR,
     },
