@@ -33,9 +33,6 @@ const Header = () => {
         <Link href="/about" className="mx-2 text-sm md:text-base">
           About
         </Link>
-        <Link href="/contact" className="mx-2 text-sm md:text-base">
-          Contact
-        </Link>
         <ThemeButton theme={theme} setTheme={setTheme} />
       </nav>
 
@@ -48,9 +45,6 @@ const Header = () => {
         </Link>
         <Link href="/about" className="mx-2">
           About
-        </Link>
-        <Link href="/contact" className="mx-2">
-          Contact
         </Link>
         <ThemeButton theme={theme} setTheme={setTheme} />
       </nav>
