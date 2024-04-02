@@ -2,6 +2,10 @@
 
 const { withContentlayer } = require("next-contentlayer");
 
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
+};
 
 module.exports = withContentlayer({ ...nextConfig });
