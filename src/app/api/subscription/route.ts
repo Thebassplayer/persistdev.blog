@@ -1,5 +1,6 @@
 import { subscriptionSchema } from "@/src/schemas/zod.schemas";
 import { PrismaClient } from "@prisma/client";
+import { sendEmail } from "../utils/sendgrid";
 
 const prisma = new PrismaClient();
 
@@ -12,9 +13,11 @@ export const POST = async (req: Request) => {
       throw new Error(validBody.error.errors[0].message);
     }
 
+    const email = validBody.data.email;
+
     const emailAlreadySubscribed = await prisma.subscription.findUnique({
       where: {
-        email: validBody.data.email,
+        email,
       },
     });
 
@@ -24,13 +27,15 @@ export const POST = async (req: Request) => {
 
     const subscriptionSuccess = await prisma.subscription.create({
       data: {
-        email: validBody.data.email,
+        email,
       },
     });
 
     if (!subscriptionSuccess) {
       throw new Error("Subscription error");
     }
+
+    await sendEmail(email, "Test Email", "This is a test email from Next.js!");
 
     return new Response(JSON.stringify("Subscription created"), {
       status: 201,
