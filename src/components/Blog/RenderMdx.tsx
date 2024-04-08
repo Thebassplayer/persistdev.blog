@@ -24,7 +24,7 @@ const RenderMdx = ({ blog }: RenderMdxProps) => {
     prose-blockquote:not-italic
   prose-li:marker:text-accent
     dark:prose-blockquote:border-accentDark
-    dark:prose-blockquote:bg-accentDark/20 dark:prose-li:marker:text-accentDark sm:first-letter:text-5xl lg:col-span-8"
+    dark:prose-blockquote:bg-accentDark/20 dark:prose-li:marker:text-accentDark sm:first-letter:text-5xl lg:col-span-10"
     >
       <MDXContent components={mdxComponent} />
     </div>

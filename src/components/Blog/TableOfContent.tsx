@@ -16,7 +16,7 @@ const TableOfContent = ({ blog }: TableOfContentProps) => {
       className="sticky top-24 overflow-hidden overflow-y-auto rounded-lg border border-solid border-dark p-4 text-dark dark:border-light dark:text-light md:max-h-[80vh]"
       open
     >
-      <summary className="ont-semibold cursor-pointer text-lg capitalize">
+      <summary className="cursor-pointer text-lg font-semibold capitalize">
         Table of Content
       </summary>
       <ul className="mt-4 font-in text-base">
@@ -26,7 +26,7 @@ const TableOfContent = ({ blog }: TableOfContentProps) => {
               <a
                 href={`#${heading.slug}`}
                 data-level={heading.level}
-                className="flex  items-center justify-start border-solid border-dark/40 text-sm data-[level=two]:border-t data-[level=three]:pl-4 data-[level=two]:pl-0 data-[level=two]:pt-2 sm:text-base  sm:data-[level=three]:pl-6 md:text-lg"
+                className="flex items-center justify-start border-solid border-dark/40 text-sm data-[level=two]:border-t data-[level=three]:pl-4 data-[level=two]:pl-0 data-[level=two]:pt-2 sm:text-base sm:data-[level=three]:pl-6 md:text-base"
               >
                 {heading.level === "three" ? (
                   <span className="mr-2 flex h-1 w-1 rounded-full bg-dark">

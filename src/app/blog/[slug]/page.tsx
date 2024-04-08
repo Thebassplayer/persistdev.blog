@@ -102,7 +102,7 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <article>
-        <div className="relative mb-8 h-[70vh] w-full bg-dark text-center">
+        <div className="relative mb-8 h-[30vh] w-full bg-dark text-center">
           <div className="absolute left-1/2 top-1/2 z-10 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center">
             {firstBlogTag ? (
               <ButtonTag
@@ -130,7 +130,7 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
         </div>
         {blog ? <BlogDetails blog={blog} slug={params.slug} /> : null}
         <div className="mt-8 grid grid-cols-12 gap-y-8 px-5 md:px-10 lg:gap-8 sxl:gap-16">
-          <div className="col-span-12 lg:col-span-4">
+          <div className="col-span-12 lg:col-span-2">
             <TableOfContent blog={blog} />
           </div>
           {blog ? <RenderMdx blog={blog} /> : null}
