@@ -11,10 +11,7 @@ type BlogDetailsProps = {
 
 const BlogDetails = ({ blog, slug: blogSlug }: BlogDetailsProps) => {
   return (
-    <div
-      className="bg-ccent first-letter mx-5 flex flex-wrap items-center
-    justify-around rounded-lg bg-accent px-2 py-2 text-lg font-medium text-light dark:bg-accentDark dark:text-dark sm:text-xl md:mx-10 md:px-10"
-    >
+    <div className="bg-ccent first-letter mx-5 flex flex-wrap items-center justify-around rounded-lg bg-accent px-2 py-1 text-lg font-medium text-light dark:bg-accentDark dark:text-dark sm:text-xl md:mx-10 md:px-10">
       <time className="m-3 text-xs md:text-base">
         {format(parseISO(blog.publishedAt), "LLLL d, yyyy")}
       </time>
