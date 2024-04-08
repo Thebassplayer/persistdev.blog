@@ -5,12 +5,10 @@ import sgMail from "@sendgrid/mail";
 
 if (!process.env.SENDGRID_API_KEY) {
   console.error("SENDGRID_API_KEY is not set");
-  process.exit(1);
 }
 
 if (!process.env.SENDGRID_VERIFIED_SENDER) {
   console.error("SENDGRID_VERIFIED_SENDER is not set");
-  process.exit(1);
 }
 
 type sendEmailType = (
