@@ -1,0 +1,61 @@
+---
+title: "Odd and Even in JavaScript"
+description: Learn how to determine whether a number is odd or even using various methods in JavaScript.
+image: "../../public/blogs/susan-holt-simpson-GQ327RPuxhI-unsplash.jpg"
+publishedAt: "2024-04-07"
+updatedAt: "2024-04-07"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - javascript
+  - programming
+  - numbers
+---
+
+# Odd and Even in JavaScript
+
+Determining whether a number is odd or even is a common task in programming. In JavaScript, there are multiple ways to accomplish this. Two commonly used methods are:
+
+1. Using the least significant bit.
+2. Using the modulo operator.
+
+## Using the Least Significant Bit
+
+In binary representation, the least significant bit (LSB) of a number is the rightmost bit. For any binary number, if the LSB is 1, the number is odd; if it's 0, the number is even.
+
+Here's how you can implement this in JavaScript:
+
+```javascript
+function isEvenLSB(num) {
+  return (num & 1) === 0;
+}
+
+function isOddLSB(num) {
+  return (num & 1) === 1;
+}
+
+console.log(isEvenLSB(4)); // Output: true
+console.log(isOddLSB(4)); // Output: false
+console.log(isEvenLSB(7)); // Output: false
+console.log(isOddLSB(7)); // Output: true
+```
+
+Using the Modulo Operator
+Another common method is using the modulo operator (%). When you divide a number by 2, if the remainder is 0, the number is even; otherwise, it's odd.
+
+```javascript
+function isEvenModulo(num) {
+  return num % 2 === 0;
+}
+
+function isOddModulo(num) {
+  return num % 2 !== 0;
+}
+
+console.log(isEvenModulo(4)); // Output: true
+console.log(isOddModulo(4)); // Output: false
+console.log(isEvenModulo(7)); // Output: false
+console.log(isOddModulo(7)); // Output: true
+```
+
+Both methods are efficient and commonly used. Choose the one that suits your coding style and requirements best!
