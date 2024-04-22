@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import profileCharacter from "@/public/AI-Roy.png";
 
 const AboutCoverSection = () => {
   return (
@@ -13,8 +12,6 @@ const AboutCoverSection = () => {
           alt="Roy codign in a laptop computer"
           className="h-full w-4/5 object-contain object-center xs:w-3/4 md:w-full"
           sizes="(max-width: 768px) 100vw,(max-width: 1180px) 50vw, 50vw"
-          // placeholder="blur"
-          // quality={100}
           width={500}
           height={500}
         />
