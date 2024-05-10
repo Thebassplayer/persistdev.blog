@@ -8,6 +8,8 @@ if (!process.env.NEXT_PUBLIC_SUBSCRIPTION_API) {
   throw new Error("NEXT_PUBLIC_SUBSCRIPTION_API is not defined");
 }
 
+const subscriptionApi = process.env.NEXT_PUBLIC_SUBSCRIPTION_API;
+
 const useSubscription = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -17,16 +19,13 @@ const useSubscription = () => {
   const subscribe = async (data: SubscriptionSchema) => {
     try {
       setLoading(true);
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_SUBSCRIPTION_API as string,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+      const response = await fetch(subscriptionApi, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(data),
+      });
       if (!response.ok) {
         setLoading(false);
         setError(true);
