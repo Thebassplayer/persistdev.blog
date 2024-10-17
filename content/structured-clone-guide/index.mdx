@@ -1,0 +1,127 @@
+---
+title: "Deep Cloning in JavaScript"
+description: "Learn how to create an immutable clone of an object in JavaScript using the structuredClone function. This method allows you to deeply clone objects, including nested objects, dates, sets, and maps."
+image: "../../public/blogs/mohammad-rahmani-8qEB0fTe9Vw-unsplash.jpg"
+publishedAt: "2024-11-16"
+updatedAt: "2024-11-16"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - javascript
+  - web development
+---
+
+# Deep Cloning in JavaScript! 🚀
+
+One of the most common needs in JavaScript is to create an immutable clone of an object. This is especially useful when you want to make changes to an object without affecting the original.
+
+## Common Example: The Spread Operator
+
+A pattern you'll often see in JavaScript is the use of the _spread_ operator to clone objects:
+
+```javascript
+const originalObj = { a: 1, b: 2 };
+const newObj = { ...originalObj };
+newObj.b = 3;
+
+console.log(originalObj); // { a: 1, b: 2 }
+```
+
+However, this approach only creates a **shallow clone**, meaning that nested objects are not cloned but shared between the original and the copy.
+
+Let's look at an example:
+
+```javascript
+const originalObj = { deep: { a: 1, b: 2 } };
+const newObj = { ...originalObj };
+newObj.deep.b = 3;
+
+console.log(originalObj); // { deep: { a: 1, b: 3 } }
+```
+
+As you can see, the `deep` object is shared between `originalObj` and `newObj`, leading to an undesired mutation in the original object.
+
+## JSON.parse and JSON.stringify
+
+One way to avoid this problem is to convert the object into JSON (a string representation) and then parse it back into an object:
+
+```javascript
+const originalObj = { deep: { a: 1, b: 2 } };
+const newObj = JSON.parse(JSON.stringify(originalObj));
+
+newObj.deep.b = 3;
+
+console.log(originalObj); // { deep: { a: 1, b: 2 } }
+```
+
+While this may seem like a solution, it has some downsides. First, **it converts everything to a string** using `.toString()`, which can lead to issues. Let’s see a few examples:
+
+### Dates:
+
+```javascript
+const originalObj = { date: new Date() };
+const newObj = JSON.parse(JSON.stringify(originalObj));
+
+console.log(newObj.date); // "2024-09-08T00:00:00.000Z"
+```
+
+As you can see, the date is converted into a string instead of being kept as a `Date` object.
+
+### Sets and Maps:
+
+```javascript
+const originalObj = {
+  set: new Set([1, 2, 3]),
+  map: new Map([
+    ["a", 1],
+    ["b", 2],
+  ]),
+};
+const newObj = JSON.parse(JSON.stringify(originalObj));
+
+console.log(newObj.set); // {}
+console.log(newObj.map); // {}
+```
+
+Here, both the `Set` and `Map` are converted into empty objects.
+
+## The Solution: `structuredClone`
+
+Thankfully, JavaScript has a built-in function called `structuredClone` that allows us to deeply and correctly clone objects, handling objects like dates, sets, and maps properly.
+
+Here’s how it works:
+
+```javascript
+const originalObj = {
+  date: new Date(),
+  set: new Set([1, 2, 3]),
+  map: new Map([
+    ["a", 1],
+    ["b", 2],
+  ]),
+};
+const newObj = structuredClone(originalObj);
+
+console.log(newObj.date); // Date object
+console.log(newObj.set); // Set object
+console.log(newObj.map); // Map object
+```
+
+And the best part is that our code cannot be mutated!
+
+```javascript
+const originalObj = { deep: { a: 1, b: 2 } };
+const newObj = structuredClone(originalObj);
+
+newObj.deep.b = 3;
+
+console.log(originalObj); // { deep: { a: 1, b: 2 } }
+```
+
+## Limitations
+
+It’s important to note that `structuredClone` cannot clone functions. If your object contains functions, they won’t be included in the copy.
+
+---
+
+And that's it for now! This is an effective and modern way to clone objects in JavaScript, avoiding the pitfalls of previous techniques. If you want more details on what `structuredClone` cannot do, I recommend checking out the full article that inspired this post.
