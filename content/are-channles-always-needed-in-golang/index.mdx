@@ -64,3 +64,73 @@ func main() {
 	fmt.Println("All workers done.")
 }
 ```
+
+### Explanation:
+
+- We launch 5 goroutines, each running the `worker` function.
+- No channels are needed because the main goroutine just waits for all goroutines to finish using a `sync.WaitGroup`.
+- The `wg.Add(1)` increments the number of goroutines that the main goroutine will wait for, and each goroutine calls `wg.Done()` when it completes.
+
+## Example with a Channel:
+
+Let’s look at a scenario where we **do** need a channel. For example, if each worker has to return some result back to the main function, a channel would be appropriate:
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+// Worker function that sends results back to a channel
+func worker(id int, wg *sync.WaitGroup, results chan<- int) {
+	defer wg.Done()
+	fmt.Printf("Worker %d starting\n", id)
+
+	// Simulate doing some work and send result
+	results <- id * 10
+
+	fmt.Printf("Worker %d done\n", id)
+}
+
+func main() {
+	var wg sync.WaitGroup
+	results := make(chan int, 5) // Buffered channel to collect results
+
+	for i := 1; i <= 5; i++ {
+		wg.Add(1)
+		go worker(i, &wg, results) // Launch goroutines, passing the channel
+	}
+
+	// Close the results channel after all workers are done
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
+
+	// Collect results from the workers
+	for result := range results {
+		fmt.Printf("Result: %d\n", result)
+	}
+
+	fmt.Println("All workers done, results collected.")
+}
+```
+
+### Explanation:
+
+- **Channel**: We use a channel `results` to collect the output from the worker goroutines.
+- **Buffered channel**: The channel is buffered so that workers can send data without waiting for the receiver to consume it immediately.
+- **WaitGroup**: We still use a `WaitGroup` to wait for all goroutines to finish.
+- The main function collects the results from the channel after all workers have completed.
+
+## When You Might Use Channels:
+
+- **Data Collection**: If each goroutine needs to return some data to the main function or another goroutine, you would use a channel.
+- **Concurrency Management**: Channels can also be used to control how many goroutines are running simultaneously, for example, by using a semaphore-like pattern.
+
+## Conclusion:
+
+- **Not always required**: You do not need to use channels every time you use goroutines. Use channels only when you need to communicate between goroutines or synchronize them.
+- **Other options**: For synchronization, you can also use other mechanisms like `sync.WaitGroup`, `sync.Mutex`, or `sync.Once` if there's no need for communication between goroutines.
