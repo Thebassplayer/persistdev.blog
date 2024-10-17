@@ -7,6 +7,7 @@ import { slug } from "github-slugger";
 import Image from "next/image";
 import { siteMetadata } from "@/src/utils/siteMetadata";
 import TableOfContent from "@/src/components/Blog/TableOfContent";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   return allBlogs.map((blog) => ({ slug: blog._raw.flattenedPath }));
@@ -18,7 +19,9 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata | void> {
   const blog = allBlogs.find((blog) => blog._raw.flattenedPath === params.slug);
-  if (!blog) return;
+  if (!blog) {
+    notFound();
+  }
 
   const publishedAt = new Date(blog.publishedAt).toISOString();
   const modifiedAt = new Date(blog.updatedAt || blog.publishedAt).toISOString();

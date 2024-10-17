@@ -83,7 +83,7 @@ export default function RootLayout({
         className={cx(
           inter.variable,
           manrope.variable,
-          "bg-light font-mr dark:bg-dark",
+          "flex min-h-screen flex-col bg-light font-mr dark:bg-dark",
         )}
       >
         <Script id="theme-switcher" strategy="beforeInteractive">
