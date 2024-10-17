@@ -13,6 +13,8 @@ tags:
   - channels
 ---
 
+# Are Channels Always Needed When You Use Go Routines?
+
 No, you do not need to open a channel every time you use goroutines in Go. Channels are one way to communicate and synchronize between goroutines, but they are not always required. You only need to use channels when you want goroutines to send or receive data to/from each other or from the main goroutine.
 
 ## When to Use Channels with Goroutines:
