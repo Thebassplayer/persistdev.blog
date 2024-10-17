@@ -22,9 +22,10 @@ const AboutCoverSection = () => {
         </h2>
         <p className="mt-4 text-base font-medium">
           Hello! I´m Roy Lopez, a software engineer and web developer from
-          Buenos Aires, Argentina. I´m passionate about technology and I love to
-          learn new things every day. I´m always looking for new challenges and
-          opportunities to grow as a professional.
+          Buenos Aires, Argentina 🇦🇷. Actually living in Granada, Spain 🇪🇸. I´m
+          passionate about technology and I love to learn new things every day.
+          I´m always looking for new challenges and opportunities to grow as a
+          professional.
         </p>
         <p className="my-4 text-base font-medium">
           Hope you enjoy my blog and find it useful. If you have any questions
