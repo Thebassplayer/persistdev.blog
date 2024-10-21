@@ -1,0 +1,91 @@
+---
+title: "Understanding TypeScript's Pick and Omit with Raul the Dog"
+description: "Learn how to use TypeScript's Pick and Omit utility types through a fun example featuring Raul the Dog. Master these tools for more precise typing in your projects."
+image: "../../public/blogs/raul-the-dog.png"
+publishedAt: "2024-10-21"
+updatedAt: "2024-10-21"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - web development
+  - programming
+---
+
+TypeScript offers several powerful tools for defining more flexible and strict types. Two particularly useful utilities are `Pick` and `Omit`. They allow you to create new types based on existing ones by selecting or excluding properties. In this post, we'll use my dog, Raul, as an example to illustrate how they work.
+
+## Meet Raul: Our Example Data
+
+To begin, let's create a TypeScript type that describes Raul:
+
+```typescript
+type Dog = {
+  name: string;
+  breed: string;
+  age: number;
+  favoriteToy: string;
+  isGoodBoy: boolean;
+};
+
+const raul: Dog = {
+  name: "Raul",
+  breed: "Dachshund",
+  age: 5,
+  favoriteToy: "Rubber ball",
+  isGoodBoy: true,
+};
+```
+
+Raul is a friendly dachshund who loves his rubber ball. Now, let’s say we need to create types that are based on Raul's type but only care about specific properties. This is where `Pick` and `Omit` come in handy.
+
+## Using Pick: Select the Properties You Need
+
+The `Pick` utility type lets you create a new type by "picking" specific properties from an existing type.
+
+For example, if you only want to work with Raul's name and breed (perhaps for a dog database), you can use `Pick`:
+
+```typescript
+type DogSummary = Pick<Dog, "name" | "breed">;
+
+const raulSummary: DogSummary = {
+  name: "Raul",
+  breed: "Dachshund",
+};
+```
+
+In this example, `DogSummary` contains only the `name` and `breed` properties from the `Dog` type. This can be useful when you need a simplified version of a more complex type.
+
+### Practical Use Case
+
+Imagine you are displaying a list of dogs on a website, and you only need to show the dog's name and breed. Instead of passing the entire `Dog` object to the component, you can create a `DogSummary` type that limits the data to just what you need.
+
+## Using Omit: Exclude Properties You Don’t Need
+
+On the other hand, `Omit` is useful when you want to exclude specific properties from a type.
+
+Suppose you are working with a form to edit Raul's information, but you don't want users to be able to change the `isGoodBoy` property (because Raul will _always_ be a good boy!). You can use `Omit` to remove this field from the type:
+
+```typescript
+type EditableDog = Omit<Dog, "isGoodBoy">;
+
+const editableRaul: EditableDog = {
+  name: "Raul",
+  breed: "Dachshund",
+  age: 5,
+  favoriteToy: "Rubber ball",
+};
+```
+
+In this case, `EditableDog` includes all properties from the `Dog` type except `isGoodBoy`. Now, when you use this type for forms or updates, the property `isGoodBoy` will be omitted, ensuring that Raul’s goodness is not tampered with!
+
+### Practical Use Case
+
+You can use `Omit` when you want to ensure that certain properties are not accidentally modified or exposed to certain parts of your application. It helps in scenarios where you want to protect specific information or streamline the data being handled.
+
+## Conclusion
+
+The `Pick` and `Omit` utility types in TypeScript are simple but powerful tools that allow you to create more focused and flexible types. Whether you need to "pick" only a few relevant fields or "omit" sensitive data, these utilities make it easier to work with complex types in a clean, manageable way.
+
+By understanding how to use `Pick` and `Omit`, you can make your TypeScript types more adaptable to different contexts and requirements.
+
+Next time you are coding with TypeScript, think of Raul the dachshund and his favorite rubber ball, and remember how `Pick` and `Omit` can help you shape your types just the way you need them!
