@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import React from "react";
-import { cx } from "@/src/utils";
+
 import Header from "@/src/components/Header";
 import Footer from "../components/Footer";
 import { siteMetadata } from "../utils/siteMetadata";
 import Script from "next/script";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import ToastProvider from "../lib/react-toastify/ToastProvider";
+import { cx } from "../utils/cx";
 
 const inter = Inter({
   subsets: ["latin"],

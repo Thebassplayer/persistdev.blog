@@ -1,6 +1,6 @@
 import React from "react";
 import { MoonIcon, SunIcon } from "../Icons";
-import { cx } from "@/src/utils";
+import { cx } from "@/src/utils/cx";
 import { Theme } from "@/src/types";
 
 type ThemeButtonProps = {

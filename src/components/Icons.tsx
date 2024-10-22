@@ -1,6 +1,6 @@
 import React from "react";
 import type { SVGProps } from "react";
-import { cx } from "../utils";
+import { cx } from "../utils/cx";
 
 type IconProps = {
   className?: string;

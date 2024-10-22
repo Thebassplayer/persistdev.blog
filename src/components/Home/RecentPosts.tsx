@@ -1,5 +1,5 @@
 import { Blog } from "@/.contentlayer/generated";
-import { sortBlogs } from "@/src/utils";
+import { sortBlogs } from "@/src/utils/sortBlogs";
 import Link from "next/link";
 import BlogLayoutThree from "../Blog/BlogLayoutThree";
 

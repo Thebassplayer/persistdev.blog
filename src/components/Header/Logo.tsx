@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import profileImg from "@/public/AI-Roy.png";
-import { cx } from "@/src/utils";
+import { cx } from "@/src/utils/cx";
 
 type LogoProps = {
   showNavBar: boolean;
