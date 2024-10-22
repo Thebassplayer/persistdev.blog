@@ -19,3 +19,9 @@ model Subscription {
   email     String   @unique
   createdAt DateTime @default(now())
 }
+
+model Views {
+  slug  String  @id
+  count Int     @default(0)
+}
+

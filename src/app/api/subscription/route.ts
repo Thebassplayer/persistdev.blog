@@ -1,8 +1,6 @@
 import { subscriptionSchema } from "@/src/schemas/zod.schemas";
-import { PrismaClient } from "@prisma/client";
 import { sendEmail } from "../utils/sendgrid";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/src/app/api/utils/prisma/prisma";
 
 export const POST = async (req: Request) => {
   const body = await req.json();
