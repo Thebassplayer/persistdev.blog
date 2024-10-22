@@ -1,0 +1,116 @@
+---
+title: "Understanding Functions vs. Methods in Go: A Practical Guide"
+description: "Learn the differences between functions and methods in Go, and discover when to use each with clear examples and practical insights."
+image: "../../public/blogs/emile-perron-_pdcAvUld54-unsplash.jpg"
+publishedAt: "2024/10/22"
+updatedAt: "2024/10/22"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - Go
+  - programming
+  - methods
+  - functions
+---
+
+## Functions Versus Methods in Go: A Practical Guide
+
+When developing in Go, you will often come across the decision of whether to implement a piece of logic as a **function** or a **method**. Both serve to encapsulate and organize logic, but they are used in different contexts depending on the need for internal state. This article will help clarify the key distinctions between functions and methods, along with when to use each, with practical examples.
+
+### 1. **Functions: Stateless Logic**
+
+A **function** is best used when the logic it encapsulates is stateless, meaning it doesn’t depend on any external or persistent state—only on the **input parameters**. Functions are the go-to tool when you need to perform operations based purely on the arguments passed in, making them easy to test, reuse, and predictable in different contexts.
+
+#### Characteristics of Functions:
+
+- **Standalone Logic**: They don't rely on any internal or shared state, which makes them highly reusable.
+- **Stateless**: Since they only depend on their inputs, they are suitable for tasks where no persistent data or external state is needed.
+
+#### Example of a Function:
+
+```go
+func add(a int, b int) int {
+    return a + b
+}
+```
+
+In the example above, the function `add` takes two integers, `a` and `b`, and returns their sum. The logic here relies solely on the provided arguments, and there’s no reference to any external or persistent data. This makes `add` an ideal example of a function.
+
+#### When to Use a Function:
+
+- When your logic only requires the input parameters and doesn’t need to maintain or manipulate any external state.
+- For operations that are straightforward and stateless, such as calculations, transformations, or data processing tasks.
+
+##### Real-world Example:
+
+Imagine you're working on a financial application, and you need to calculate the total price of an order given the price per item and the quantity of items. Since this is purely based on the inputs (price and quantity), a function is perfect:
+
+```go
+func calculateTotal(price float64, quantity int) float64 {
+    return price * float64(quantity)
+}
+```
+
+Here, `calculateTotal` is stateless and doesn’t depend on any other data. This makes it reusable across different parts of the application without any side effects.
+
+### 2. **Methods: State-Dependent Logic**
+
+In contrast to functions, **methods** in Go are tied to a **struct** and typically operate on its internal state. A method is essentially a function with a **receiver**—the object it belongs to. Methods are used when the logic needs to manipulate or access the data stored in the struct, allowing for stateful behavior.
+
+#### Characteristics of Methods:
+
+- **Associated with Structs**: A method operates on the struct it's attached to, accessing and potentially modifying its internal fields.
+- **Stateful**: Methods are used when the logic depends on data stored in the struct, and this data may change over time or across method calls.
+
+#### Example of a Method:
+
+```go
+type Counter struct {
+    total int
+}
+
+func (c *Counter) Increment() {
+    c.total++
+}
+```
+
+In this case, the method `Increment` is attached to the `Counter` struct and modifies its internal state by increasing the `total` field. Since the logic in `Increment` relies on the state of the `Counter`, it’s implemented as a method.
+
+#### When to Use a Method:
+
+- When the logic relies on data or state stored in a struct and may need to modify or read from this state.
+- For operations where state persistence or history matters, such as maintaining counters, updating configurations, or managing session data.
+
+##### Real-world Example:
+
+Suppose you are developing a game and need to track a player’s score. The score will change as the player progresses, so you need a method to update this state:
+
+```go
+type Player struct {
+    score int
+}
+
+func (p *Player) AddPoints(points int) {
+    p.score += points
+}
+```
+
+Here, `AddPoints` is a method because it operates on the `Player` struct and updates the `score`. The method depends on the internal state of the player, which changes as the game progresses.
+
+### **When to Use a Function or a Method**
+
+#### Use a **Function** when:
+
+- The logic doesn't depend on any internal state other than the input parameters.
+- You need a simple, stateless operation that can be reused in various contexts without side effects.
+- Testing and reusability are a priority, as functions can be easily decoupled from the rest of the system.
+
+#### Use a **Method** when:
+
+- The logic depends on data stored in a struct, especially if this data changes or is part of the program's state.
+- You need to modify or interact with the state of an object, such as updating fields within a struct.
+- The logic is inherently tied to a particular entity (like a player, a counter, or a configuration object) that carries persistent data.
+
+### Conclusion
+
+Understanding when to use functions and methods is essential for writing clean, maintainable Go code. Functions excel when your logic is stateless and reusable, while methods shine when your logic needs to interact with or modify state. By knowing these distinctions and applying them appropriately, you can ensure that your Go programs are organized, efficient, and easy to understand.
