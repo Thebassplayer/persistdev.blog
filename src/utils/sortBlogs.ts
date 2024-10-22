@@ -1,12 +1,15 @@
 import { Blog } from "@/.contentlayer/generated";
 import { compareDesc, parseISO } from "date-fns";
 
-export const cx = (...classNames: string[]) =>
-  classNames.filter(Boolean).join(" ");
+const today = new Date();
 
 export const sortBlogs = (blogs: Blog[]) =>
   blogs
     .slice()
-    .sort((a: any, b: any) =>
+    .filter((blog) => {
+      const publishedAt = parseISO(blog.publishedAt);
+      return publishedAt <= today;
+    })
+    .sort((a: Blog, b: Blog) =>
       compareDesc(parseISO(a.publishedAt), parseISO(b.publishedAt)),
     );
