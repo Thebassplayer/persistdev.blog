@@ -23,7 +23,7 @@ const ViewCounter = ({
   useEffect(() => {
     const incrementViews = async () => {
       try {
-        const response = await fetch("/api/views", {
+        const response = await fetch(viewsApi, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
