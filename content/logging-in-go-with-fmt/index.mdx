@@ -1,0 +1,238 @@
+---
+title: "Logging in Go with the fmt Package"
+description: "Explore how to perform basic logging in Go using the fmt package. This guide covers different logging techniques such as fmt.Println, fmt.Printf, and fmt.Fprintf, with examples."
+image: "../../public/blogs/logging-go-fmt-package.jpg"
+publishedAt: "2024-10-29"
+updatedAt: "2024-10-29"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - go
+  - logging
+  - programming
+---
+
+# Logging in Go with the fmt Package
+
+In Go, logging is crucial for debugging and monitoring the performance and behavior of your applications. While Go offers a dedicated logging package called `log`, the `fmt` package is often used for basic logging tasks. The `fmt` package provides flexible functions to format and print text to different outputs, including standard output (stdout), standard error (stderr), and other destinations.
+
+This article will walk you through various forms of logging you can implement using the `fmt` package, with detailed examples for each.
+
+## 1. Basic Logging with `fmt.Println`
+
+The most basic logging method using `fmt` is `fmt.Println`, which prints to standard output. This function is often used for simple log messages during development or debugging.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("This is a basic log message")
+}
+```
+
+### Explanation:
+
+- `fmt.Println` automatically adds a space between arguments and appends a newline at the end.
+- This prints directly to standard output.
+
+## 2. Formatted Logging with `fmt.Printf`
+
+For more structured log messages, you can use `fmt.Printf`. This function allows you to format log messages in a more controlled way using format specifiers.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    name := "Golang"
+    version := 1.18
+    fmt.Printf("Logging: Program %s is running, version %.2f
+", name, version)
+}
+```
+
+### Explanation:
+
+- `fmt.Printf` lets you define a format string that includes placeholders for values (like `%s` for strings and `%.2f` for floating-point numbers with two decimal places).
+- This allows you to craft detailed and formatted logs with variable data.
+
+## 3. Debug Logging with Variable Types using `fmt.Sprintf`
+
+Sometimes, you want to build log strings dynamically without immediately printing them. In this case, you can use `fmt.Sprintf` to create a formatted string without outputting it. This is useful if you want to log the message conditionally or store it for later use.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    a, b := 10, 20
+    logMessage := fmt.Sprintf("Debug: The sum of %d and %d is %d", a, b, a+b)
+
+    fmt.Println(logMessage)  // Logging the message when needed
+}
+```
+
+### Explanation:
+
+- `fmt.Sprintf` works like `fmt.Printf` but instead of printing the output, it returns the formatted string.
+- This is useful for logging in complex scenarios, such as only writing logs under specific conditions or writing to custom destinations.
+
+## 4. Error Logging to Standard Error with `fmt.Fprintln`
+
+In production, it’s important to separate regular log messages from error logs. Errors are typically written to stderr instead of stdout. You can use `fmt.Fprintln` to write logs to any writer, including `os.Stderr`.
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+)
+
+func main() {
+    _, err := os.Open("non-existent-file.txt")
+    if err != nil {
+        fmt.Fprintln(os.Stderr, "Error: Failed to open file:", err)
+    }
+}
+```
+
+### Explanation:
+
+- `fmt.Fprintln` allows you to specify the writer (like `os.Stderr`) where the log message will be sent.
+- In this example, the error message is written directly to `stderr`, which is appropriate for logging error messages in production.
+
+## 5. Logging Structured Data using `fmt.Fprintf`
+
+Sometimes, you may want to log structured data to a specific output, such as a file or a network connection. `fmt.Fprintf` allows you to log to any `io.Writer`.
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+)
+
+func main() {
+    // Open a log file
+    file, err := os.Create("logfile.txt")
+    if err != nil {
+        fmt.Fprintln(os.Stderr, "Error: Unable to create log file:", err)
+        return
+    }
+    defer file.Close()
+
+    // Log messages to the file
+    fmt.Fprintf(file, "Log: This message goes into the log file
+")
+    fmt.Fprintf(file, "Log: Another structured log with value: %d
+", 42)
+}
+```
+
+### Explanation:
+
+- `fmt.Fprintf` allows you to specify the destination writer. In this case, it is a file, but it could be any `io.Writer`.
+- This method is commonly used when logging to files, network sockets, or other destinations.
+
+## 6. Logging Custom Data Structures using `fmt.Printf` with `%+v`
+
+Go’s `fmt` package offers special format verbs like `%v`, `%+v`, and `%#v` to print complex data structures, such as structs. This is helpful for logging the state of custom objects.
+
+```go
+package main
+
+import "fmt"
+
+type User struct {
+    Name  string
+    Email string
+}
+
+func main() {
+    user := User{Name: "John Doe", Email: "john.doe@example.com"}
+    fmt.Printf("Logging: User data: %+v
+", user)
+}
+```
+
+### Explanation:
+
+- `%+v` prints the field names of the struct along with their values.
+- This is particularly useful for debugging, as it provides a clear view of the struct’s state.
+
+## 7. Conditional Logging
+
+While Go doesn’t have built-in log levels in the `fmt` package (unlike the `log` package), you can implement conditional logging manually by controlling when to print certain messages based on your own conditions.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    debug := true // simulate a debug mode flag
+
+    if debug {
+        fmt.Println("Debug: Detailed debug information here")
+    }
+
+    fmt.Println("Info: Application started successfully")
+}
+```
+
+### Explanation:
+
+- By controlling when `fmt` functions are called based on flags or conditions (like debug mode), you can achieve basic log filtering similar to log levels.
+
+## 8. Logging Panic and Recover with `fmt`
+
+In Go, handling panics and using the `recover` function is crucial for maintaining application stability. You can log panic-related messages using the `fmt` package.
+
+```go
+package main
+
+import "fmt"
+
+func riskyOperation() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Printf("Panic recovered: %v
+", r)
+        }
+    }()
+
+    panic("Something went wrong")
+}
+
+func main() {
+    fmt.Println("Starting risky operation...")
+    riskyOperation()
+    fmt.Println("Operation completed")
+}
+```
+
+### Explanation:
+
+- `recover` is used to catch a panic and prevent the program from crashing. You can log the panic message using `fmt.Printf`.
+- This is useful for logging critical errors and panic recoveries during execution.
+
+## Conclusion
+
+The `fmt` package in Go provides a simple yet powerful set of functions for logging purposes, especially in smaller projects or during development. While it lacks advanced features such as log levels, structured logging, or log rotation (which are provided by more specialized logging libraries), it’s still a flexible tool for many logging scenarios.
+
+### Quick Summary of `fmt` Logging Functions:
+
+- `fmt.Println`: Basic logging to standard output.
+- `fmt.Printf`: Formatted logging with custom data.
+- `fmt.Sprintf`: Formatted logging with string return, useful for conditional logs.
+- `fmt.Fprintln`: Logging to any `io.Writer` (e.g., `os.Stderr`).
+- `fmt.Fprintf`: Structured logging to custom outputs like files.
+- `fmt.Printf` with `%+v`: Logging complex data structures like structs.
+
+For more robust logging in production systems, consider using Go’s `log` package or third-party libraries like `logrus` or `zap`. However, `fmt` remains an excellent choice for simple and effective logging in many scenarios.
