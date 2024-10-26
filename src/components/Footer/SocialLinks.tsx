@@ -10,6 +10,7 @@ const SocialLinks = () => {
           className={`mr-4 inline-block h-6 w-6 transition-transform duration-200 hover:scale-125 ${
             label === "Github" ? "fill-light dark:fill-dark" : ""
           }`}
+          aria-label={`Link to ${label}`}
         >
           {svg}
         </a>
