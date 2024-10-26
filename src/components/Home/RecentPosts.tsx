@@ -1,5 +1,5 @@
 import { Post } from "@/.contentlayer/generated";
-import { numberOfPosts, sortPosts } from "@/src/utils/Blog";
+import { numberOfPosts, sortPosts } from "@/src/utils/Post";
 import Link from "next/link";
 import PostLayoutThree from "../Post/PostLayoutThree";
 

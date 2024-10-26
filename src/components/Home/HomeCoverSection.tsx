@@ -1,5 +1,5 @@
 import { Post } from "@/.contentlayer/generated";
-import { sortPosts } from "@/src/utils/Blog";
+import { sortPosts } from "@/src/utils/Post";
 import Image from "next/image";
 import Link from "next/link";
 import ButtonTag from "../Elements/ButtonTag";
