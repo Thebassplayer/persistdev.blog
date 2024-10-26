@@ -64,7 +64,7 @@ export async function generateMetadata({
   };
 }
 
-const BlogPage = ({ params }: { params: { slug: string } }) => {
+const PostPage = ({ params }: { params: { slug: string } }) => {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
   const firstPostTag = post?.tags?.[0];
   const datePublished = new Date(post?.publishedAt ?? "").toISOString();
@@ -73,19 +73,20 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
   ).toISOString();
   const author = post?.author ? [post?.author] : siteMetadata.author;
 
-  let blogMainImageList: string[] = [siteMetadata.socialBanner];
+  let postMainImageList: string[] = [siteMetadata.socialBanner];
   if (post?.image && typeof post.image.filePath === "string") {
-    blogMainImageList = [
+    postMainImageList = [
       siteMetadata.siteUrl + post.image.filePath.replace("../public", ""),
     ];
   }
+  const postImage = post?.image?.filePath.replace("../public", "") ?? "";
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
     headline: post?.title,
     description: post?.description,
-    image: blogMainImageList,
+    image: postMainImageList,
     datePublished: datePublished,
     dateModified: dateModified,
     author: [
@@ -121,7 +122,7 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
           <div className="absolute bottom-0 left-0 right-0 top-0 h-full bg-dark/60 dark:bg-dark/40" />
           {post?.image ? (
             <Image
-              src={post.image?.filePath.replace("../public", "")}
+              src={postImage}
               alt={post.title}
               placeholder="blur"
               blurDataURL={post.image?.blurhashDataUrl}
@@ -143,4 +144,4 @@ const BlogPage = ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default BlogPage;
+export default PostPage;
