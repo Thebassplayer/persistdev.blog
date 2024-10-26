@@ -13,3 +13,7 @@ export const sortBlogs = (blogs: Blog[]) => {
       compareDesc(parseISO(a.publishedAt), parseISO(b.publishedAt)),
     );
 };
+
+export const numberOfPosts = (blogs: Blog[]): number => {
+  return blogs.length;
+};
