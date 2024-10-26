@@ -1,0 +1,241 @@
+---
+title: "Express.js Basics: A Beginner’s Guide"
+description: "Learn the fundamentals of Express.js, a minimal and flexible Node.js framework, to build web servers and RESTful APIs quickly and efficiently."
+image: "../../public/blogs/expressjs-basics.jpg"
+publishedAt: "2024-10-26"
+updatedAt: "2024-10-26"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - express.js
+  - node.js
+  - web development
+  - backend
+---
+
+Express.js is a minimal and flexible Node.js web application framework that provides a robust set of features for building web and mobile applications. If you're getting started with Node.js and want to create web servers, Express.js is a powerful tool that simplifies and speeds up the process. This guide will walk you through the basics of Express.js to help you get started.
+
+> **What is Express.js?**  
+> Express.js is a web application framework for Node.js. It is designed to make web development faster and easier by providing a simple API for building web servers and applications. With Express.js, you can:
+>
+> - Build RESTful APIs quickly.
+> - Create dynamic web pages and serve static files.
+> - Handle HTTP requests with minimal configuration.
+
+Express.js is widely used in the Node.js ecosystem due to its lightweight nature and extensibility, allowing developers to add middleware, routes, and more, to build complex applications with minimal code.
+
+## Setting Up Express.js
+
+Before you start using Express.js, you need to have Node.js and npm (Node Package Manager) installed on your system. If you haven’t installed them yet, visit the [Node.js official site](https://nodejs.org) and follow the installation instructions.
+
+Once Node.js is installed, you can create a new project and install Express.js using npm:
+
+```bash
+mkdir my-express-app
+cd my-express-app
+npm init -y
+```
+
+This command initializes a new project and creates a `package.json` file that keeps track of your project’s dependencies and configuration.
+
+Next, install Express.js:
+
+```bash
+npm install express
+```
+
+This will add Express.js to your project’s dependencies.
+
+## Creating a Basic Express Server
+
+Once Express.js is installed, you can create your first server. Create a new file called `app.js` and add the following code:
+
+```javascript
+const express = require("express");
+const app = express();
+const port = 3000;
+
+// Route handler for the root URL
+app.get("/", (req, res) => {
+  res.send("Hello, World!");
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+```
+
+### Explanation:
+
+- **Import Express**:
+
+  ```javascript
+  const express = require("express");
+  const app = express();
+  ```
+
+  `express()` creates an instance of an Express application.
+
+- **Define a Route**:
+
+  ```javascript
+  app.get("/", (req, res) => {
+    res.send("Hello, World!");
+  });
+  ```
+
+  `app.get('/', callback)` defines a route that listens for GET requests to the root URL (`/`). The callback function `(req, res) => { ... }` runs when this route is accessed and sends back a response ('Hello, World!').
+
+- **Start the Server**:
+  ```javascript
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+  ```
+  `app.listen(port, callback)` starts the server on the specified port and runs the callback when the server is ready.
+
+### Running the Server
+
+To start your server, run:
+
+```bash
+node app.js
+```
+
+If everything is set up correctly, you’ll see a message: "Server is running on http://localhost:3000". Open your browser and navigate to [http://localhost:3000](http://localhost:3000), and you’ll see the message "Hello, World!".
+
+## Understanding Middleware
+
+Middleware functions are the heart of Express.js and provide a way to execute code, modify requests and responses, end the request-response cycle, and call the next middleware in the stack. Middleware can be used for various purposes, such as logging, authentication, and handling errors.
+
+### Adding Middleware
+
+Here’s an example of how to use middleware:
+
+```javascript
+app.use((req, res, next) => {
+  console.log(`${req.method} request for ${req.url}`);
+  next(); // Passes control to the next middleware or route
+});
+```
+
+`app.use(middlewareFunction)` applies the middleware to every request that hits the server. In this case, the middleware logs the HTTP method and the URL of the request and then calls `next()` to pass control to the next middleware function or route handler.
+
+### Built-in Middleware
+
+Express.js provides several built-in middleware functions, such as:
+
+- **express.json()**: Parses incoming JSON requests.
+  ```javascript
+  app.use(express.json());
+  ```
+- **express.urlencoded()**: Parses URL-encoded bodies (from HTML forms).
+  ```javascript
+  app.use(express.urlencoded({ extended: true }));
+  ```
+- **express.static()**: Serves static files like HTML, CSS, and images from a directory.
+  ```javascript
+  app.use(express.static("public"));
+  ```
+
+## Creating Routes
+
+In Express.js, you can define multiple routes to handle different endpoints and HTTP methods.
+
+### Example of Different Routes
+
+```javascript
+app.get("/about", (req, res) => {
+  res.send("About Page");
+});
+
+app.post("/submit", (req, res) => {
+  res.send("Form Submitted");
+});
+
+app.put("/update", (req, res) => {
+  res.send("Data Updated");
+});
+
+app.delete("/delete", (req, res) => {
+  res.send("Data Deleted");
+});
+```
+
+- **GET**: Used to retrieve information (e.g., a webpage or data).
+- **POST**: Used to submit data to the server (e.g., submitting a form).
+- **PUT**: Used to update existing data on the server.
+- **DELETE**: Used to delete data from the server.
+
+### Route Parameters
+
+You can also define dynamic routes using parameters:
+
+```javascript
+app.get("/user/:id", (req, res) => {
+  const userId = req.params.id;
+  res.send(`User ID: ${userId}`);
+});
+```
+
+`:id` is a route parameter that can match any value. Access it via `req.params`.
+
+## Working with JSON
+
+Express.js makes it easy to work with JSON data, which is commonly used in RESTful APIs. Here's an example:
+
+```javascript
+app.post("/api/data", (req, res) => {
+  const data = req.body;
+  res.json({ message: "Data received", data });
+});
+```
+
+Make sure to use `express.json()` middleware to parse JSON requests:
+
+```javascript
+app.use(express.json());
+```
+
+This setup allows your server to accept JSON data in POST requests and respond with JSON objects.
+
+## Error Handling
+
+Error handling in Express.js is straightforward. You can define an error-handling middleware like this:
+
+```javascript
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
+});
+```
+
+This middleware catches errors thrown in routes or other middleware functions. You can define custom error messages and set appropriate HTTP status codes.
+
+## Structuring an Express App
+
+For small projects, placing everything in a single file (`app.js`) is fine. However, as your application grows, you may want to organize your code better:
+
+- **Create a routes directory**: Separate your routes into files for clarity.
+- **Use Controllers**: Move business logic into separate functions to keep routes clean.
+- **Middleware**: Store middleware in a middleware directory for modularity.
+
+### Example Project Structure
+
+```plaintext
+my-express-app/
+├── app.js
+├── routes/
+│   ├── index.js
+│   ├── users.js
+├── controllers/
+│   ├── userController.js
+├── middleware/
+│   ├── logger.js
+└── package.json
+```
+
+## Conclusion
+
+Express.js is a powerful and easy-to-use framework for building web applications and APIs with Node.js. Understanding its basic components—like routing, middleware, and error handling—lays the foundation for creating complex, scalable applications. With this guide, you should now have a working knowledge of Express.js.
