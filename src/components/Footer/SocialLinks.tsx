@@ -12,6 +12,7 @@ const SocialLinks = () => {
           }`}
           aria-label={`Link to ${label}`}
         >
+          <span className="sr-only">{label}</span>
           {svg}
         </a>
       ))}

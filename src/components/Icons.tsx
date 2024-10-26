@@ -45,6 +45,8 @@ export function MoonIcon(props: SVGProps<SVGSVGElement>) {
 export const LinkedinIcon = ({ className, ...rest }: IconProps) => {
   return (
     <svg
+      role="img"
+      aria-labelledby="linkedin-icon"
       xmlns="http://www.w3.org/2000/svg"
       width={42}
       height={43}
@@ -52,6 +54,7 @@ export const LinkedinIcon = ({ className, ...rest }: IconProps) => {
       className={cx("h-auto w-full", className ? className : "")}
       {...rest}
     >
+      <title id="linkedin-icon">Linkedin</title>
       <g clipPath="url(#a)">
         <path
           fill="#0076B2"
@@ -74,6 +77,8 @@ export const LinkedinIcon = ({ className, ...rest }: IconProps) => {
 export const TwitterIcon = ({ className, ...rest }: IconProps) => {
   return (
     <svg
+      role="img"
+      aria-labelledby="twitter-icon"
       xmlns="http://www.w3.org/2000/svg"
       width={42}
       height={43}
@@ -81,6 +86,7 @@ export const TwitterIcon = ({ className, ...rest }: IconProps) => {
       className={cx("h-auto w-full", className ? className : "")}
       {...rest}
     >
+      <title id="twitter-icon">Twitter</title>
       <g clipPath="url(#a)">
         <path
           fill="#1D9BF0"
@@ -99,6 +105,8 @@ export const TwitterIcon = ({ className, ...rest }: IconProps) => {
 export const GithubIcon = ({ className, ...rest }: IconProps) => {
   return (
     <svg
+      role="img"
+      aria-labelledby="github-icon"
       xmlns="http://www.w3.org/2000/svg"
       width={42}
       height={44}
@@ -106,6 +114,7 @@ export const GithubIcon = ({ className, ...rest }: IconProps) => {
       className={cx("h-auto w-full", className ? className : "")}
       {...rest}
     >
+      <title id="github-icon">Github</title>
       <path
         fillRule="evenodd"
         d="M21 1.739c-10.942 0-19.815 9.212-19.815 20.577 0 9.091 5.678 16.804 13.55 19.525.99.191 1.354-.446 1.354-.99 0-.49-.018-2.111-.027-3.83-5.512 1.244-6.675-2.428-6.675-2.428-.902-2.379-2.2-3.011-2.2-3.011-1.799-1.277.135-1.25.135-1.25 1.99.144 3.038 2.12 3.038 2.12 1.767 3.145 4.635 2.236 5.766 1.71.177-1.33.691-2.238 1.258-2.752-4.401-.52-9.028-2.284-9.028-10.168 0-2.247.774-4.082 2.042-5.524-.206-.518-.885-2.61.191-5.445 0 0 1.664-.553 5.45 2.11A18.325 18.325 0 0 1 21 11.688c1.683.008 3.38.236 4.963.693 3.782-2.663 5.444-2.11 5.444-2.11 1.079 2.834.4 4.928.195 5.445 1.27 1.442 2.039 3.277 2.039 5.524 0 7.903-4.635 9.643-9.048 10.153.711.638 1.345 1.891 1.345 3.81 0 2.754-.023 4.97-.023 5.647 0 .548.357 1.19 1.36.987 7.87-2.724 13.54-10.434 13.54-19.522 0-11.364-8.872-20.577-19.815-20.577Z"
