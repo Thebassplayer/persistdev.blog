@@ -1,18 +1,18 @@
 "use client";
 import { useMDXComponent } from "next-contentlayer/hooks";
-import { Blog } from "@/.contentlayer/generated";
+import { Post } from "@/.contentlayer/generated";
 import Image from "next/image";
 
 type RenderMdxProps = {
-  blog: Blog;
+  post: Post;
 };
 
 const mdxComponent = {
   Image,
 };
 
-const RenderMdx = ({ blog }: RenderMdxProps) => {
-  const MDXContent = useMDXComponent(blog.body.code);
+const RenderMdx = ({ post }: RenderMdxProps) => {
+  const MDXContent = useMDXComponent(post.body.code);
   return (
     <div
       className="prose prose-sm col-span-12 max-w-max font-in dark:prose-invert sm:prose-base md:prose-lg first-letter:text-3xl

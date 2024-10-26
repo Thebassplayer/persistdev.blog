@@ -1,4 +1,4 @@
-import { Blog } from "@/.contentlayer/generated";
+import { Post } from "@/.contentlayer/generated";
 
 type Heading = {
   level: "one" | "two" | "three" | "four" | "five" | "six";
@@ -7,10 +7,10 @@ type Heading = {
 };
 
 type TableOfContentProps = {
-  blog: Blog;
+  post: Post;
 };
 
-const TableOfContent = ({ blog }: TableOfContentProps) => {
+const TableOfContent = ({ post }: TableOfContentProps) => {
   return (
     <details
       className="sticky top-24 overflow-hidden overflow-y-auto rounded-lg border border-solid border-dark p-4 text-dark dark:border-light dark:text-light md:max-h-[80vh]"
@@ -20,7 +20,7 @@ const TableOfContent = ({ blog }: TableOfContentProps) => {
         Table of Content
       </summary>
       <ul className="mt-4 font-in text-base">
-        {blog?.toc.map((heading: Heading) => {
+        {post?.toc.map((heading: Heading) => {
           return (
             <li key={`#${heading.slug}`} className="py-1">
               <a

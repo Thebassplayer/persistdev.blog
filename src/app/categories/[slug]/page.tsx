@@ -1,6 +1,6 @@
-import { allBlogs } from "@/.contentlayer/generated";
-import BlogLayoutThree from "@/src/components/Blog/BlogLayoutThree";
-import Categories from "@/src/components/Blog/Categories";
+import { allPosts } from "@/.contentlayer/generated";
+import PostLayoutThree from "@/src/components/Post/PostLayoutThree";
+import Categories from "@/src/components/Post/Categories";
 import { siteMetadata } from "@/src/utils/siteMetadata";
 import GithubSlugger, { slug } from "github-slugger";
 import { Metadata } from "next";
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
   const categories: any = [];
   const paths = [{ slug: "all" }];
 
-  allBlogs.map((blog) => {
+  allPosts.map((blog) => {
     if (blog.isPublished) {
       blog.tags?.map((tag) => {
         let slugified = slugger.slug(tag);
@@ -47,8 +47,8 @@ export async function generateMetadata({
 
 const CategoryPage = ({ params }: CategoryPageParams) => {
   const allCategories = ["all"];
-  const blogs = allBlogs.filter((blog) => {
-    return blog.tags?.some((tag) => {
+  const posts = allPosts.filter((post) => {
+    return post.tags?.some((tag) => {
       const slugified = slug(tag);
       if (!allCategories.includes(slugified)) {
         allCategories.push(slugified);
@@ -71,10 +71,10 @@ const CategoryPage = ({ params }: CategoryPageParams) => {
       </div>
       <Categories categories={allCategories} currentSlug={params.slug} />
       <div className="mt-10 grid grid-cols-1 gap-8 px-8 sm:grid-cols-2 sm:gap-10 sm:px-24 lg:mt-24 lg:grid-cols-3 lg:gap-16 lg:px-32">
-        {blogs.map((blog, index) => {
+        {posts.map((post, index) => {
           return (
             <article className="relative col-span-1 row-span-1" key={index}>
-              <BlogLayoutThree blog={blog} />
+              <PostLayoutThree post={post} />
             </article>
           );
         })}

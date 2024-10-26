@@ -1,6 +1,6 @@
 import GithubSlugger, { slug } from "github-slugger";
 import Category from "./Category";
-import { allBlogs } from "@/.contentlayer/generated";
+import { allPosts } from "@/.contentlayer/generated";
 
 type CategoriesProps = {
   categories: any;
@@ -13,7 +13,7 @@ export async function generateStaticParams() {
   const categories: any = [];
   const paths = [{ slug: "all" }];
 
-  allBlogs.map((blog) => {
+  allPosts.map((blog) => {
     if (blog.isPublished) {
       blog.tags?.map((tag) => {
         let slugified = slugger.slug(tag);

@@ -1,7 +1,7 @@
-import { Blog } from "@/.contentlayer/generated";
+import { Post } from "@/.contentlayer/generated";
 import { compareDesc, parseISO } from "date-fns";
 
-export const sortBlogs = (blogs: Blog[]) => {
+export const sortPosts = (blogs: Post[]) => {
   const today = new Date();
   return blogs
     .slice()
@@ -9,11 +9,11 @@ export const sortBlogs = (blogs: Blog[]) => {
       const publishedAt = parseISO(blog.publishedAt);
       return publishedAt <= today;
     })
-    .sort((a: Blog, b: Blog) =>
+    .sort((a: Post, b: Post) =>
       compareDesc(parseISO(a.publishedAt), parseISO(b.publishedAt)),
     );
 };
 
-export const numberOfPosts = (blogs: Blog[]): number => {
+export const numberOfPosts = (blogs: Post[]): number => {
   return blogs.length;
 };

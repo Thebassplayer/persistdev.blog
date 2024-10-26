@@ -1,15 +1,15 @@
-import { Blog } from "@/.contentlayer/generated";
-import { numberOfPosts, sortBlogs } from "@/src/utils/Blog";
+import { Post } from "@/.contentlayer/generated";
+import { numberOfPosts, sortPosts } from "@/src/utils/Blog";
 import Link from "next/link";
-import BlogLayoutThree from "../Blog/BlogLayoutThree";
+import PostLayoutThree from "../Post/PostLayoutThree";
 
 type RecentPostProps = {
-  blogs: Blog[];
+  posts: Post[];
 };
 
-const RecentPost = ({ blogs }: RecentPostProps) => {
-  const sortedBlogs = sortBlogs(blogs);
-  const postsQuantity = numberOfPosts(blogs);
+const RecentPost = ({ posts }: RecentPostProps) => {
+  const sortedPosts = sortPosts(posts);
+  const postsQuantity = numberOfPosts(posts);
   return (
     <section className="mt-16 flex w-full flex-col items-center justify-center px-5 sm:mt-24 sm:px-10 md:mt-32 md:px-24 sxl:px-32">
       <div className="flex w-full justify-between">
@@ -27,9 +27,9 @@ const RecentPost = ({ blogs }: RecentPostProps) => {
         </Link>
       </div>
       <div className="mt-16 grid grid-cols-1 grid-rows-2 gap-16 sm:grid-cols-2 lg:grid-cols-3">
-        {sortedBlogs.slice(4, 10).map((blog) => (
-          <article key={blog._id} className="relative col-span-1 row-span-1">
-            <BlogLayoutThree blog={blog} />
+        {sortedPosts.slice(4, 10).map((post) => (
+          <article key={post._id} className="relative col-span-1 row-span-1">
+            <PostLayoutThree post={post} />
           </article>
         ))}
       </div>

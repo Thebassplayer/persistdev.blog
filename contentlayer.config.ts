@@ -6,8 +6,8 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import GithubSlugger from "github-slugger";
 
-const Blog = defineDocumentType(() => ({
-  name: "Blog",
+const Post = defineDocumentType(() => ({
+  name: "Post",
   filePathPattern: "**/**/*.mdx",
   contentType: "mdx",
   fields: {
@@ -44,15 +44,15 @@ const Blog = defineDocumentType(() => ({
   computedFields: {
     url: {
       type: "string",
-      resolve: doc => `/blog/${doc._raw.flattenedPath}`,
+      resolve: (doc) => `/blog/${doc._raw.flattenedPath}`,
     },
     readingTime: {
       type: "json",
-      resolve: doc => readingTime(doc.body.raw),
+      resolve: (doc) => readingTime(doc.body.raw),
     },
     toc: {
       type: "json",
-      resolve: async doc => {
+      resolve: async (doc) => {
         const regulrExp = /\n(?<flag>#{1,6})\s+(?<content>.+)/g;
         const slugger = new GithubSlugger();
         const headings = Array.from(doc.body.raw.matchAll(regulrExp)).map(
@@ -66,7 +66,7 @@ const Blog = defineDocumentType(() => ({
               text: content,
               slug: content ? slugger.slug(content) : undefined,
             };
-          }
+          },
         );
 
         return headings;
@@ -83,7 +83,7 @@ const codeOptions = {
 export default makeSource({
   /* options */
   contentDirPath: "content",
-  documentTypes: [Blog],
+  documentTypes: [Post],
   mdx: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
