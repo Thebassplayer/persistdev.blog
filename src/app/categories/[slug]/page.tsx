@@ -38,10 +38,10 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata | void> {
   return {
-    title: `${params.slug.replaceAll("-", " ")} Blogs`,
+    title: `${params.slug.replaceAll("-", " ")} Blog Posts`,
     description: `Learn more about ${
       params.slug === "all" ? "Web development" : params.slug
-    } from our blogs`,
+    } from our blog`,
   };
 }
 
