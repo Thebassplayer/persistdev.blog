@@ -17,9 +17,9 @@ export async function generateStaticParams() {
   const categories: any = [];
   const paths = [{ slug: "all" }];
 
-  allPosts.map((blog) => {
-    if (blog.isPublished) {
-      blog.tags?.map((tag) => {
+  allPosts.map((post) => {
+    if (post.isPublished) {
+      post.tags?.map((tag) => {
         let slugified = slugger.slug(tag);
         if (!categories.includes(slugified)) {
           categories.push(slugified);
@@ -47,18 +47,29 @@ export async function generateMetadata({
 
 const CategoryPage = ({ params }: CategoryPageParams) => {
   const allCategories = ["all"];
-  const posts = allPosts.filter((post) => {
-    return post.tags?.some((tag) => {
-      const slugified = slug(tag);
-      if (!allCategories.includes(slugified)) {
-        allCategories.push(slugified);
-      }
-      if (params.slug === "all") {
-        return true;
-      }
-      return slugified === params.slug;
+  const posts = allPosts
+    .filter((post) => {
+      const today = new Date();
+      const publishedDate = new Date(post.publishedAt);
+      return publishedDate <= today;
+    })
+    .filter((post) => {
+      return post.tags?.some((tag) => {
+        const slugified = slug(tag);
+        if (!allCategories.includes(slugified)) {
+          allCategories.push(slugified);
+        }
+        if (params.slug === "all") {
+          return true;
+        }
+        return slugified === params.slug;
+      });
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.publishedAt);
+      const dateB = new Date(b.publishedAt);
+      return dateB.getTime() - dateA.getTime();
     });
-  });
   return (
     <article className="mt-2 flex flex-col text-dark dark:text-light lg:mt-12">
       <div className=" flex flex-col px-5 sm:px-10 md:px-24 sxl:px-32">

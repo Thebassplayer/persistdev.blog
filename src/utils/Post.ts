@@ -15,5 +15,9 @@ export const sortPosts = (blogs: Post[]) => {
 };
 
 export const numberOfPosts = (blogs: Post[]): number => {
-  return blogs.length;
+  const today = new Date();
+  return blogs.filter((blog) => {
+    const publishedAt = parseISO(blog.publishedAt);
+    return publishedAt <= today;
+  }).length;
 };
