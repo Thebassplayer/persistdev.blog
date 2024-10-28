@@ -1,12 +1,12 @@
 import { Post } from "@/.contentlayer/generated";
 import { compareDesc, parseISO } from "date-fns";
 
-export const sortPosts = (blogs: Post[]) => {
+export const sortPosts = (posts: Post[]) => {
   const today = new Date();
-  return blogs
+  return posts
     .slice()
-    .filter((blog) => {
-      const publishedAt = parseISO(blog.publishedAt);
+    .filter((post) => {
+      const publishedAt = parseISO(post.publishedAt);
       return publishedAt <= today;
     })
     .sort((a: Post, b: Post) =>
@@ -14,10 +14,10 @@ export const sortPosts = (blogs: Post[]) => {
     );
 };
 
-export const numberOfPosts = (blogs: Post[]): number => {
+export const numberOfPosts = (posts: Post[]): number => {
   const today = new Date();
-  return blogs.filter((blog) => {
-    const publishedAt = parseISO(blog.publishedAt);
+  return posts.filter((post) => {
+    const publishedAt = parseISO(post.publishedAt);
     return publishedAt <= today;
   }).length;
 };
