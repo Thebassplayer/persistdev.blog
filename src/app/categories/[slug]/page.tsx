@@ -1,7 +1,6 @@
 import { allPosts } from "@/.contentlayer/generated";
 import PostLayoutThree from "@/src/components/Post/PostLayoutThree";
 import Categories from "@/src/components/Post/Categories";
-import { siteMetadata } from "@/src/utils/siteMetadata";
 import GithubSlugger, { slug } from "github-slugger";
 import { Metadata } from "next";
 
