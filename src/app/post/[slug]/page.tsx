@@ -16,7 +16,15 @@ const PostPage = ({ params }: { params: { slug: string } }) => {
   const firstPostTag = post?.tags?.[0];
   const postImage = post?.image?.filePath.replace("../public", "") ?? "";
 
-  if (!post) return null;
+  if (!post)
+    return (
+      <div className="*:font-mono flex grow flex-col items-center justify-center">
+        <h1 className=" text-white">404 - Post not found</h1>
+        <a href="/" className="text-blue-400">
+          Return Home
+        </a>
+      </div>
+    );
 
   return (
     <>
