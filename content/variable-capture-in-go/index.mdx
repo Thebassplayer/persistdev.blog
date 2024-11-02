@@ -1,0 +1,170 @@
+---
+title: "Understanding Variable Capture in Goroutines: Avoiding Common Bugs in Go"
+description: "Learn how to avoid common variable capture issues in Go's concurrent programming by understanding closures and using best practices in goroutines."
+image: "../../public/blogs/go-goroutines-variables.jpg"
+publishedAt: "2024/11/07"
+updatedAt: "2024/11/07"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - go
+  - concurrency
+  - goroutines
+  - programming
+---
+
+When working with concurrent programming in Go, a common scenario involves launching goroutines inside a loop to perform tasks concurrently. But there’s a subtle bug that many developers encounter in this situation, stemming from how closures capture variables in Go. Specifically, if a goroutine captures a variable from a for loop, it may not behave as expected because of variable reuse. In this article, we’ll explore the issue, examine why it happens, and review best practices for avoiding it.
+
+> **The Problem: Unexpected Variable Capture**
+
+Let’s start by looking at a simple piece of code that aims to launch goroutines to process each item in a slice. Our code will double each element of a slice `a` and send the result to a channel `ch`:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    a := []int{2, 4, 6, 8, 10}
+    ch := make(chan int, len(a))
+
+    for _, v := range a {
+        go func() {
+            ch <- v * 2
+        }()
+    }
+
+    for i := 0; i < len(a); i++ {
+        fmt.Println(<-ch)
+    }
+}
+```
+
+At first glance, this code seems straightforward. We loop over the slice `a`, launch a goroutine for each element, and send `v * 2` to the channel. However, when we run the code, the output is unexpected:
+
+```plaintext
+20
+20
+20
+20
+20
+```
+
+Instead of each goroutine sending a different value to `ch`, all goroutines send 20, the result of the last element (`10 * 2`). So what went wrong?
+
+### Understanding Closures and Variable Capture
+
+The issue arises from how Go handles closures in loops. In Go, anonymous functions (closures) capture variables by reference, not by creating independent copies. This means that each goroutine captures the same instance of the variable `v` as it changes with each iteration of the loop.
+
+#### Why This Happens
+
+In our example:
+
+- Each iteration of the `for` loop assigns a new value to `v`.
+- However, the variable `v` is reused on each iteration — it’s the same memory location that gets updated.
+- When a goroutine is launched, it doesn’t necessarily run immediately; it might be delayed, allowing the loop to continue to the next iteration.
+- By the time each goroutine executes, the loop might have already completed, leaving `v` with its final value (10 in this case).
+
+Because of this, each goroutine ultimately references the same final value of `v`, producing 20 in each case.
+
+### Avoiding Variable Capture Pitfalls
+
+To ensure that each goroutine captures the correct value, we need to create a unique copy of `v` for each goroutine. Here are two ways to achieve this:
+
+#### Solution 1: Shadow the Variable within the Loop
+
+One common approach is to shadow the variable within the loop by creating a new, uniquely scoped instance of `v` for each iteration. This way, each goroutine captures a distinct copy:
+
+```go
+for _, v := range a {
+    v := v // Shadow `v` within the loop scope
+    go func() {
+        ch <- v * 2
+    }()
+}
+```
+
+In this code:
+
+- The `v := v` statement declares a new `v` variable inside the loop scope.
+- This shadowed `v` is initialized with the value of the original `v` for that iteration.
+- Since each iteration creates a new `v`, each goroutine captures its own version.
+
+This method works because Go creates a new, separate variable each time the loop iterates, effectively ensuring that each goroutine references the correct value.
+
+#### Solution 2: Pass the Variable as a Parameter to the Goroutine
+
+Another way to handle this issue is to explicitly pass the value of `v` as a parameter to the anonymous function. This approach is often clearer because it makes the data flow more explicit:
+
+```go
+for _, v := range a {
+    go func(val int) {
+        ch <- val * 2
+    }(v) // Pass the current value `v` as `val`
+}
+```
+
+Here:
+
+- The function `func(val int)` takes an integer parameter, `val`.
+- We call this function with `v` as its argument.
+- Because function parameters are local to each invocation, each goroutine now receives its own unique copy of `val`, ensuring that it has the correct value.
+
+### Why Passing Variables is a Best Practice
+
+Whenever you create a goroutine that depends on a value that might change, it’s best to pass the current value explicitly into the goroutine. This technique ensures that each goroutine receives the value you intended, protecting your code from unexpected variable capture issues.
+
+### A General Rule for Safe Goroutine Usage
+
+The key takeaway here is this: when using variables within a goroutine, always consider if they might change by the time the goroutine executes. If there’s any chance the variable could be updated in the main code or a loop, follow these practices:
+
+- **Shadow the variable within the loop** if it’s convenient and safe to do so.
+- **Explicitly pass the variable as an argument** to the goroutine’s function to guarantee each goroutine has its own copy.
+
+### Full Example with Correct Variable Capture
+
+Here’s the corrected version of our initial code using the second approach, which passes the value as a parameter:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    a := []int{2, 4, 6, 8, 10}
+    ch := make(chan int, len(a))
+
+    for _, v := range a {
+        go func(val int) {
+            ch <- val * 2
+        }(v)
+    }
+
+    for i := 0; i < len(a); i++ {
+        fmt.Println(<-ch)
+    }
+}
+```
+
+With this code, each goroutine will capture the correct value, resulting in the expected output:
+
+```plaintext
+4
+8
+12
+16
+20
+```
+
+Each goroutine now correctly processes its own unique value, solving the variable capture issue.
+
+### Summary
+
+In Go, closures within goroutines can lead to subtle bugs if the closure captures variables that are updated in a loop or elsewhere in the program. This issue arises because closures capture variables by reference, not by creating a copy. When launching goroutines in a loop, remember:
+
+- **Shadow variables within the loop scope** if needed.
+- **Pass variables explicitly as parameters** to the goroutine.
+
+By understanding and following these best practices, you can avoid these common pitfalls and write reliable, concurrent code in Go.
+
+---
