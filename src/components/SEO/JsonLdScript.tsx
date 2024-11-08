@@ -22,11 +22,15 @@ export async function generateMetadata({
     ];
   }
 
-  const ogImages = blogMainImageList.map((image) => {
-    return {
-      url: image.includes("http") ? image : siteMetadata.siteUrl + image,
-    };
-  });
+  const ogImages =
+    post.image && typeof post.image === "string"
+      ? [
+          {
+            url: `${siteMetadata.siteUrl}${(post.image as string).replace("../public", "")}`,
+          },
+        ]
+      : [{ url: `${siteMetadata.siteUrl}${siteMetadata.socialBanner}` }];
+
   const authors = post?.author ? [post.author] : siteMetadata.author;
 
   return {
