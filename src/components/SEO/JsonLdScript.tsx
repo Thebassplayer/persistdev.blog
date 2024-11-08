@@ -26,7 +26,7 @@ export async function generateMetadata({
     post.image && typeof post.image === "string"
       ? [
           {
-            url: `${siteMetadata.siteUrl}${(post.image as string).replace("../public", "")}`,
+            url: `${siteMetadata.siteUrl}${(post.image as string).replace("../../public", "")}`,
           },
         ]
       : [{ url: `${siteMetadata.siteUrl}${siteMetadata.socialBanner}` }];
