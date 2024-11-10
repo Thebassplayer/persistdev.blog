@@ -1,0 +1,160 @@
+---
+title: "Understanding typeof and instanceof in TypeScript with Real-World Examples"
+description: "Explore the use cases and limitations of typeof and instanceof in TypeScript to improve runtime type checks, with practical examples for handling user input, error handling, and role-based permissions."
+image: "../../public/blogs/typescript-type-checks.jpg"
+publishedAt: "2024-11-12"
+updatedAt: "2024-11-12"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - programming
+  - web development
+---
+
+In TypeScript, `typeof` and `instanceof` are operators for runtime type checks, each suited to different use cases. Let’s explore how they work, examine practical examples, and understand their limitations and warnings.
+
+## 1. typeof Operator
+
+The `typeof` operator checks the type of a variable at runtime, returning a string like `"string"`, `"number"`, `"boolean"`, `"object"`, or `"undefined"`. It’s mainly used for checking the types of simple values.
+
+### Real-World Use Case for typeof
+
+Imagine a function processing user input that could be a number (age), a string (name), or a boolean (active status). Using `typeof`, we handle each input type accordingly.
+
+#### Example
+
+```typescript
+function processUserInput(input: string | number | boolean) {
+  if (typeof input === "string") {
+    console.log(`Hello, ${input}!`); // Treats input as a name
+  } else if (typeof input === "number") {
+    console.log(`You are ${input} years old.`); // Treats input as an age
+  } else if (typeof input === "boolean") {
+    console.log(`User is ${input ? "active" : "inactive"}.`); // Treats input as a status
+  } else {
+    console.log("Unknown input type.");
+  }
+}
+
+processUserInput("Alice"); // Output: "Hello, Alice!"
+processUserInput(30); // Output: "You are 30 years old."
+processUserInput(true); // Output: "User is active."
+```
+
+In this example:
+
+> `typeof` allows us to distinguish the input’s type and handle it appropriately. This is helpful in form handling, configuration settings, or any code where user input might vary in type.
+
+### Limitations and Warnings with typeof
+
+- **Only Works with Primitive Types**: `typeof` is limited to identifying simple types. It can’t distinguish between arrays and objects or identify custom types (e.g., `typeof []` and `typeof {}` both return `"object"`).
+- **Misidentifies null as "object"**: Due to a legacy JavaScript quirk, `typeof null` returns `"object"`, which can lead to confusion in type-checking conditions.
+- **Cannot Identify Class Instances or Interfaces**: Since `typeof` only works with values, it doesn’t recognize class instances or interface types. Use `instanceof` in those cases.
+
+## 2. instanceof Operator
+
+The `instanceof` operator checks if an object is an instance of a specific class or constructor function. It’s useful when working with classes, especially in error handling and access control scenarios.
+
+### Real-World Use Case for instanceof
+
+Suppose we have an API call wrapped in a `try...catch` block. We want to handle network errors differently from validation errors, so we use `instanceof` to distinguish the error type and respond appropriately.
+
+#### Example
+
+```typescript
+class NetworkError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "NetworkError";
+  }
+}
+
+class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ValidationError";
+  }
+}
+
+async function fetchData() {
+  try {
+    // Simulate an error for demonstration
+    throw new NetworkError("Failed to connect to server.");
+  } catch (error) {
+    if (error instanceof NetworkError) {
+      console.log("Please check your internet connection.");
+    } else if (error instanceof ValidationError) {
+      console.log("Data validation failed:", error.message);
+    } else {
+      console.log("An unknown error occurred:", error);
+    }
+  }
+}
+
+fetchData(); // Output: "Please check your internet connection."
+```
+
+In this example:
+
+> `NetworkError` and `ValidationError` are custom error classes. `instanceof` identifies the error type, allowing us to respond with an appropriate message.
+
+### Using instanceof with Custom Classes
+
+A common use case is working with role-based systems. Suppose we have `User` and `Admin` classes. We might use `instanceof` to check if a user is an Admin to grant specific privileges.
+
+```typescript
+class User {
+  constructor(public name: string) {}
+}
+
+class Admin extends User {
+  constructor(
+    name: string,
+    public privileges: string[],
+  ) {
+    super(name);
+  }
+}
+
+function checkUserRole(user: User) {
+  if (user instanceof Admin) {
+    console.log(`Admin privileges: ${user.privileges.join(", ")}`);
+  } else {
+    console.log(`User: ${user.name}`);
+  }
+}
+
+const regularUser = new User("Alice");
+const adminUser = new Admin("Bob", ["manage_users", "edit_content"]);
+
+checkUserRole(regularUser); // Output: "User: Alice"
+checkUserRole(adminUser); // Output: "Admin privileges: manage_users, edit_content"
+```
+
+### Limitations and Warnings with instanceof
+
+- **Only Works with Class Instances**: `instanceof` is suitable only for objects created from a constructor or class. It won’t work with literals or primitive values (e.g., `number`, `string`).
+- **Limited by Execution Contexts**: If objects are created in different JavaScript contexts (such as different iframes), `instanceof` may not work as expected because each context has its own set of constructors.
+- **Does Not Work with Interfaces**: In TypeScript, interfaces are only used for compile-time checks and do not exist at runtime, so you cannot use `instanceof` to check if an object implements an interface.
+
+## Key Differences Between typeof and instanceof
+
+| Feature         | typeof                                | instanceof                                                   |
+| --------------- | ------------------------------------- | ------------------------------------------------------------ |
+| **Purpose**     | Checks primitive types                | Checks if an object is an instance of a class or constructor |
+| **Return Type** | Returns a string                      | Returns a boolean                                            |
+| **Usage**       | Suitable for basic types              | Suitable for custom classes and objects                      |
+| **Type Guard**  | Works with primitive types            | Works with classes and subclasses                            |
+| **Limitations** | Can’t identify custom classes or null | Doesn’t work with primitive types                            |
+
+## Summary
+
+- Use `typeof` to determine the type of primitive values such as strings, numbers, and booleans, especially in scenarios like handling user input or parsing data.
+- Use `instanceof` to verify an object’s class, particularly for custom error handling and permission systems in applications.
+
+Together, `typeof` and `instanceof` provide essential tools for runtime type-checking in TypeScript. By understanding their limitations and best use cases, you can write more dynamic, type-safe code.
+
+---
+
+[Download the .mdx file](insert_link_here)
