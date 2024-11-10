@@ -68,7 +68,7 @@ const JsonLdScript = ({ slug }: { slug: string }) => {
   let postMainImageList: string[] = [siteMetadata.socialBanner];
   if (post?.image && typeof post.image.filePath === "string") {
     postMainImageList = [
-      siteMetadata.siteUrl + post.image.filePath.replace("../public", ""),
+      siteMetadata.siteUrl + post.image.filePath.replace("../../public", ""),
     ];
   }
 
