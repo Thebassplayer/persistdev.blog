@@ -22,11 +22,13 @@ export async function generateMetadata({
     ];
   }
 
-  const ogImages = blogMainImageList.map((image) => {
-    return {
-      url: image.includes("http") ? image : siteMetadata.siteUrl + image,
-    };
-  });
+  const ogImages = post.image
+    ? [
+        {
+          url: `${siteMetadata.siteUrl}${String(post.image).replace("../public", "")}`,
+        },
+      ]
+    : [{ url: `${siteMetadata.siteUrl}${siteMetadata.socialBanner}` }];
 
   const authors = post?.author ? [post.author] : siteMetadata.author;
 
