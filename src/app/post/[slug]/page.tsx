@@ -6,6 +6,7 @@ import { slug } from "github-slugger";
 import Image from "next/image";
 import TableOfContent from "@/src/components/Post/TableOfContent";
 import JsonLdScript from "@/src/components/SEO/JsonLdScript";
+import NotFound from "./not-found";
 
 export async function generateStaticParams() {
   return allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
@@ -16,15 +17,7 @@ const PostPage = ({ params }: { params: { slug: string } }) => {
   const firstPostTag = post?.tags?.[0];
   const postImage = post?.image?.filePath.replace("../public", "") ?? "";
 
-  if (!post)
-    return (
-      <div className="*:font-mono flex grow flex-col items-center justify-center">
-        <h1 className=" text-white">404 - Post not found</h1>
-        <a href="/" className="text-blue-400">
-          Return Home
-        </a>
-      </div>
-    );
+  if (!post) return <NotFound />;
 
   return (
     <>
