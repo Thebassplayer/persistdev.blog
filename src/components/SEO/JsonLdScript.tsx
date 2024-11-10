@@ -18,7 +18,7 @@ export async function generateMetadata({
   let blogMainImageList: string[] = [siteMetadata.socialBanner];
   if (post.image && typeof post.image.filePath === "string") {
     blogMainImageList = [
-      siteMetadata.siteUrl + post.image.filePath.replace("../public", ""),
+      siteMetadata.siteUrl + post.image.filePath.replace("../../public", ""),
     ];
   }
 
