@@ -2,7 +2,8 @@ export const siteMetadata = {
   title: "PersistDev.blog",
   author: "RoyLopez",
   headerTitle: "PersistDev.blog",
-  description: "A blog about Web Development and Software Engineering",
+  description:
+    "A blog about Web Development, Software Engineering and New Technologies",
   language: "en-us",
   theme: "system", // system, dark or light
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://persistdev.blog", // your website URL
