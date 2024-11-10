@@ -1,5 +1,6 @@
 export const siteMetadata = {
-  title: "PersistDev.blog",
+  title:
+    "PersistDev.blog - Web Development, Software Engineering and New Technologies",
   author: "RoyLopez",
   headerTitle: "PersistDev.blog",
   description:
