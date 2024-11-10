@@ -15,9 +15,9 @@ export async function generateMetadata({
 
   const publishedAt = new Date(post.publishedAt).toISOString();
   const modifiedAt = new Date(post.updatedAt || post.publishedAt).toISOString();
-  let blogMainImageList: string[] = [siteMetadata.socialBanner];
+  let postMainImageList: string[] = [siteMetadata.socialBanner];
   if (post.image && typeof post.image.filePath === "string") {
-    blogMainImageList = [
+    postMainImageList = [
       siteMetadata.siteUrl + post.image.filePath.replace("../public/", ""),
     ];
   }
