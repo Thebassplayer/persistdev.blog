@@ -5,23 +5,110 @@ import ButtonTag from "@/src/components/Elements/ButtonTag";
 import { slug } from "github-slugger";
 import Image from "next/image";
 import TableOfContent from "@/src/components/Post/TableOfContent";
-import JsonLdScript from "@/src/components/SEO/JsonLdScript";
+import { siteMetadata } from "@/src/utils/siteMetadata";
 import NotFound from "./not-found";
+import { Metadata } from "next";
 
 export async function generateStaticParams() {
   return allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata | void> {
+  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  if (!post) {
+    NotFound();
+    return;
+  }
+
+  const publishedAt = new Date(post.publishedAt).toISOString();
+  const modifiedAt = new Date(post.updatedAt || post.publishedAt).toISOString();
+  let blogMainImageList: string[] = [siteMetadata.socialBanner];
+  if (post.image && typeof post.image.filePath === "string") {
+    blogMainImageList = [
+      siteMetadata.siteUrl + post.image.filePath.replace("../public", ""),
+    ];
+  }
+
+  const ogImages = blogMainImageList.map((image) => {
+    return {
+      url: image.includes("http") ? image : siteMetadata.siteUrl + image,
+    };
+  });
+  const authors = post?.author ? [post.author] : siteMetadata.author;
+
+  return {
+    title: post.title,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url: siteMetadata.siteUrl + post.url,
+      siteName: siteMetadata.title,
+      images: ogImages,
+      locale: siteMetadata.locale,
+      type: "article",
+      publishedTime: publishedAt,
+      modifiedTime: modifiedAt,
+      authors: authors.length > 0 ? authors : siteMetadata.author,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteMetadata.title,
+      description: siteMetadata.description,
+      creator: siteMetadata.author,
+      images: ogImages,
+    },
+  };
+}
+
 const PostPage = ({ params }: { params: { slug: string } }) => {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
   const firstPostTag = post?.tags?.[0];
+
+  const datePublished = new Date(post?.publishedAt ?? "").toISOString();
+  const dateModified = new Date(
+    ((post?.updatedAt ?? " ") || post?.publishedAt) ?? " ",
+  ).toISOString();
+  const author = post?.author ? [post?.author] : siteMetadata.author;
+
+  let postMainImageList: string[] = [siteMetadata.socialBanner];
+  if (post?.image && typeof post.image.filePath === "string") {
+    postMainImageList = [
+      siteMetadata.siteUrl + post.image.filePath.replace("../public", ""),
+    ];
+  }
+
   const postImage = post?.image?.filePath.replace("../public", "") ?? "";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: post?.title,
+    description: post?.description,
+    image: postMainImageList,
+    datePublished: datePublished,
+    dateModified: dateModified,
+    author: [
+      {
+        "@type": "Person",
+        name: author,
+        url: "https://www.roylopez.dev",
+      },
+    ],
+  };
 
   if (!post) return <NotFound />;
 
   return (
     <>
-      <JsonLdScript slug={params.slug} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <article>
         <div className="relative mb-8 h-[30vh] w-full bg-dark text-center">
           <div className="absolute left-1/2 top-1/2 z-10 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center">
