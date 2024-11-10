@@ -20,7 +20,6 @@ export async function generateMetadata({
 }): Promise<Metadata | void> {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
   if (!post) {
-    NotFound();
     return;
   }
 
