@@ -25,7 +25,7 @@ export async function generateMetadata({
   const ogImages = post.image
     ? [
         {
-          url: `${siteMetadata.siteUrl}${String(post.image).replace("../public/", "")}`,
+          url: `${siteMetadata.siteUrl}${post.image.filePath.replace("../public/", "")}`,
         },
       ]
     : [{ url: `${siteMetadata.siteUrl}${siteMetadata.socialBanner}` }];
