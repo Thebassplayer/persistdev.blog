@@ -1,0 +1,160 @@
+---
+title: "Mastering the extends Keyword in TypeScript"
+description: "Unlock the full potential of the extends keyword in TypeScript, a tool that goes beyond inheritance to enable type constraints, flexible generics, and conditional types."
+image: "../../public/posts/typescript-extends.jpg"
+publishedAt: "2024-11-10"
+updatedAt: "2024-11-10"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - programming
+  - web development
+  - javascript
+---
+
+The `extends` keyword in TypeScript is a powerful tool for enhancing and controlling types. Although the word "extends" often brings inheritance to mind, TypeScript broadens its use to include constraining types, building on existing interfaces, and creating flexible generic and conditional types. This article covers how `extends` can help you create scalable, reusable, and type-safe TypeScript code.
+
+### 1. Using extends with Class Inheritance
+
+In TypeScript, `extends` can be used to establish inheritance in classes, just as it does in JavaScript. When a class extends another, it inherits the properties and methods of the parent class.
+
+```typescript
+class Animal {
+  speak() {
+    console.log("The animal speaks.");
+  }
+}
+
+class Dog extends Animal {
+  bark() {
+    console.log("The dog barks.");
+  }
+}
+
+const myDog = new Dog();
+myDog.speak(); // "The animal speaks."
+myDog.bark(); // "The dog barks."
+```
+
+In this example:
+
+- `Dog` inherits all methods and properties of `Animal`.
+- We can call `speak()` on an instance of `Dog`, even though `speak` is defined in `Animal`.
+
+Using `extends` in this way provides the benefits of code reuse and allows for object-oriented design patterns.
+
+### 2. Constraining Generics with extends
+
+Another powerful application of `extends` in TypeScript is to constrain generic types. Generics allow you to create flexible and reusable components that can handle multiple types, but sometimes you need to restrict which types can be passed as generics. `extends` allows you to enforce such constraints.
+
+#### Example: Constraining to Specific Properties
+
+Consider a function that logs the length of an item. By using `extends`, we can constrain the generic type to only types that include a `length` property.
+
+```typescript
+function logLength<T extends { length: number }>(item: T): void {
+  console.log(item.length);
+}
+
+// Valid usage
+logLength("Hello, TypeScript!"); // Output: 16
+logLength([1, 2, 3, 4, 5]); // Output: 5
+
+// Invalid usage
+logLength(123); // Error: number doesn't have a length property
+```
+
+In this example:
+
+- `T` can be any type that has a `length` property, like `string`, `array`, or a custom object with `length`.
+- Attempting to call `logLength` with a type that doesn’t have `length` (e.g., `number`) results in a TypeScript error.
+
+#### Example: Restricting Generics to Specific Union Types
+
+You can also use `extends` to limit a generic type to specific literal values, useful for functions that should accept only a restricted set of values.
+
+```typescript
+type AnimalType = "cat" | "dog";
+
+function makeSound<T extends AnimalType>(animal: T) {
+  if (animal === "cat") {
+    console.log("Meow!");
+  } else {
+    console.log("Woof!");
+  }
+}
+
+makeSound("cat"); // Meow!
+makeSound("dog"); // Woof!
+// makeSound("bird"); // Error: Argument of type '"bird"' is not assignable to parameter of type 'AnimalType'.
+```
+
+### 3. Using extends in Conditional Types
+
+Conditional types, introduced in TypeScript 2.8, provide an advanced way to return different types based on a condition. Conditional types use `extends` to evaluate a condition and decide on the resulting type.
+
+#### Syntax of Conditional Types
+
+```typescript
+T extends U ? X : Y
+```
+
+- If `T extends U` (i.e., `T` is compatible with `U`), then the type resolves to `X`.
+- Otherwise, it resolves to `Y`.
+
+#### Example: Building a Simple Conditional Type
+
+Let’s say we want to create a type that returns `"yes"` if a type is `string` and `"no"` otherwise.
+
+```typescript
+type IsString<T> = T extends string ? "yes" : "no";
+
+type Test1 = IsString<string>; // "yes"
+type Test2 = IsString<number>; // "no"
+```
+
+In this example:
+
+- `IsString` checks if `T extends string`. If so, it resolves to `"yes"`; otherwise, it resolves to `"no"`.
+
+### 4. Extending Interfaces
+
+Interfaces are often used to define the structure or "shape" of objects, and `extends` allows us to build on existing interfaces. By extending interfaces, you can reuse and share common properties across multiple interfaces, making your code more modular and manageable.
+
+#### Example: Extending a Base Interface
+
+Consider an application with multiple entities (`User`, `Post`, and `Comment`) that each have a common `id` property. Instead of adding `id` to each interface separately, we can define a `Base` interface and have each interface extend it.
+
+```typescript
+interface Base {
+  id: string;
+}
+
+interface User extends Base {
+  firstName: string;
+  lastName: string;
+}
+
+interface Post extends Base {
+  title: string;
+  body: string;
+}
+
+interface Comment extends Base {
+  comment: string;
+}
+```
+
+- `User`, `Post`, and `Comment` all extend `Base`, inheriting the `id` property.
+- This approach simplifies updates: modifying `Base` will update all interfaces that extend it.
+
+### Key Benefits of Extending Interfaces
+
+- **Single Source of Truth:** Changes to shared properties only need to be made in one place.
+- **Modularity:** Types are easier to scale as your application grows.
+- **Code Reusability:** Common properties or behaviors are easily shared across multiple interfaces.
+
+### Summary
+
+The `extends` keyword in TypeScript is a versatile tool that goes beyond traditional inheritance. It can be used to extend interfaces, constrain generic types, and enable complex type transformations through conditional types. By mastering `extends`, you gain the ability to create flexible, reusable, and type-safe TypeScript code structures that support complex type scenarios and contribute to cleaner, more maintainable applications.
