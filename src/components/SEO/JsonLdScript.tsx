@@ -18,14 +18,14 @@ export async function generateMetadata({
   let blogMainImageList: string[] = [siteMetadata.socialBanner];
   if (post.image && typeof post.image.filePath === "string") {
     blogMainImageList = [
-      siteMetadata.siteUrl + post.image.filePath.replace("../public", ""),
+      siteMetadata.siteUrl + post.image.filePath.replace("../public/", ""),
     ];
   }
 
   const ogImages = post.image
     ? [
         {
-          url: `${siteMetadata.siteUrl}${String(post.image).replace("../public", "")}`,
+          url: `${siteMetadata.siteUrl}${String(post.image).replace("../public/", "")}`,
         },
       ]
     : [{ url: `${siteMetadata.siteUrl}${siteMetadata.socialBanner}` }];
@@ -67,7 +67,7 @@ const JsonLdScript = ({ slug }: { slug: string }) => {
   let postMainImageList: string[] = [siteMetadata.socialBanner];
   if (post?.image && typeof post.image.filePath === "string") {
     postMainImageList = [
-      siteMetadata.siteUrl + post.image.filePath.replace("../../public", ""),
+      siteMetadata.siteUrl + post.image.filePath.replace("../public/", ""),
     ];
   }
 
