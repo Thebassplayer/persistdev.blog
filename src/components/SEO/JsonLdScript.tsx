@@ -18,7 +18,7 @@ export async function generateMetadata({
   let blogMainImageList: string[] = [siteMetadata.socialBanner];
   if (post.image && typeof post.image.filePath === "string") {
     blogMainImageList = [
-      siteMetadata.siteUrl + post.image.filePath.replace("../../public", ""),
+      siteMetadata.siteUrl + post.image.filePath.replace("../public", ""),
     ];
   }
 
@@ -26,7 +26,7 @@ export async function generateMetadata({
     post.image && typeof post.image === "string"
       ? [
           {
-            url: `${siteMetadata.siteUrl}${(post.image as string).replace("../../public", "")}`,
+            url: `${siteMetadata.siteUrl}${(post.image as string).replace("../public", "")}`,
           },
         ]
       : [{ url: `${siteMetadata.siteUrl}${siteMetadata.socialBanner}` }];
