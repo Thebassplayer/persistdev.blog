@@ -1,0 +1,98 @@
+---
+title: "Understanding Template Literal Types in TypeScript"
+description: "Explore how TypeScript's template literal types can enforce specific string patterns, enhancing code safety and consistency for formatted strings."
+image: "../../public/posts/typescript-template-literals.jpg"
+publishedAt: "2024-11-14"
+updatedAt: "2024-11-14"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - javascript
+  - programming
+---
+
+> Template literal types in TypeScript offer a powerful way to enforce specific patterns and formats for strings in our code. Inspired by JavaScript's template literals, which allow for dynamic string interpolation, TypeScript takes it further by letting developers define specific patterns within string types. This feature is especially useful for ensuring consistency and correctness when certain strings need to follow a specific format.
+
+### What Are Template Literal Types?
+
+In JavaScript, template literals allow us to insert variables and expressions into strings using the syntax `${expression}`. TypeScript builds on this concept, allowing us to interpolate not just values but types. By defining a template literal type, we can specify exact string patterns that a variable should adhere to. This becomes particularly helpful for defining strict types for strings that must follow a particular format, like file names or URLs.
+
+### Example: Enforcing File Name Patterns
+
+Imagine we want to define a type for strings that represent `.png` file names. With template literal types, we can create a type that ensures all strings assigned to it end in `.png`.
+
+```typescript
+type PngFile = `${string}.png`;
+```
+
+Here, `PngFile` is a type that only accepts strings ending with `.png`. The `${string}.png` pattern specifies that any string of characters is acceptable, as long as it concludes with `.png`.
+
+#### Usage Example
+
+Let's declare a variable of type `PngFile`:
+
+```typescript
+let myImage: PngFile = "my-image.png"; // OK
+```
+
+In this case, `myImage` is successfully assigned the value `"my-image.png"` because it matches the defined `PngFile` type, ending in `.png`.
+
+However, if we attempt to assign a value that does not match this format, TypeScript will raise an error:
+
+```typescript
+let myImage: PngFile = "my-image.jpg"; // Error
+```
+
+This results in a TypeScript error:
+
+```typescript
+Type '"my-image.jpg"' is not assignable to type '`${string}.png`'.
+```
+
+### Why Use Template Literal Types?
+
+Template literal types add a layer of type safety that prevents errors early in the development process. Here are some scenarios where they prove valuable:
+
+- **Enforcing File Extensions**: As in our example, you can ensure that file names have a specific extension (like `.png`, `.jpg`, etc.).
+- **Defining URL Patterns**: You can restrict strings to follow specific URL formats, ensuring valid paths and domains.
+- **Parameterized Strings**: For systems where strings must follow a strict format, like data identifiers or user IDs, template literal types can prevent accidental mismatches.
+- **Semantic String Patterns**: Define types for strings that must start with certain keywords or prefixes, like `"USER_"` or `"ORDER_"`.
+
+### Additional Examples of Template Literal Types
+
+To explore the versatility of template literal types, let’s look at a few more examples.
+
+#### Example 1: URL Path Type
+
+Suppose you have a type that represents a URL path for images on a website:
+
+```typescript
+type ImagePath = `/images/${string}.jpg`;
+```
+
+This ensures that any variable typed as `ImagePath` must start with `/images/` and end with `.jpg`.
+
+```typescript
+let imageUrl: ImagePath = "/images/photo.jpg"; // OK
+let imageUrl: ImagePath = "/assets/photo.jpg"; // Error
+```
+
+#### Example 2: User ID Type
+
+If user IDs in your system must follow a pattern like `USER_<ID>`, you can enforce this pattern using template literal types:
+
+```typescript
+type UserId = `USER_${number}`;
+```
+
+Now, only strings starting with `"USER_"` followed by a numeric identifier are valid.
+
+```typescript
+let userId: UserId = "USER_123"; // OK
+let userId: UserId = "ADMIN_123"; // Error
+```
+
+### Conclusion
+
+Template literal types in TypeScript allow for more expressive type definitions that can enhance the robustness of applications. By enforcing specific string formats, you can prevent errors and inconsistencies, ensuring that strings match predetermined patterns. Whether it’s for file extensions, URL paths, or formatted identifiers, template literal types are an excellent addition to your TypeScript toolkit, offering both flexibility and control over the types in your application.
