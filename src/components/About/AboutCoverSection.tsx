@@ -17,9 +17,11 @@ const AboutCoverSection = () => {
         />
       </div>
       <div className="pb-a1 flex w-full flex-col items-start justify-center px-5 text-left xs:p-10 md:w-1/2 lg:px-16">
-        <h2 className="text-center text-2xl font-bold xs:text-4xl lg:text-left sxl:text-6xl">
-          Never stop learning, because life never stops teaching.
+        <h2 className="text-center text-xl font-bold xs:text-3xl lg:text-left">
+          “Talent is cheaper than table salt. What separates the talented
+          individual from the successful one is a lot of hard work.”
         </h2>
+        <p className="mt-4 text-lg font-medium">- Stephen King</p>
         <p className="mt-4 text-base font-medium">
           Hello! I´m Roy Lopez, a software engineer and web developer from
           Buenos Aires, Argentina 🇦🇷. Actually living in Granada, Spain 🇪🇸. I´m
