@@ -1,0 +1,197 @@
+---
+title: "Mastering Generic Functions in TypeScript: A Guide with Real-World Examples"
+description: "Learn the power of TypeScript's generics, their syntax, and real-world use cases. Improve code reusability, type safety, and maintainability with practical examples."
+image: "../../public/posts/typescript-generic-funtions.jpg"
+publishedAt: "2024-11-18"
+updatedAt: "2024-11-18"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - programming
+  - web development
+---
+
+> **TypeScript**, known for its powerful type system, allows developers to write more predictable and maintainable code. One of its standout features is **Generics**, which provides a way to create reusable and flexible components. In this article, we’ll dive deep into generic functions, exploring their syntax, use cases, and real-world examples.
+
+## What Are Generics in TypeScript?
+
+Generics are a way to define a component (function, class, or interface) that can work with multiple data types while ensuring type safety. Instead of hardcoding specific types, generics use a placeholder type that can be determined when the function or class is invoked.
+
+For example, a function to return any type of data could be written as:
+
+```typescript
+function identity<T>(value: T): T {
+  return value;
+}
+```
+
+Here:
+
+- `<T>` is a placeholder for the type.
+- `T` ensures the type of `value` is the same as the return type.
+
+## Why Use Generics?
+
+Generics enhance code reusability and type safety. Without them, you’d have to write multiple overloads for different types or resort to `any`, which sacrifices type checking. Generics let you write type-agnostic functions while maintaining strict type rules.
+
+### Key Benefits:
+
+1. **Type Inference**: TypeScript infers the generic type based on the function argument or context.
+2. **Reusability**: The same function can handle multiple types without duplication.
+3. **Type Safety**: Ensures consistency and prevents runtime errors due to type mismatches.
+
+---
+
+## Syntax of Generic Functions
+
+The syntax for generic functions is straightforward. A generic type is declared using angle brackets (`<>`) and can be used throughout the function as a placeholder for an actual type.
+
+```typescript
+function functionName<T>(param: T): T {
+  // function logic
+  return param;
+}
+```
+
+You can also specify multiple generic types:
+
+```typescript
+function pair<U, V>(first: U, second: V): [U, V] {
+  return [first, second];
+}
+```
+
+---
+
+## Real-World Examples
+
+### 1. Creating a Utility Function
+
+Imagine you’re creating a function to wrap a value in an array. Instead of duplicating logic for different types, use a generic:
+
+```typescript
+function wrapInArray<T>(value: T): T[] {
+  return [value];
+}
+
+// Usage
+const stringArray = wrapInArray("hello"); // string[]
+const numberArray = wrapInArray(42); // number[]
+```
+
+---
+
+### 2. Fetching API Data
+
+When working with APIs, you often need to handle various response types. Generics help ensure type safety for such cases:
+
+```typescript
+async function fetchData<T>(url: string): Promise<T> {
+  const response = await fetch(url);
+  const data: T = await response.json();
+  return data;
+}
+
+// Usage
+interface User {
+  id: number;
+  name: string;
+}
+
+const user = await fetchData<User>("https://api.example.com/user/1");
+console.log(user.name); // Type-safe access to 'name'
+```
+
+---
+
+### 3. Type-Safe Array Filtering
+
+A utility function to filter arrays by a condition can benefit from generics:
+
+```typescript
+function filterArray<T>(arr: T[], predicate: (item: T) => boolean): T[] {
+  return arr.filter(predicate);
+}
+
+// Usage
+const numbers = [1, 2, 3, 4];
+const evenNumbers = filterArray(numbers, (n) => n % 2 === 0); // number[]
+console.log(evenNumbers); // [2, 4]
+```
+
+---
+
+### 4. Building a Key-Value Mapper
+
+A mapper function to extract values from an object array by key can use generics for flexibility:
+
+```typescript
+function extractValues<T, K extends keyof T>(items: T[], key: K): T[K][] {
+  return items.map((item) => item[key]);
+}
+
+// Usage
+const products = [
+  { id: 1, name: "Laptop", price: 1000 },
+  { id: 2, name: "Phone", price: 500 },
+];
+
+const names = extractValues(products, "name"); // string[]
+const prices = extractValues(products, "price"); // number[]
+console.log(names); // ["Laptop", "Phone"]
+console.log(prices); // [1000, 500]
+```
+
+---
+
+## Constraints in Generics
+
+By default, generic types can represent any type. However, you can constrain them to specific structures using the `extends` keyword. This is useful for ensuring the generic adheres to a particular shape.
+
+### Example: Constraining to an Interface
+
+```typescript
+interface HasId {
+  id: number;
+}
+
+function getById<T extends HasId>(items: T[], id: number): T | undefined {
+  return items.find((item) => item.id === id);
+}
+
+// Usage
+const users = [
+  { id: 1, name: "Alice" },
+  { id: 2, name: "Bob" },
+];
+const user = getById(users, 1); // { id: 1, name: "Alice" }
+```
+
+Here, `T` must have an `id` property of type `number`.
+
+---
+
+## Best Practices with Generic Functions
+
+1. **Use Descriptive Names**: While `T` is common, descriptive names like `ItemType` or `KeyType` can improve readability.
+
+```typescript
+function getFirstElement<ItemType>(arr: ItemType[]): ItemType {
+  return arr[0];
+}
+```
+
+2. **Constrain Wisely**: Over-constraining defeats the purpose of generics, but under-constraining can lead to runtime errors. Strike a balance.
+
+3. **Combine with Utility Types**: Leverage TypeScript’s built-in utility types like `Partial`, `Readonly`, etc., with generics for more robust solutions.
+
+4. **Keep it Simple**: Avoid over-complicating your generics. If a function becomes too abstract, consider breaking it into smaller, more focused functions.
+
+---
+
+## Conclusion
+
+Generic functions in TypeScript are a cornerstone for writing reusable, type-safe, and flexible code. Whether you're building utility functions, handling API responses, or creating custom data manipulation tools, generics help ensure your code is both efficient and robust.
+
+By embracing TypeScript’s generics, you unlock the full potential of its type system, enabling you to write better code with confidence. Start incorporating these examples and best practices into your projects to see the difference generics can make!
