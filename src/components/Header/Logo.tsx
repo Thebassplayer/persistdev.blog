@@ -8,10 +8,13 @@ type LogoProps = {
 };
 
 const Logo = ({ showNavBar }: LogoProps): JSX.Element => (
-  <Link href={"/"} className="flex items-center text-dark dark:text-light">
+  <Link
+    href={"/"}
+    className="flex cursor-pointer items-center text-dark dark:text-light"
+  >
     <div
       className={cx(
-        "ease mr-2 overflow-hidden rounded-full border border-solid border-dark shadow-[rgba(0,_0,_0,_0)_0px_0px_8px]  shadow-light  transition-all duration-300 dark:border-light lg:mr-4 lg:w-16",
+        "ease mr-2 overflow-hidden rounded-full border border-solid border-dark shadow-[rgba(0,_0,_0,_0)_0px_0px_8px]  shadow-light transition-all duration-300 dark:border-light lg:mr-4 lg:w-16",
         showNavBar ? "w-8" : "w-12",
       )}
     >
