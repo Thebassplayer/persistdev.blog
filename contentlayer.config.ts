@@ -72,6 +72,10 @@ const Post = defineDocumentType(() => ({
         return headings;
       },
     },
+    content: {
+      type: "string",
+      resolve: (doc) => doc.body.raw,
+    },
   },
 }));
 
