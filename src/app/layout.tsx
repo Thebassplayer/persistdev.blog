@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
-import React from "react";
+import React, { Suspense } from "react";
 
 import Header from "@/src/components/Header";
 import Footer from "../components/Footer";
@@ -10,6 +10,8 @@ import Script from "next/script";
 import GoogleAnalytics from "../components/GoogleAnalytics";
 import ToastProvider from "../lib/react-toastify/ToastProvider";
 import { cx } from "../utils/cx";
+import { SearchModal } from "../components/SearchModal/SearchModal";
+import { allPosts, Post } from "@/.contentlayer/generated";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -99,6 +101,9 @@ export default function RootLayout({
           {children}
           <Footer />
         </ToastProvider>
+        <Suspense fallback={<>Loading...</>}>
+          <SearchModal posts={allPosts} />
+        </Suspense>
       </body>
     </html>
   );

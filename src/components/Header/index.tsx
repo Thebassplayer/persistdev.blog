@@ -6,6 +6,8 @@ import Link from "next/link";
 import useThemeSwitch from "@/src/Hooks/useThemeSwitch";
 import ThemeButton from "./ThemeButton";
 import Hamburger from "./Hamburger";
+import Search from "../Search/Search";
+import { allPosts } from "contentlayer/generated";
 
 const Header = () => {
   const [theme, setTheme] = useThemeSwitch();
@@ -33,11 +35,12 @@ const Header = () => {
         <Link href="/about" className="mx-2 text-sm md:text-base">
           About
         </Link>
+        <Search />
         <ThemeButton theme={theme} setTheme={setTheme} />
       </nav>
 
       <nav
-        className="fixed right-1/2 top-6 z-50 hidden w-max translate-x-1/2 items-center rounded-full border border-solid border-dark
+        className=" fixed right-1/2 top-6 z-50 hidden w-max translate-x-1/2 items-center rounded-full border border-solid border-dark
         bg-light/80 px-8 py-3 font-medium capitalize backdrop-blur-sm sm:flex"
       >
         <Link href="/" className="mr-2">
@@ -46,6 +49,7 @@ const Header = () => {
         <Link href="/about" className="mx-2">
           About
         </Link>
+        <Search />
         <ThemeButton theme={theme} setTheme={setTheme} />
       </nav>
       <div className="hidden items-center sm:flex">
