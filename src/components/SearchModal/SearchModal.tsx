@@ -62,13 +62,13 @@ export function SearchModal({ posts }: SearchModalProps) {
             aria-labelledby="search-modal-title"
           >
             <div
-              className="h-min w-5/6 cursor-default  rounded-lg bg-white shadow-lg dark:bg-dark sm:w-1/2"
+              className="h-min w-5/6 cursor-default rounded-lg bg-white shadow-lg dark:bg-dark sm:w-1/2"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
               }}
             >
-              <div className="p-4">
+              <div className="p-6">
                 <div className="relative">
                   <input
                     type="text"
@@ -76,7 +76,7 @@ export function SearchModal({ posts }: SearchModalProps) {
                     value={searchTerm}
                     onChange={handleInputChange}
                     className="text-gray-700 
-                    w-full rounded-md px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-dark dark:text-light"
+                    w-full rounded-md px-4 py-2 pl-10 shadow-[rgba(0,_0,_0,_0)_0px_0px_8px] shadow-light focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-dark dark:text-light"
                   />
                   <SearchIcon className="absolute left-3 top-2.5 h-5 w-5 dark:text-light" />
                 </div>
