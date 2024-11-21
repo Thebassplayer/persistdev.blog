@@ -1,0 +1,135 @@
+---
+title: "JavaScript: call(), apply(), and bind() - Explained with Dachshund Dog Examples"
+description: "Understand the JavaScript methods call(), apply(), and bind() with relatable and fun examples featuring a dachshund dog!"
+image: "../../public/posts/dachshund-dog.jpg"
+publishedAt: "2024-11-21"
+updatedAt: "2024-11-21"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - javascript
+  - programming
+  - web development
+---
+
+# JavaScript: call(), apply(), and bind()
+
+## **“this” refresher**
+
+In Object-Oriented JavaScript, we learned that in JS, everything is an object. Because everything is an object, we can set and access additional properties on functions.
+
+Setting properties and methods to a function via the prototype is powerful—but how do we access them? That’s where `this` comes into play.
+
+### **The `this` keyword**
+
+Every function in JavaScript gets the `this` keyword automatically. It always refers to the object that invokes the function. However, this can sometimes lead to confusion when the reference to `this` is lost in nested functions or event listeners.
+
+```jsx
+const dachshund = {
+  name: "Sausage",
+  age: 3,
+  bark: function () {
+    return `Woof! I am ${this.name}, the dachshund!`;
+  },
+};
+
+console.log(dachshund.bark()); // Woof! I am Sausage, the dachshund!
+```
+
+But what happens when `this` is misinterpreted? For example, in an event listener:
+
+```jsx
+const button = document.getElementById("barkButton");
+
+button.addEventListener("click", dachshund.bark);
+// `this` will now refer to the button, not the dachshund object.
+```
+
+To fix this, we can use **call()**, **apply()**, and **bind()**.
+
+---
+
+## call(), apply(), and bind() — explained
+
+Functions in JavaScript are objects and come with built-in methods like `call()`, `apply()`, and `bind()` that allow us to control the value of `this`.
+
+### **bind()**
+
+The `bind()` method creates a new function with `this` explicitly set to a specific value.
+
+Let’s see an example with our dachshund dog:
+
+```jsx
+const dachshund = {
+  name: "Sausage",
+  age: 3,
+  bark: function () {
+    return `Woof! I am ${this.name}, the dachshund!`;
+  },
+};
+
+const logBark = dachshund.bark.bind(dachshund); // Binds `this` to dachshund
+console.log(logBark()); // Woof! I am Sausage, the dachshund!
+```
+
+### **call()**
+
+The `call()` method allows us to invoke a function immediately with a specified value of `this` and individual arguments.
+
+```jsx
+const dachshund = {
+  name: "Sausage",
+  age: 3,
+  bark: function () {
+    return `Woof! I am ${this.name}, the dachshund!`;
+  },
+};
+
+function describeDog(food, activity) {
+  console.log(`${this.bark()} I love eating ${food} and ${activity}.`);
+}
+
+describeDog.call(dachshund, "bones", "digging holes");
+// Woof! I am Sausage, the dachshund! I love eating bones and digging holes.
+```
+
+### **apply()**
+
+The `apply()` method is nearly identical to `call()`, but it expects arguments as an array.
+
+```jsx
+const dachshund = {
+  name: "Sausage",
+  age: 3,
+  bark: function () {
+    return `Woof! I am ${this.name}, the dachshund!`;
+  },
+};
+
+function describeDog(food, activity) {
+  console.log(`${this.bark()} I love eating ${food} and ${activity}.`);
+}
+
+describeDog.apply(dachshund, ["bones", "digging holes"]);
+// Woof! I am Sausage, the dachshund! I love eating bones and digging holes.
+```
+
+---
+
+## **Key differences between bind(), call(), and apply()**
+
+1. **bind()**: Creates a new function and does not execute it immediately.
+2. **call()**: Invokes the function immediately and takes arguments individually.
+3. **apply()**: Invokes the function immediately and takes arguments as an array.
+
+---
+
+### **When to use these methods?**
+
+- **bind()**: Use when you need a new function with a specific `this` value.
+- **call()**: Use when you need to invoke a function with specific arguments immediately.
+- **apply()**: Similar to `call()`, but useful when arguments are in array format.
+
+---
+
+Mastering `call()`, `apply()`, and `bind()` will give you more control over your JavaScript code, making your functions more flexible and reusable.

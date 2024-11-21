@@ -45,5 +45,6 @@
 - Photo by [Chris Ried](https://unsplash.com/@cdr6934?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/a-computer-screen-with-a-bunch-of-code-on-it-ieic5Tq8YMk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Timothy Cuenat](https://unsplash.com/@timothycuenat?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/a-close-up-of-a-computer-screen-with-many-lines-of-code-on-it-NH0pmKaZeuk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Paolo Chiabrando](https://unsplash.com/@chiabra?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/selective-focus-photography-of-written-sticky-note-lot-kiBXqqRicBU?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
+- Photo by [Steffen Albrecht](https://unsplash.com/@steffano_alberto?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/a-close-up-of-a-telephone-R7BvKCfc8QY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 
 --- roylopez ---
