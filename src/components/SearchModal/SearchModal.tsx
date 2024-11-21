@@ -62,7 +62,7 @@ export function SearchModal({ posts }: SearchModalProps) {
             aria-labelledby="search-modal-title"
           >
             <div
-              className="dark:bg-gray-800 h-min w-5/6 cursor-default  rounded-lg bg-white shadow-lg sm:w-1/2"
+              className="h-min w-5/6 cursor-default  rounded-lg bg-white shadow-lg dark:bg-dark sm:w-1/2"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -75,27 +75,24 @@ export function SearchModal({ posts }: SearchModalProps) {
                     placeholder="Search posts..."
                     value={searchTerm}
                     onChange={handleInputChange}
-                    className="text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-200 w-full rounded-md px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="text-gray-700 
+                    w-full rounded-md px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-dark dark:text-light"
                   />
-                  <SearchIcon className="text-gray-400 absolute left-3 top-2.5 h-5 w-5" />
+                  <SearchIcon className="absolute left-3 top-2.5 h-5 w-5 dark:text-light" />
                 </div>
                 <div className="max-h-60 overflow-y-auto">
                   {searchResults.length > 0 ? (
-                    <ul className="space-y-2">
+                    <ul className="space-y-2 first:pt-2">
                       {searchResults.map((post) => (
-                        <li
-                          key={post.url || post.title}
-                          className="hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
-                        >
+                        <li key={post.url || post.title}>
                           {post.url ? (
-                            <Link
-                              href={post.url}
-                              className="text-gray-700 dark:text-gray-200 block px-3 py-2 hover:text-blue-500"
-                            >
-                              {post.title}
+                            <Link href={post.url}>
+                              <h2 className="text-gray-700 dark:text-gray-200 line-clamp-1 block bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat px-3 py-2 text-sm font-bold capitalize transition-[background-size] duration-500 hover:bg-[length:100%_5px] dark:from-accentDark dark:to-accentDark/50 dark:text-light sm:text-lg">
+                                {post.title}
+                              </h2>
                             </Link>
                           ) : (
-                            <span className="text-gray-700 dark:text-gray-200 block px-3 py-2">
+                            <span className="text-gray-700 block px-3 py-2 capitalize dark:text-light">
                               {post.title}
                             </span>
                           )}
@@ -103,7 +100,7 @@ export function SearchModal({ posts }: SearchModalProps) {
                       ))}
                     </ul>
                   ) : searchTerm ? (
-                    <p className="text-gray-500 dark:text-gray-400 py-4 text-center">
+                    <p className="text-gray-500 py-4 text-center dark:text-light">
                       No results found
                     </p>
                   ) : null}
