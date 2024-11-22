@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import Fuse, { FuseResult, FuseResultMatch } from "fuse.js";
@@ -19,6 +19,7 @@ export function SearchModal({ posts }: SearchModalProps) {
   const search = searchParams.get("search");
   const [searchResults, setSearchResults] = useState<FuseResult<Post>[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const fuse = useMemo(
     () =>
@@ -87,6 +88,12 @@ export function SearchModal({ posts }: SearchModalProps) {
     return null;
   };
 
+  useEffect(() => {
+    if (search && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [search]);
+
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams.toString());
     if (term) {
@@ -134,6 +141,7 @@ export function SearchModal({ posts }: SearchModalProps) {
               <div className="p-6">
                 <div className="relative">
                   <input
+                    ref={inputRef}
                     type="text"
                     placeholder="Search posts..."
                     value={searchTerm}
