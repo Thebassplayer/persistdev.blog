@@ -34,15 +34,55 @@ export function SearchModal({ posts }: SearchModalProps) {
     matches: FuseResultMatch[],
     contentKey: string,
     trimLength = 100,
-  ): string | null => {
+  ): React.ReactNode | null => {
     const match = matches.find((m) => m.key === contentKey);
     if (match && match.value) {
       const value = match.value as string;
+
+      // Trim the content for context display
       const start = Math.max(match.indices[0][0] - trimLength / 2, 0);
       const end = Math.min(match.indices[0][1] + trimLength / 2, value.length);
-      return `${start > 0 ? "..." : ""}${value.slice(start, end)}${
-        end < value.length ? "..." : ""
-      }`;
+      const content = value.slice(start, end);
+
+      let lastIndex = start;
+      const highlightedContent: React.ReactNode[] = [];
+
+      // Filter and sort the match indices to ensure they represent a valid sequence
+      const contiguousMatches = match.indices.filter(([startIdx, endIdx]) => {
+        // Check if the match length is > 1 (no single-character matches)
+        return endIdx - startIdx > 0;
+      });
+
+      // Process matches
+      contiguousMatches.forEach(([matchStart, matchEnd]) => {
+        if (matchStart > lastIndex) {
+          // Add non-highlighted content before the match
+          highlightedContent.push(
+            content.slice(lastIndex - start, matchStart - start),
+          );
+        }
+
+        // Add the entire matching substring as highlighted
+        highlightedContent.push(
+          <mark key={matchStart} className="bg-accent dark:bg-accentDark">
+            {content.slice(matchStart - start, matchEnd + 1 - start)}
+          </mark>,
+        );
+        lastIndex = matchEnd + 1; // Move the pointer after the current match
+      });
+
+      // Add remaining non-highlighted content
+      if (lastIndex < end) {
+        highlightedContent.push(content.slice(lastIndex - start));
+      }
+
+      return (
+        <>
+          {start > 0 && "..."}
+          {highlightedContent}
+          {end < value.length && "..."}
+        </>
+      );
     }
     return null;
   };
