@@ -1,0 +1,202 @@
+---
+title: "TypeScript Battle: Types vs. Interfaces"
+description: "Uncover the key differences and similarities between types and interfaces in TypeScript. Learn when to use each and how to leverage their unique features for efficient, type-safe development."
+image: "../../public/posts/types-vs-interfaces.jpg"
+publishedAt: "2024/11/25"
+updatedAt: "2024/11/25"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - web development
+  - programming
+---
+
+One of the most frequently asked questions about TypeScript is whether we should use **types** or **interfaces**. The answer to this question, like many programming questions, is: "It depends." In some cases, one has a clear advantage, but often, they can be used interchangeably.
+
+In this article, we’ll dive deep into the key differences and similarities between types and interfaces and explore scenarios where one is preferred over the other.
+
+> **Key Takeaway**: Both types and interfaces have their place. Your choice will depend on the context, functionality, and personal or team preferences.
+
+---
+
+## Basics of Types and Interfaces
+
+### **Types and Type Aliases**
+
+The `type` keyword in TypeScript is used to define the shape of data. Some common use cases include:
+
+- **Primitive Types**: `string`, `number`, `boolean`, etc.
+- **Union Types**: Combining types with the `|` operator.
+- **Advanced Types**: Mapped types, conditional types, etc.
+
+**Example: Defining Type Aliases**
+
+```typescript
+type MyNumber = number;
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+```
+
+### **Interfaces**
+
+An interface defines a **contract** that an object must adhere to. It is often used to define the structure of objects in TypeScript.
+
+**Example: Interface Definition**
+
+```typescript
+interface Client {
+  name: string;
+  address: string;
+}
+```
+
+---
+
+## Differences Between Types and Interfaces
+
+While they can often be used interchangeably, here are notable differences:
+
+### **1. Primitive Types**
+
+- **Use `type`** for primitives like `string` or `number`.
+- **Interfaces cannot alias primitive types.**
+
+```typescript
+type Address = string; // Valid
+interface Address {} // Error
+```
+
+---
+
+### **2. Union Types**
+
+- Union types can only be defined using `type`.
+- There’s no equivalent for union types in interfaces.
+
+**Example:**
+
+```typescript
+type Transport = "Bus" | "Car" | "Bike";
+```
+
+---
+
+### **3. Function Types**
+
+Both can define function types, but `type` is more concise and offers advanced features.
+
+**Using `type`:**
+
+```typescript
+type AddFn = (num1: number, num2: number) => number;
+```
+
+**Using `interface`:**
+
+```typescript
+interface IAdd {
+  (num1: number, num2: number): number;
+}
+```
+
+---
+
+### **4. Declaration Merging**
+
+- Interfaces support **declaration merging**; types do not.
+
+```typescript
+interface Client {
+  name: string;
+}
+interface Client {
+  age: number;
+}
+// Merged interface: { name: string; age: number }
+```
+
+Attempting the same with `type` results in an error.
+
+---
+
+### **5. Extending Types and Interfaces**
+
+- **Interfaces**: Use `extends`.
+- **Types**: Use the intersection operator `&`.
+
+**Extending an Interface:**
+
+```typescript
+interface VIPClient extends Client {
+  benefits: string[];
+}
+```
+
+**Extending a Type:**
+
+```typescript
+type VIPClient = Client & { benefits: string[] };
+```
+
+---
+
+### **6. Conflict Resolution**
+
+Interfaces detect and throw errors on conflicting properties, whereas types merge conflicts.
+
+**Example of Conflict in Type:**
+
+```typescript
+type Person = { name: string };
+type Staff = Person & { name: number }; // Error: Type 'string' is not assignable to 'number'.
+```
+
+---
+
+## Advanced Type Features
+
+TypeScript offers advanced features that are exclusive to `type`:
+
+- **Mapped Types**: Automatically transform types.
+- **Conditional Types**: Create types based on conditions.
+- **Template Literal Types**: Compose types using string literals.
+
+**Example: Mapped Type**
+
+```typescript
+type Getters<T> = {
+  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];
+};
+type Client = { name: string; address: string };
+type ClientGetters = Getters<Client>;
+// { getName: () => string; getAddress: () => string; }
+```
+
+---
+
+## When to Use Types vs. Interfaces
+
+### **Use Interfaces When:**
+
+- You need declaration merging.
+- You want to extend third-party library types.
+- You prefer object-oriented design with `extends`.
+
+### **Use Types When:**
+
+- You’re defining primitives, unions, or tuples.
+- Advanced type features like mapped or conditional types are required.
+- You need more expressiveness or functional programming paradigms.
+
+---
+
+## Conclusion
+
+In many scenarios, types and interfaces are interchangeable, and the choice boils down to **personal preference** or **specific project requirements**. While interfaces are great for object-oriented paradigms and declaration merging, types shine with their flexibility and advanced type features.
+
+> **What’s your preference?** Share your thoughts in the comments below!
