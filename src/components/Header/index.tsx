@@ -7,7 +7,6 @@ import useThemeSwitch from "@/src/Hooks/useThemeSwitch";
 import ThemeButton from "./ThemeButton";
 import Hamburger from "./Hamburger";
 import SearchModal from "../Search/Search";
-import { allPosts } from "contentlayer/generated";
 
 const Header = () => {
   const [theme, setTheme] = useThemeSwitch();
