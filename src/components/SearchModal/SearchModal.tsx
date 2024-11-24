@@ -7,6 +7,7 @@ import Fuse, { FuseResult, FuseResultMatch } from "fuse.js";
 import { Post } from "@/.contentlayer/generated";
 import { XIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 type SearchModalProps = {
   posts: Post[];
@@ -170,15 +171,36 @@ export function SearchModal({ posts }: SearchModalProps) {
                         return (
                           <li key={item.url || item.title}>
                             <Link href={item.url}>
-                              <h2 className="text-gray-700 line-clamp-1 bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat font-bold transition-[background-size] duration-500 hover:bg-[length:100%_5px] dark:from-accentDark dark:to-accentDark/50 dark:text-light sm:line-clamp-2 sm:text-xl">
-                                {item.title}
-                              </h2>
+                              <div className="mb-2 flex items-center gap-2">
+                                <div>
+                                  {item?.image ? (
+                                    <Image
+                                      src={
+                                        item?.image?.filePath.replace(
+                                          "../public",
+                                          "",
+                                        ) ?? ""
+                                      }
+                                      alt={item.title}
+                                      placeholder="blur"
+                                      blurDataURL={item?.image?.blurhashDataUrl}
+                                      width={10}
+                                      height={10}
+                                      className="-z-10 w-8 rounded-sm object-cover object-center"
+                                      priority
+                                    />
+                                  ) : null}
+                                </div>
+                                <h2 className="text-gray-700 line-clamp-1 bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat font-bold transition-[background-size] duration-500 hover:bg-[length:100%_5px] dark:from-accentDark dark:to-accentDark/50 dark:text-light sm:line-clamp-2 sm:text-xl">
+                                  {item.title}
+                                </h2>
+                              </div>
+                              {highlightedExcerpt && (
+                                <p className="text-gray-600 text-xs dark:text-light">
+                                  {highlightedExcerpt}
+                                </p>
+                              )}
                             </Link>
-                            {highlightedExcerpt && (
-                              <p className="text-gray-600 text-xs dark:text-light">
-                                {highlightedExcerpt}
-                              </p>
-                            )}
                           </li>
                         );
                       })}
