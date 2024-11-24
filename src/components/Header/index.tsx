@@ -6,7 +6,7 @@ import Link from "next/link";
 import useThemeSwitch from "@/src/Hooks/useThemeSwitch";
 import ThemeButton from "./ThemeButton";
 import Hamburger from "./Hamburger";
-import SearchModal from "../Search/Search";
+import SearchButton from "../SearchButton/SearchButton";
 
 const Header = () => {
   const [theme, setTheme] = useThemeSwitch();
@@ -34,7 +34,7 @@ const Header = () => {
         <Link href="/about" className="mx-2 text-sm md:text-base">
           About
         </Link>
-        <SearchModal />
+        <SearchButton />
         <ThemeButton theme={theme} setTheme={setTheme} />
       </nav>
 
@@ -48,7 +48,7 @@ const Header = () => {
         <Link href="/about" className="mx-2">
           About
         </Link>
-        <SearchModal />
+        <SearchButton />
         <ThemeButton theme={theme} setTheme={setTheme} />
       </nav>
       <div className="hidden items-center sm:flex">
