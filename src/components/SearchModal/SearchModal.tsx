@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import Fuse, { FuseResult, FuseResultMatch } from "fuse.js";
+import Fuse, { FuseResult } from "fuse.js";
 import { Post } from "@/.contentlayer/generated";
 import { XIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
@@ -26,67 +26,76 @@ export function SearchModal({ posts }: SearchModalProps) {
     () =>
       new Fuse(posts, {
         keys: ["title", "content"],
-        threshold: 0.3, // Adjust for fuzziness
+        threshold: 0.1, // Adjust for fuzziness
         includeMatches: true, // Include match details for highlighting
+        isCaseSensitive: false,
       }),
     [posts],
   );
 
-  const getHighlightedContent = (
-    matches: FuseResultMatch[],
-    contentKey: string,
-    trimLength = 100,
-  ): React.ReactNode | null => {
-    const match = matches.find((m) => m.key === contentKey);
-    if (match && match.value) {
-      const value = match.value as string;
+  const highlight = (
+    fuseSearchResults: FuseResult<Post>[],
+    highlightClassName: string = "bg-accent dark:bg-accentDark dark:text-dark",
+    minMatchLength: number = 3, // Add this parameter
+  ) => {
+    const generateHighlightedText = (
+      inputText: string,
+      regions: [number, number][] = [],
+    ) => {
+      let content = "";
+      let nextUnhighlightedRegionStartingIndex = 0;
 
-      // Trim the content for context display
-      const start = Math.max(match.indices[0][0] - trimLength / 2, 0);
-      const end = Math.min(match.indices[0][1] + trimLength / 2, value.length);
-      const content = value.slice(start, end);
-
-      let lastIndex = start;
-      const highlightedContent: React.ReactNode[] = [];
-
-      // Filter and sort the match indices to ensure they represent a valid sequence
-      const contiguousMatches = match.indices.filter(([startIdx, endIdx]) => {
-        // Check if the match length is > 1 (no single-character matches)
-        return endIdx - startIdx > 0;
-      });
-
-      // Process matches
-      contiguousMatches.forEach(([matchStart, matchEnd]) => {
-        if (matchStart > lastIndex) {
-          // Add non-highlighted content before the match
-          highlightedContent.push(
-            content.slice(lastIndex - start, matchStart - start),
-          );
+      regions.forEach(([start, end]) => {
+        // Only highlight if the match length is greater than or equal to minMatchLength
+        if (end - start + 1 >= minMatchLength) {
+          content += [
+            inputText.substring(nextUnhighlightedRegionStartingIndex, start),
+            `<span class="${highlightClassName}">`,
+            inputText.substring(start, end + 1),
+            "</span>",
+          ].join("");
+          nextUnhighlightedRegionStartingIndex = end + 1;
         }
-
-        // Add the entire matching substring as highlighted
-        highlightedContent.push(
-          <mark key={matchStart} className="bg-accent dark:bg-accentDark">
-            {content.slice(matchStart - start, matchEnd + 1 - start)}
-          </mark>,
-        );
-        lastIndex = matchEnd + 1; // Move the pointer after the current match
       });
 
-      // Add remaining non-highlighted content
-      if (lastIndex < end) {
-        highlightedContent.push(content.slice(lastIndex - start));
-      }
+      content += inputText.substring(nextUnhighlightedRegionStartingIndex);
+      return content;
+    };
 
-      return (
-        <>
-          {start > 0 && "..."}
-          {highlightedContent}
-          {end < value.length && "..."}
-        </>
-      );
-    }
-    return null;
+    return fuseSearchResults
+      .filter(({ matches }) => matches && matches.length)
+      .map(({ item, matches }) => {
+        const highlightedItem: any = { ...item };
+        matches?.forEach((match) => {
+          if (match?.key) {
+            highlightedItem[match.key as keyof Post] = generateHighlightedText(
+              match.value || "",
+              match.indices as [number, number][],
+            );
+          }
+        });
+        return highlightedItem;
+      });
+  };
+
+  const getHighlightedContent = (
+    fuseSearchResults: FuseResult<Post>[],
+    contentKey: string,
+  ) => {
+    const highlightedResults = highlight(fuseSearchResults);
+
+    return highlightedResults.map((result) => {
+      const highlightedContent = result[contentKey];
+      if (highlightedContent) {
+        return (
+          <span
+            key={result._id || result.title} // Ensure a unique key
+            dangerouslySetInnerHTML={{ __html: highlightedContent }}
+          />
+        );
+      }
+      return null;
+    });
   };
 
   useEffect(() => {
@@ -100,7 +109,7 @@ export function SearchModal({ posts }: SearchModalProps) {
     if (term) {
       params.set("query", term);
       const results = fuse.search(term);
-      setSearchResults(results);
+      setSearchResults(results); // Original Fuse results
     } else {
       params.delete("query");
       setSearchResults([]);
@@ -140,7 +149,7 @@ export function SearchModal({ posts }: SearchModalProps) {
               }}
             >
               <div className="p-6">
-                <div className="relative">
+                <div className="relative pb-4">
                   <input
                     ref={inputRef}
                     type="text"
@@ -161,49 +170,44 @@ export function SearchModal({ posts }: SearchModalProps) {
                 </div>
                 <div className="max-h-96 overflow-y-auto">
                   {searchResults.length > 0 ? (
-                    <ul className="space-y-4 first:pt-4">
-                      {searchResults.map(({ item, matches }) => {
-                        const highlightedExcerpt = getHighlightedContent(
-                          matches?.slice() || [],
-                          "content",
-                        );
-
-                        return (
-                          <li key={item.url || item.title}>
-                            <Link href={item.url}>
-                              <div className="mb-2 flex items-center gap-2">
-                                <div>
-                                  {item?.image ? (
-                                    <Image
-                                      src={
-                                        item?.image?.filePath.replace(
-                                          "../public",
-                                          "",
-                                        ) ?? ""
-                                      }
-                                      alt={item.title}
-                                      placeholder="blur"
-                                      blurDataURL={item?.image?.blurhashDataUrl}
-                                      width={10}
-                                      height={10}
-                                      className="-z-10 w-8 rounded-sm object-cover object-center"
-                                      priority
-                                    />
-                                  ) : null}
-                                </div>
-                                <h2 className="text-gray-700 line-clamp-1 bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat font-bold transition-[background-size] duration-500 hover:bg-[length:100%_5px] dark:from-accentDark dark:to-accentDark/50 dark:text-light sm:line-clamp-2 sm:text-xl">
-                                  {item.title}
-                                </h2>
-                              </div>
-                              {highlightedExcerpt && (
-                                <p className="text-gray-600 text-xs dark:text-light">
-                                  {highlightedExcerpt}
-                                </p>
-                              )}
-                            </Link>
-                          </li>
-                        );
-                      })}
+                    <ul className="w-full space-y-6 first:pt-4">
+                      {searchResults.map((result, index) => (
+                        <li key={index}>
+                          <Link href={result.item.url || "#"}>
+                            <div className="mb-2 flex items-center gap-2">
+                              {result.item.image ? (
+                                <Image
+                                  src={
+                                    result?.item?.image?.filePath.replace(
+                                      "../public",
+                                      "",
+                                    ) ?? ""
+                                  }
+                                  alt={result.item.title}
+                                  placeholder="blur"
+                                  blurDataURL={
+                                    result.item?.image?.blurhashDataUrl
+                                  }
+                                  width={10}
+                                  height={10}
+                                  className="w-8 rounded-sm object-cover object-center"
+                                  priority
+                                />
+                              ) : null}
+                              <h2 className="text-gray-700 line-clamp-1 w-full bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat font-bold transition-[background-size] duration-500 hover:bg-[length:100%_5px] dark:from-accentDark dark:to-accentDark/50 dark:text-light sm:text-xl">
+                                {result.item.title}
+                              </h2>
+                            </div>
+                            <p className="text-gray-600 line-clamp-1 text-xs dark:text-light">
+                              {
+                                getHighlightedContent(searchResults, "content")[
+                                  index
+                                ]
+                              }
+                            </p>
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
                   ) : searchTerm ? (
                     <p className="text-gray-500 py-4 text-center dark:text-light">
