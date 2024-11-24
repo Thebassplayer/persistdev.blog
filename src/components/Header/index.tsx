@@ -6,7 +6,7 @@ import Link from "next/link";
 import useThemeSwitch from "@/src/Hooks/useThemeSwitch";
 import ThemeButton from "./ThemeButton";
 import Hamburger from "./Hamburger";
-import Search from "../Search/Search";
+import SearchModal from "../Search/Search";
 import { allPosts } from "contentlayer/generated";
 
 const Header = () => {
@@ -35,7 +35,7 @@ const Header = () => {
         <Link href="/about" className="mx-2 text-sm md:text-base">
           About
         </Link>
-        <Search />
+        <SearchModal />
         <ThemeButton theme={theme} setTheme={setTheme} />
       </nav>
 
@@ -49,7 +49,7 @@ const Header = () => {
         <Link href="/about" className="mx-2">
           About
         </Link>
-        <Search />
+        <SearchModal />
         <ThemeButton theme={theme} setTheme={setTheme} />
       </nav>
       <div className="hidden items-center sm:flex">

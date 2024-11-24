@@ -17,7 +17,7 @@ export function SearchModal({ posts }: SearchModalProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const search = searchParams.get("search");
+  const searchModal = searchParams.get("search-modal");
   const [searchResults, setSearchResults] = useState<FuseResult<Post>[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -99,10 +99,10 @@ export function SearchModal({ posts }: SearchModalProps) {
   };
 
   useEffect(() => {
-    if (search && inputRef.current) {
+    if (searchModal && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [search]);
+  }, [searchModal]);
 
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -133,7 +133,7 @@ export function SearchModal({ posts }: SearchModalProps) {
 
   return (
     <>
-      {search && (
+      {searchModal && (
         <Link href={pathname} className="fixed inset-0 z-50 cursor-default">
           <div
             className="fixed left-1/2 z-50 flex h-screen w-screen -translate-x-1/2 justify-center bg-black bg-opacity-50 py-20"
