@@ -9,6 +9,7 @@ import { XIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { SearchInput } from "../SearchInput/SearchInput";
+import { SearchResults } from "../SearchResults/SearchResults";
 
 type SearchModalProps = {
   posts: Post[];
@@ -21,7 +22,6 @@ export function SearchModal({ posts }: SearchModalProps) {
   const searchModal = searchParams.get("search-modal");
   const [searchResults, setSearchResults] = useState<FuseResult<Post>[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const fuse = useMemo(
     () =>
@@ -33,77 +33,6 @@ export function SearchModal({ posts }: SearchModalProps) {
       }),
     [posts],
   );
-
-  const highlight = (
-    fuseSearchResults: FuseResult<Post>[],
-    highlightClassName: string = "bg-accent dark:bg-accentDark dark:text-dark",
-    minMatchLength: number = 3, // Add this parameter
-  ) => {
-    const generateHighlightedText = (
-      inputText: string,
-      regions: [number, number][] = [],
-    ) => {
-      let content = "";
-      let nextUnhighlightedRegionStartingIndex = 0;
-
-      regions.forEach(([start, end]) => {
-        // Only highlight if the match length is greater than or equal to minMatchLength
-        if (end - start + 1 >= minMatchLength) {
-          content += [
-            inputText.substring(nextUnhighlightedRegionStartingIndex, start),
-            `<span class="${highlightClassName}">`,
-            inputText.substring(start, end + 1),
-            "</span>",
-          ].join("");
-          nextUnhighlightedRegionStartingIndex = end + 1;
-        }
-      });
-
-      content += inputText.substring(nextUnhighlightedRegionStartingIndex);
-      return content;
-    };
-
-    return fuseSearchResults
-      .filter(({ matches }) => matches && matches.length)
-      .map(({ item, matches }) => {
-        const highlightedItem: any = { ...item };
-        matches?.forEach((match) => {
-          if (match?.key) {
-            highlightedItem[match.key as keyof Post] = generateHighlightedText(
-              match.value || "",
-              match.indices as [number, number][],
-            );
-          }
-        });
-        return highlightedItem;
-      });
-  };
-
-  const getHighlightedContent = (
-    fuseSearchResults: FuseResult<Post>[],
-    contentKey: string,
-  ) => {
-    const highlightedResults = highlight(fuseSearchResults);
-
-    return highlightedResults.map((result) => {
-      const highlightedContent = result[contentKey];
-      if (highlightedContent) {
-        return (
-          <span
-            key={result._id || result.title} // Ensure a unique key
-            dangerouslySetInnerHTML={{ __html: highlightedContent }}
-          />
-        );
-      }
-      return null;
-    });
-  };
-
-  useEffect(() => {
-    if (searchModal && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [searchModal]);
 
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -127,7 +56,7 @@ export function SearchModal({ posts }: SearchModalProps) {
     [handleSearch],
   );
 
-  const clearSearch = useCallback(() => {
+  const clearSearchInput = useCallback(() => {
     if (searchTerm === "") {
       router.replace(pathname);
     }
@@ -161,55 +90,12 @@ export function SearchModal({ posts }: SearchModalProps) {
               <SearchInput
                 value={searchTerm}
                 onChange={handleInputChange}
-                onClear={clearSearch}
+                onClear={clearSearchInput}
               />
-              <div className="max-h-96 overflow-y-auto">
-                {searchResults.length > 0 ? (
-                  <ul className="w-full space-y-6 first:pt-4">
-                    {searchResults.map((result, index) => (
-                      <li key={index}>
-                        <Link href={result.item.url || "#"}>
-                          <div className="mb-2 flex items-center gap-2">
-                            {result.item.image ? (
-                              <Image
-                                src={
-                                  result?.item?.image?.filePath.replace(
-                                    "../public",
-                                    "",
-                                  ) ?? ""
-                                }
-                                alt={result.item.title}
-                                placeholder="blur"
-                                blurDataURL={
-                                  result.item?.image?.blurhashDataUrl
-                                }
-                                width={10}
-                                height={10}
-                                className="w-8 rounded-sm object-cover object-center"
-                                priority
-                              />
-                            ) : null}
-                            <h2 className="text-gray-700 line-clamp-1 w-full bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat font-bold transition-[background-size] duration-500 hover:bg-[length:100%_5px] dark:from-accentDark dark:to-accentDark/50 dark:text-light sm:text-xl">
-                              {result.item.title}
-                            </h2>
-                          </div>
-                          <p className="text-gray-600 line-clamp-1 text-xs dark:text-light">
-                            {
-                              getHighlightedContent(searchResults, "content")[
-                                index
-                              ]
-                            }
-                          </p>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : searchTerm ? (
-                  <p className="text-gray-500 py-4 text-center dark:text-light">
-                    No results found
-                  </p>
-                ) : null}
-              </div>
+              <SearchResults
+                searchResults={searchResults}
+                searchTerm={searchTerm}
+              />
             </div>
           </div>
         </div>
