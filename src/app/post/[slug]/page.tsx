@@ -8,6 +8,7 @@ import TableOfContent from "@/src/components/Post/TableOfContent";
 import { siteMetadata } from "@/src/utils/siteMetadata";
 import NotFound from "./not-found";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   return allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
@@ -20,7 +21,7 @@ export async function generateMetadata({
 }): Promise<Metadata | void> {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
   if (!post) {
-    return;
+    notFound();
   }
 
   const publishedAt = new Date(post.publishedAt).toISOString();
