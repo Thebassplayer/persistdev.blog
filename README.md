@@ -48,5 +48,5 @@
 - Photo by [Steffen Albrecht](https://unsplash.com/@steffano_alberto?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/a-close-up-of-a-telephone-R7BvKCfc8QY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Matt Artz](https://unsplash.com/@mattartz?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/closeup-photo-of-yale-19-key-against-black-background-PH2Q1aqOARo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Kelly Sikkema](https://unsplash.com/@kellysikkema?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/a-couple-of-white-and-black-coasters-on-a-brown-surface-QO1-uXSrkAM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
-
---- roylopez ---
+- Photo by [Fotis Fotopoulos](https://unsplash.com/@ffstop?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/two-black-flat-screen-computer-monitors-LJ9KY8pIH3E?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
+  --- roylopez ---
