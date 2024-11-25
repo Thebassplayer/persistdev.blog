@@ -26,7 +26,7 @@ export function SearchModal({ posts }: SearchModalProps) {
     () =>
       new Fuse(posts, {
         keys: ["title", "content"],
-        threshold: 0.1, // Adjust for fuzziness
+        threshold: 0.4, // Adjust for fuzziness
         includeMatches: true, // Include match details for highlighting
         isCaseSensitive: false,
       }),
