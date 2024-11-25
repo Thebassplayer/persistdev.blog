@@ -127,9 +127,12 @@ export function SearchModal({ posts }: SearchModalProps) {
   );
 
   const clearSearch = useCallback(() => {
+    if (searchTerm === "") {
+      router.replace(pathname);
+    }
     setSearchTerm("");
     handleSearch("");
-  }, [handleSearch, setSearchTerm]);
+  }, [handleSearch, setSearchTerm, searchTerm, router, pathname]);
 
   return (
     <>
