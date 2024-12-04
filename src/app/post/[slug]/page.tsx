@@ -105,7 +105,7 @@ const PostPage = ({ params }: { params: { slug: string } }) => {
       {
         "@type": "Person",
         name: author,
-        url: "https://www.roylopez.dev",
+        url: process.env.NEXT_PUBLIC_SITE_URL,
       },
     ],
   };
