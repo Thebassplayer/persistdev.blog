@@ -9,6 +9,7 @@ import { siteMetadata } from "@/src/utils/siteMetadata";
 import NotFound from "./not-found";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import parseDate from "@/src/utils/dateParser";
 
 export async function generateStaticParams() {
   return allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
@@ -24,8 +25,13 @@ export async function generateMetadata({
     notFound();
   }
 
-  const publishedAt = new Date(post.publishedAt).toISOString();
-  const modifiedAt = new Date(post.updatedAt || post.publishedAt).toISOString();
+  const publishedAt = parseDate(post.publishedAt);
+  const modifiedAt = parseDate(post.updatedAt || post.publishedAt);
+
+  if (!publishedAt || !modifiedAt) {
+    notFound();
+  }
+
   let blogMainImageList: string[] = [siteMetadata.socialBanner];
   if (post.image && typeof post.image.filePath === "string") {
     blogMainImageList = [
@@ -69,10 +75,13 @@ const PostPage = ({ params }: { params: { slug: string } }) => {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
   const firstPostTag = post?.tags?.[0];
 
-  const datePublished = new Date(post?.publishedAt ?? "").toISOString();
-  const dateModified = new Date(
-    ((post?.updatedAt ?? " ") || post?.publishedAt) ?? " ",
-  ).toISOString();
+  const datePublished = parseDate(post?.publishedAt);
+  const dateModified = parseDate(post?.updatedAt || post?.publishedAt);
+
+  if (!datePublished || !dateModified) {
+    return <NotFound />;
+  }
+
   const author = post?.author ? [post?.author] : siteMetadata.author;
 
   let postMainImageList: string[] = [siteMetadata.socialBanner];
