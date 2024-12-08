@@ -1,0 +1,181 @@
+---
+title: "Exploring 'as const' in TypeScript: A Comprehensive Guide"
+description: "Learn how to leverage the 'as const' annotation in TypeScript for deep immutability and precise type inference. A must-read for developers aiming to write safer, more predictable code."
+image: "../../public/posts/as-const-typescript-guide.jpg"
+publishedAt: "2024-12-09"
+updatedAt: "2024-12-09"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - TypeScript
+  - JavaScript
+  - Web Development
+---
+
+TypeScript’s `as const` annotation is a powerful yet straightforward tool that makes values deeply readonly. Unlike the typical `as` keyword, often associated with type assertions (which can be misleading or unsafe), `as const` is entirely type-safe. It simply provides TypeScript with additional information, ensuring your code is precise and immutable where needed.
+
+Let’s break down `as const`, understand how it differs from similar constructs, and see practical examples of its usage.
+
+> **Key Takeaway**: `as const` is a compile-time directive that provides immutability and precise type inference without runtime overhead.
+
+## What Does 'as const' Do?
+
+When you append `as const` to a value, you inform TypeScript to:
+
+- Treat the value as deeply readonly. Every nested property becomes immutable.
+- Infer literal types for the value’s contents wherever possible.
+
+This makes `as const` a compile-time directive that disappears at runtime, unlike `Object.freeze`.
+
+### Example 1: Deep Readonly with `as const`
+
+```typescript
+const settings = {
+  theme: {
+    color: "blue",
+  },
+} as const;
+
+// Error: Cannot assign to 'color' because it is a read-only property.
+settings.theme.color = "red";
+```
+
+Contrast this with `Object.freeze`:
+
+```typescript
+const settings = Object.freeze({
+  theme: {
+    color: "blue",
+  },
+});
+
+// Surprisingly, this works because Object.freeze only affects the top level.
+settings.theme.color = "red"; // No error at compile-time
+```
+
+---
+
+## How `as const` Works with Arrays
+
+Another key feature of `as const` is how it transforms arrays into readonly tuples. This prevents operations that would alter the structure or content of the array.
+
+```typescript
+const numbers = [10, 20, 30] as const;
+
+// Error: Property 'push' does not exist on type 'readonly [10, 20, 30]'.
+numbers.push(40);
+
+// Error: Cannot assign to '0' because it is a read-only property.
+numbers[0] = 50;
+```
+
+Without `as const`, TypeScript infers `numbers` as `number[]`, allowing mutable operations like `push`.
+
+---
+
+### Example 2: Literal Type Inference
+
+Using `as const` ensures that TypeScript infers the most specific literal types rather than broader types.
+
+```typescript
+const userInfo = {
+  role: "admin",
+  permissions: ["read", "write"],
+};
+
+// Inferred type:
+// role: string
+// permissions: string[]
+console.log(userInfo.role);
+
+const userInfoLiteral = {
+  role: "admin",
+  permissions: ["read", "write"],
+} as const;
+
+// Inferred type:
+// role: "admin"
+// permissions: readonly ["read", "write"]
+console.log(userInfoLiteral.role);
+```
+
+This narrow inference is particularly useful for creating type-safe enums or constant values without the `enum` keyword.
+
+---
+
+### Example 3: Tuples in Return Values
+
+When working with functions that return arrays, `as const` can ensure the returned value is inferred as a tuple. This is useful in contexts like React’s state management.
+
+```typescript
+declare function useToggle(): [boolean, () => void];
+
+const useToggleState = () => {
+  const [isOn, toggle] = useToggle();
+
+  return [isOn, toggle] as const;
+};
+
+// TypeScript infers the return type as:
+// readonly [boolean, () => void]
+```
+
+---
+
+## Comparing `as const` with `as`
+
+The standard `as` keyword is often used to force TypeScript into accepting a specific type, which can lead to runtime errors if misused:
+
+```typescript
+const element = {} as HTMLButtonElement;
+
+// No error at compile-time, but will fail at runtime.
+element.click();
+```
+
+In contrast, `as const` doesn’t lie to TypeScript—it merely enhances the type inference system by locking down values and making them readonly.
+
+---
+
+### Example 4: Function Props and `as const`
+
+When defining object literals for function props, `as const` ensures the types remain as narrow as possible.
+
+```typescript
+const buttonProps = {
+  type: "submit" as const,
+  onClick: () => console.log("Submitted"),
+} as const;
+
+// Inferred:
+// type: "submit"
+// onClick: () => void
+console.log(buttonProps.type);
+```
+
+---
+
+## Why Use `as const`?
+
+**Advantages:**
+
+1. **Immutability**: Prevents unintended mutations, leading to safer and more predictable code.
+2. **Precise Inference**: Helps TypeScript infer literal types and readonly structures.
+3. **Zero Runtime Overhead**: Unlike `Object.freeze`, it only affects the compile-time behavior.
+
+**Common Use Cases:**
+
+- Defining constant configurations or settings.
+- Locking down API responses or constants in tests.
+- Improving type inference for props and return values.
+
+---
+
+## Key Takeaways
+
+1. **Deep Readonly**: `as const` makes entire objects or arrays immutable.
+2. **Literal Type Inference**: It ensures values are inferred as narrowly as possible.
+3. **Type-Safe**: Unlike `as`, it doesn’t create runtime risks.
+4. **Disappears at Runtime**: There’s no performance cost for using `as const`.
+
+By using `as const`, you can make your TypeScript code safer, more expressive, and easier to maintain—all without sacrificing runtime performance.
