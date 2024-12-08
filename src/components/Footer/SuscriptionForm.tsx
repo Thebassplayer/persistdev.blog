@@ -6,10 +6,7 @@ import {
   SubscriptionSchema,
   subscriptionSchema,
 } from "@/src/schemas/zod.schemas";
-
-type FormValues = {
-  email: string;
-};
+import { useEffect } from "react";
 
 const SuscriptionForm = () => {
   const { subscribe, loading, success, error, subscribeButtonValue } =
@@ -19,10 +16,20 @@ const SuscriptionForm = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SubscriptionSchema>({
     resolver: zodResolver(subscriptionSchema),
   });
-  const onSubmit: SubmitHandler<SubscriptionSchema> = (data) => subscribe(data);
+  const onSubmit: SubmitHandler<SubscriptionSchema> = (data) => {
+    subscribe(data);
+  };
+
+  useEffect(() => {
+    if (success || error) {
+      reset();
+    }
+  }, [success, reset, error]);
+
   return (
     <>
       <p className="mt-5 w-full px-4 text-center text-sm font-light dark:font-medium sm:w-3/5 sm:text-base">

@@ -49,6 +49,7 @@ const useSubscription = () => {
       setLoading(false);
       setSuccess(false);
       setError(true);
+      toastify(NotificationId.SUBSCRIPTION_ERROR);
     }
   };
 
