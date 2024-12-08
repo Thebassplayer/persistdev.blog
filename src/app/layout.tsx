@@ -81,6 +81,10 @@ export default function RootLayout({
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
         ) : null}
+        <meta
+          name="google-site-verification"
+          content="_yFDj3ZFcpCdUJ2n7v7G3jFgOoqdmNruyo4DPD0ueHg"
+        />
       </head>
       <body
         className={cx(
