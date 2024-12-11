@@ -1,0 +1,137 @@
+---
+title: "Understanding Modules and Scripts in TypeScript"
+description: "Learn the key differences between modules and scripts in TypeScript, and discover best practices for writing clean and maintainable code by leveraging modules effectively."
+image: "../../public/posts/typescript-modules-vs-scripts.jpg"
+publishedAt: "2024-12-11"
+updatedAt: "2024-12-11"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - web development
+  - programming
+---
+
+> In TypeScript, files can be categorized in two ways: **modules** or **scripts**. This distinction determines how TypeScript scopes variables, functions, and types within a file.
+
+## Modules: Scoped and Explicit
+
+A module is a self-contained piece of code with its own scope. To share functionality, modules use `import` and `export` statements. Anything defined in a module remains inaccessible to other files unless explicitly exported.
+
+For example, consider this `settings.ts` module that defines a constant:
+
+```typescript
+// settings.ts
+const MAX_USERS = 100;
+```
+
+Without importing `MAX_USERS`, other files cannot access it:
+
+```typescript
+// dashboard.ts
+console.log(MAX_USERS);
+// Error: Cannot find name 'MAX_USERS'.
+```
+
+To use the `MAX_USERS` constant in `dashboard.ts`, you must export it in `settings.ts` and import it where needed:
+
+```typescript
+// settings.ts
+export const MAX_USERS = 100;
+
+// dashboard.ts
+import { MAX_USERS } from "./settings";
+
+console.log(MAX_USERS); // 100
+```
+
+TypeScript treats files with `import` or `export` statements as **modules** by default.
+
+## Scripts: Global Scope and Legacy Behavior
+
+In contrast, a **script** operates in the global scope. All variables, functions, and types declared in a script file are accessible everywhere in the project. This behavior resembles traditional JavaScript, where variables declared in one `<script>` tag are accessible in another.
+
+If a file has no `import` or `export` statements, TypeScript considers it a **script**. For example:
+
+```typescript
+// settings.ts
+const MAX_USERS = 100;
+```
+
+This `MAX_USERS` constant is now accessible globally:
+
+```typescript
+// dashboard.ts
+console.log(MAX_USERS); // 100
+```
+
+While convenient, relying on the global scope can lead to unintended collisions, especially in larger projects.
+
+## Why TypeScript Distinguishes Between Modules and Scripts
+
+### TypeScript’s Legacy
+
+TypeScript predates the inclusion of `import` and `export` in JavaScript. It was initially used to create scripts, and as a result, TypeScript infers whether a file is a module or a script based on its content.
+
+### Execution Environment Matters
+
+The decision to treat a file as a module or script depends on the environment in which the code executes. For instance:
+
+- In a browser, adding the `type="module"` attribute to a `<script>` tag ensures the file is treated as a module:
+
+  ```html
+  <script type="module" src="dashboard.js"></script>
+  ```
+
+- Without the `type="module"` attribute, the file is treated as a script.
+
+This automatic inference can lead to errors when TypeScript guesses incorrectly.
+
+## Common Errors and Fixes
+
+### “Cannot redeclare block-scoped variable”
+
+Suppose you declare a variable in a new file:
+
+```typescript
+// helpers.ts
+const user = "John";
+```
+
+You might encounter this error:
+
+```text
+Cannot redeclare block-scoped variable 'user'.
+```
+
+This happens because TypeScript treats `helpers.ts` as a script, placing `user` in the global scope. If there’s already a global variable named `user`—such as one defined by the DOM—TypeScript prevents redeclaration.
+
+To resolve this, make the file a module by adding an empty export statement:
+
+```typescript
+// helpers.ts
+const user = "John";
+
+export {};
+```
+
+Now, `user` is scoped to the `helpers.ts` module, avoiding global conflicts.
+
+## Best Practices for TypeScript Projects
+
+- **Always Use Modules**: Explicitly define imports and exports to avoid global scope collisions and improve code maintainability.
+- **Enable Module Resolution**: Use a modern module system (e.g., ES modules or CommonJS) in your project configuration.
+- **Set `module` in `tsconfig.json`**: Ensure your project is set up to use modules by default:
+  ```json
+  {
+    "compilerOptions": {
+      "module": "ESNext"
+    }
+  }
+  ```
+
+By treating all files as modules, you sidestep many potential issues with scripts and global scope, ensuring a cleaner and more robust TypeScript codebase.
+
+---
+
+Understanding the distinction between modules and scripts is essential for writing clear, maintainable TypeScript code. Modules offer the isolation and explicitness modern development demands, while scripts harken back to JavaScript’s early days. Adopting a module-first approach is the best way forward in most TypeScript projects.
