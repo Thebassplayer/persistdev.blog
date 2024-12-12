@@ -1,0 +1,247 @@
+---
+title: "Managing Node.js Versions with NVM: A Beginner-to-Advanced Guide"
+description: "Master NVM (Node Version Manager) for seamless Node.js version management. Learn how to install, use, and optimize NVM with practical examples and best practices."
+image: "../../public/posts/nodejs-nvm-guide.jpg"
+publishedAt: "2024-12-16"
+updatedAt: "2024-12-16"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - Node.js
+  - NVM
+  - JavaScript
+---
+
+Managing different Node.js versions across projects can be a challenge. NVM (Node Version Manager) simplifies this by allowing you to install, switch, and manage multiple versions effortlessly. In this guide, we’ll explore how to install NVM, use it effectively, and adopt best practices to streamline your workflows.
+
+> This guide is designed for developers of all levels, with actionable insights and examples to help you master NVM.
+
+---
+
+## What is NVM?
+
+NVM is a version manager for Node.js that lets you:
+
+- Install and switch between multiple Node.js versions.
+- Set a default Node.js version for global use.
+- Use project-specific Node.js versions.
+
+By leveraging NVM, you can avoid version conflicts between projects and ensure your development environment aligns with production.
+
+---
+
+## Installing NVM
+
+### Step 1: Install NVM
+
+Run the following command to install NVM:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+```
+
+For Wget users:
+
+```bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+```
+
+> Note: Replace `v0.39.4` with the latest version from NVM's [GitHub page](https://github.com/nvm-sh/nvm).
+
+### Step 2: Verify Installation
+
+Restart your terminal or run:
+
+```bash
+source ~/.nvm/nvm.sh
+```
+
+Verify installation:
+
+```bash
+nvm --version
+```
+
+If you see the version number, NVM is installed and ready to use!
+
+---
+
+## Using NVM: Common Commands
+
+### 1. List Available Node.js Versions
+
+See all available Node.js versions:
+
+```bash
+nvm ls-remote
+```
+
+### 2. Install a Specific Version
+
+Install a specific version of Node.js:
+
+```bash
+nvm install <version>
+```
+
+Example: Install Node.js 16.20.0:
+
+```bash
+nvm install 16.20.0
+```
+
+Install the latest LTS version:
+
+```bash
+nvm install --lts
+```
+
+### 3. List Installed Versions
+
+List installed Node.js versions:
+
+```bash
+nvm ls
+```
+
+### 4. Switch Between Versions
+
+Switch to a different Node.js version:
+
+```bash
+nvm use <version>
+```
+
+Example:
+
+```bash
+nvm use 18.0.0
+```
+
+### 5. Set a Default Node.js Version
+
+Set a default version for all terminal sessions:
+
+```bash
+nvm alias default <version>
+```
+
+Example:
+
+```bash
+nvm alias default 16.20.0
+```
+
+### 6. Run a Specific Node.js Version Temporarily
+
+Run a specific version for a single command:
+
+```bash
+nvm run <version> <script>
+```
+
+Example:
+
+```bash
+nvm run 14.17.0 my-app.js
+```
+
+### 7. Uninstall a Node.js Version
+
+Remove a Node.js version:
+
+```bash
+nvm uninstall <version>
+```
+
+Example:
+
+```bash
+nvm uninstall 14.17.0
+```
+
+---
+
+## NVM and `.nvmrc` for Project-Specific Versions
+
+Use a `.nvmrc` file to enforce a specific Node.js version for a project.
+
+### Steps:
+
+1. Create a `.nvmrc` file in your project directory.
+2. Add the desired Node.js version (e.g., `16.20.0`).
+3. Run:
+
+```bash
+nvm use
+```
+
+NVM will automatically read the `.nvmrc` file and switch to the specified version.
+
+---
+
+## Example Workflow
+
+Scenario:  
+You’re working on two projects:
+
+- **Project A** requires Node.js 14.
+- **Project B** requires Node.js 18.
+
+Steps:
+
+1. Install the required versions:
+
+   ```bash
+   nvm install 14
+   nvm install 18
+   ```
+
+2. For **Project A**:
+
+   - Navigate to the project folder.
+   - Create a `.nvmrc` file with:
+
+     ```text
+     14
+     ```
+
+   - Run:
+
+     ```bash
+     nvm use
+     ```
+
+3. For **Project B**:
+
+   - Navigate to the project folder.
+   - Create a `.nvmrc` file with:
+
+     ```text
+     18
+     ```
+
+   - Run:
+
+     ```bash
+     nvm use
+     ```
+
+NVM ensures the correct version is used in each project.
+
+---
+
+## Best Practices for Using NVM
+
+1. **Always Use LTS Versions for Stability**: LTS versions are production-ready and stable for most applications.
+2. **Use `.nvmrc` for Project Consistency**: This ensures all team members use the same Node.js version.
+3. **Regularly Update NVM and Node.js Versions**: Benefit from the latest features and security fixes.
+4. **Test Applications on Different Versions**: Use NVM to test your application on multiple Node.js versions for compatibility.
+
+---
+
+## Conclusion
+
+NVM is a powerful tool for managing Node.js versions, especially for multi-project setups or legacy codebases. By mastering NVM commands and best practices, you can optimize your development workflow and minimize compatibility issues.
+
+Start using NVM today and supercharge your Node.js projects! 🚀

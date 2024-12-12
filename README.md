@@ -63,4 +63,5 @@
 - Photo by [Matt Artz](https://unsplash.com/@mattartz?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/two-gray-wrenches-dh3zAdGGOIY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Lautaro Andreani](https://unsplash.com/@lautaroandreani?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/a-computer-screen-with-a-logo-on-it-UYsBCu9RP3Y?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [patrickltr](https://unsplash.com/@patrickltr?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/landscape-photo-of-body-of-water-6ZuF6ZCvtJc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
+- Photo by [Adi Goldstein](https://unsplash.com/@adigold1?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/closeup-photography-of-man-operating-audio-mixer-nORcjIaDVLg?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
   --- roylopez ---
