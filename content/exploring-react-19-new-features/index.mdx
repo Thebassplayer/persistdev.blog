@@ -1,0 +1,193 @@
+---
+title: "Exploring React 19: A Friendly Guide to Its Powerful New Features with Examples"
+description: "Discover the exciting features of React 19 with practical examples to enhance your web development. From the new React Compiler to Server Components and Enhanced Hooks, explore the tools that simplify coding and boost performance."
+image: "../../public/posts/react-19-new-features.jpg"
+publishedAt: "2024/12/13"
+updatedAt: "2024/12/13"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - react
+  - web development
+  - javascript
+---
+
+React 19 is here, packed with exciting features that simplify development and enhance performance. Whether you're a seasoned React developer or just starting, these updates are designed to make your coding experience more efficient and enjoyable. In this article, we’ll walk through the key functionalities of React 19, explain how they work, and provide practical examples to help you get started.
+
+> React 19 introduces a suite of features designed to enhance performance, simplify development, and improve user experience. Here's an overview of the key functionalities:
+
+## 1. React Compiler
+
+The new **React Compiler** transforms React code into optimized JavaScript, potentially doubling performance. This automation reduces the need for manual optimizations like `useMemo` and `useCallback`.
+
+**Example:**
+
+```javascript
+// React 18
+function Component({ items }) {
+  const optimizedItems = useMemo(() => items.map(item => /* ... */), [items]);
+  // ...
+}
+
+// React 19
+function Component({ items }) {
+  const optimizedItems = items.map(item => /* ... */);
+  // ...
+}
+```
+
+## 2. Server Components
+
+Server Components enable rendering on the server, resulting in faster page loads and improved SEO. They allow components to fetch data and render HTML on the server before sending it to the client.
+
+**Example:**
+
+```javascript
+// MyComponent.server.js
+export default function MyComponent() {
+  const data = fetch("https://api.example.com/data").then((res) => res.json());
+  return <div>{data.title}</div>;
+}
+```
+
+## 3. Actions
+
+The **Actions API** simplifies data mutations and state updates, particularly in form handling. It manages pending states, errors, and optimistic updates automatically.
+
+**Example:**
+
+```javascript
+import { useTransition } from "react";
+
+function UpdateName() {
+  const [name, setName] = useState("");
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = () => {
+    startTransition(async () => {
+      await updateName(name);
+      // handle success or error
+    });
+  };
+
+  return (
+    <div>
+      <input value={name} onChange={(e) => setName(e.target.value)} />
+      <button onClick={handleSubmit} disabled={isPending}>
+        Update
+      </button>
+    </div>
+  );
+}
+```
+
+## 4. Enhanced Hooks
+
+React 19 introduces new hooks to streamline state and form management:
+
+### useFormStatus
+
+Manages form submission status, providing pending and error states.
+
+**Example:**
+
+```javascript
+import { useFormStatus } from "react";
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return <button disabled={pending}>Submit</button>;
+}
+```
+
+### useOptimistic
+
+Facilitates optimistic UI updates by allowing immediate UI changes before receiving server confirmation.
+
+**Example:**
+
+```javascript
+import { useOptimistic } from "react";
+
+function TodoList({ initialItems }) {
+  const [items, addItem] = useOptimistic(initialItems, (state, newItem) => [
+    ...state,
+    newItem,
+  ]);
+
+  const handleAdd = (newItem) => {
+    addItem(newItem);
+    // send newItem to server
+  };
+
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item.id}>{item.text}</li>
+      ))}
+      <button onClick={() => handleAdd({ id: Date.now(), text: "New Item" })}>
+        Add Item
+      </button>
+    </ul>
+  );
+}
+```
+
+## 5. Directives
+
+React 19 introduces directives to specify where components and functions run:
+
+- `'use client'`: Marks code to run only on the client.
+
+**Example:**
+
+```javascript
+"use client";
+
+function ClientComponent() {
+  // Client-side logic
+}
+```
+
+- `'use server'`: Marks server-side functions callable from client-side code.
+
+**Example:**
+
+```javascript
+"use server";
+
+export async function fetchData() {
+  // Server-side logic
+}
+```
+
+## 6. Asset Loading
+
+React 19 enhances asset loading by preloading resources in the background, leading to smoother transitions and improved performance.
+
+**Example:**
+
+```javascript
+import { preload } from "react-dom";
+
+preload("/assets/image.png", { as: "image" });
+```
+
+## 7. Web Components
+
+Improved support for Web Components allows seamless integration of custom elements within React applications, enhancing flexibility in development.
+
+**Example:**
+
+```javascript
+function App() {
+  return <my-web-component />;
+}
+```
+
+> These features collectively make React 19 a robust and efficient framework for modern web development, simplifying complex tasks and enhancing application performance.
+
+## Sources
+
+- Official React Documentation
+- Community Tutorials and Guides
