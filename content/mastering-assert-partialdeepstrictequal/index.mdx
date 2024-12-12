@@ -1,0 +1,161 @@
+---
+title: "Mastering the New assert.partialDeepStrictEqual in Node.js"
+description: "Learn how to use the assert.partialDeepStrictEqual feature introduced in Node.js version 23.4.0. This guide covers setup, examples, and integration with testing frameworks for robust and flexible testing."
+image: "../../public/posts/nodejs-assert-partial-deep-strict-equal.jpg"
+publishedAt: "2024-12-15"
+updatedAt: "2024-12-15"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - Node.js
+  - testing
+  - JavaScript
+---
+
+The new `assert.partialDeepStrictEqual` feature in Node.js (as of version 23.4.0) is a powerful addition for writing more flexible and focused tests. It allows you to validate that specific properties of an object (or specific elements of a collection) match the expected structure, without requiring every property or element in the actual value to match the expected one.
+
+> This article provides a comprehensive guide to using `assert.partialDeepStrictEqual`, including setup instructions, practical examples, and tips for integration with testing frameworks.
+
+## How to Test `assert.partialDeepStrictEqual`
+
+### 1. Verify Your Node.js Version
+
+Ensure you’re running Node.js version 23.4.0 or later. Use the following command to check your version:
+
+```bash
+node -v
+```
+
+If your version is outdated, update to the latest version from the [Node.js website](https://nodejs.org) or using your package manager.
+
+---
+
+### 2. Set Up a Test File
+
+Create a file named `test-partialDeepStrictEqual.js` and import the `assert` module:
+
+```javascript
+const assert = require("assert");
+```
+
+---
+
+### 3. Write Test Cases
+
+Here are several examples showcasing how to use `assert.partialDeepStrictEqual`:
+
+#### Example 1: Object with Subset of Properties
+
+```javascript
+const actual = { a: 1, b: 2, c: 3 };
+const expected = { a: 1, b: 2 };
+
+assert.partialDeepStrictEqual(actual, expected); // Passes
+```
+
+#### Example 2: Array with Subset of Elements
+
+```javascript
+const actualArray = [1, 2, 3, 4];
+const expectedArray = [2, 3];
+
+assert.partialDeepStrictEqual(actualArray, expectedArray); // Passes
+```
+
+#### Example 3: Nested Object
+
+```javascript
+const actualNested = { a: { b: { c: 1, d: 2 } }, e: 3 };
+const expectedNested = { a: { b: { c: 1 } } };
+
+assert.partialDeepStrictEqual(actualNested, expectedNested); // Passes
+```
+
+#### Example 4: Sets
+
+```javascript
+const actualSet = new Set([{ a: 1 }, { b: 1 }]);
+const expectedSet = new Set([{ a: 1 }]);
+
+assert.partialDeepStrictEqual(actualSet, expectedSet); // Passes
+```
+
+#### Example 5: Combination of Collections
+
+```javascript
+const actualComplex = {
+  a: new Set([{ a: 1 }, { b: 1 }]),
+  b: new Map(),
+  c: [1, 2, 3],
+};
+const expectedComplex = {
+  a: new Set([{ a: 1 }]),
+  c: [2],
+};
+
+assert.partialDeepStrictEqual(actualComplex, expectedComplex); // Passes
+```
+
+---
+
+### 4. Run the Test File
+
+Run the test file using Node.js:
+
+```bash
+node test-partialDeepStrictEqual.js
+```
+
+If all assertions pass, the script will complete without errors. If any assertion fails, you’ll get detailed output about the failure.
+
+---
+
+### 5. Integrate with a Testing Framework (Optional)
+
+For a more structured testing environment, consider integrating with a framework like Mocha, Jest, or AVA.
+
+#### Using Mocha
+
+Install Mocha:
+
+```bash
+npm install --save-dev mocha
+```
+
+Write a test file:
+
+```javascript
+const assert = require("assert");
+
+describe("assert.partialDeepStrictEqual", () => {
+  it("should validate object properties", () => {
+    assert.partialDeepStrictEqual({ a: 1, b: 2, c: 3 }, { a: 1, b: 2 });
+  });
+
+  it("should validate nested structures", () => {
+    assert.partialDeepStrictEqual(
+      { a: { b: { c: 1, d: 2 } }, e: 3 },
+      { a: { b: { c: 1 } } },
+    );
+  });
+
+  it("should validate sets", () => {
+    assert.partialDeepStrictEqual(
+      new Set([{ a: 1 }, { b: 1 }]),
+      new Set([{ a: 1 }]),
+    );
+  });
+});
+```
+
+Run tests:
+
+```bash
+npx mocha
+```
+
+---
+
+### Conclusion
+
+The `assert.partialDeepStrictEqual` feature simplifies testing by allowing you to focus on validating specific properties or elements. By incorporating this functionality into your test suites, you can write more precise and maintainable tests for your Node.js applications.
