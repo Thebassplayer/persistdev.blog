@@ -11,7 +11,7 @@ type PostLayoutOneProps = {
 const PostLayoutOne = ({ post }: PostLayoutOneProps) => {
   const firstPostTag = post?.tags?.[0];
   return (
-    <div className="group inline-block cursor-pointer overflow-hidden rounded-xl">
+    <div className="group inline-block cursor-pointer overflow-hidden rounded-3xl">
       <div className="absolute bottom-0 left-0 right-0 top-0 z-10 h-full rounded-3xl bg-gradient-to-b from-transparent from-0% to-dark/90" />
       {post?.image ? (
         <Image
@@ -21,7 +21,7 @@ const PostLayoutOne = ({ post }: PostLayoutOneProps) => {
           blurDataURL={post.image?.blurhashDataUrl}
           height={post.image?.height}
           width={post.image?.width}
-          className="ease h-full w-full rounded-xl object-cover object-center transition-all duration-300 group-hover:scale-105"
+          className="ease aspect-[3/2] h-full w-full rounded-3xl object-cover object-center transition-all duration-300 group-hover:scale-105"
           sizes="(max-width: 1180px) 100vw, 50vw"
         />
       ) : null}

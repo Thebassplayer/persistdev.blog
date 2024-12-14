@@ -58,10 +58,14 @@
 - Photo by [Karan Chawla](https://unsplash.com/@thekaranchawla?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/river-between-rocky-mountains-aHdAdA0JzLE?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Roberto Corrado Mancino](https://unsplash.com/@robertoadventure?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/gray-wooden-hanging-bridge-over-green-trees-during-daytime-CMRV84NKt7w?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Jose Fontano](https://unsplash.com/@josenothose?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/macro-shot-of-stainless-steel-padlock-pZld9PiPDno?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
+<<<<<<< HEAD
 - Photo by [Kerensa Pickett](https://unsplash.com/@kerensa1?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/gray-concrete-wall-with-devanagari-text-sTnZRUJm-kI?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Aral Tasher](https://unsplash.com/@araltasher?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/time-lapse-photography-of-five-jet-planes-Ok7EG-0V2C0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Matt Artz](https://unsplash.com/@mattartz?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/two-gray-wrenches-dh3zAdGGOIY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Lautaro Andreani](https://unsplash.com/@lautaroandreani?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/a-computer-screen-with-a-logo-on-it-UYsBCu9RP3Y?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [patrickltr](https://unsplash.com/@patrickltr?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/landscape-photo-of-body-of-water-6ZuF6ZCvtJc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Adi Goldstein](https://unsplash.com/@adigold1?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/closeup-photography-of-man-operating-audio-mixer-nORcjIaDVLg?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
+=======
+- Photo by [Lavi Perchik](https://unsplash.com/@laviperchik?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/a-computer-screen-with-a-bunch-of-text-on-it-fSqYwKWzwhk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
+>>>>>>> development
   --- roylopez ---
