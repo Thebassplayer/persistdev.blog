@@ -1,0 +1,114 @@
+---
+title: "Adding Constraints to Generics in TypeScript"
+description: "Learn how to use the extends keyword to add constraints to generics in TypeScript, enhancing flexibility and type safety in your code."
+image: "../../public/posts/typescript-generics.jpg"
+publishedAt: "2024-12-20"
+updatedAt: "2024-12-20"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - TypeScript
+  - Generics
+  - Programming
+---
+
+> TypeScript generics are a powerful feature, offering flexibility and strong type safety when writing reusable components. However, without constraints, generic types can accept any type, leading to potential misuse or errors. By applying constraints using the `extends` keyword, you can restrict the types that a generic accepts, enhancing both the functionality and safety of your code.
+
+In this article, we’ll explore how to apply constraints to generics and why this is a fundamental skill for TypeScript developers.
+
+## Understanding Constraints in Generics
+
+Generics in TypeScript allow you to define components that work with a variety of types while still maintaining type safety. However, there are situations where you want to restrict the range of types that a generic can accept. This is where the `extends` keyword comes in. By adding constraints, you ensure that the generic only operates within the bounds of a specified type or structure.
+
+---
+
+### Basic Syntax for Constraints
+
+The `extends` keyword allows you to specify a base type that the generic must conform to. Here’s a simple example:
+
+```typescript
+type AcceptOnlyNumbers<T extends number> = T;
+```
+
+In this snippet:
+
+- The generic type `T` is constrained to `number`.
+- If you try to use `AcceptOnlyNumbers` with a type other than `number`, TypeScript will throw an error.
+
+For instance:
+
+```typescript
+type ValidExample = AcceptOnlyNumbers<42>; // Works fine
+type InvalidExample = AcceptOnlyNumbers<"42">; // Error: Type '"42"' does not satisfy the constraint 'number'.
+```
+
+This pattern helps enforce stricter type safety, ensuring that your generic only works with the intended types.
+
+---
+
+### Applying Constraints in Functions
+
+The same principle applies when using generics in functions. Let’s revisit the function version of the example above:
+
+```typescript
+export const doubleNumber = <T extends number>(value: T): T => value * 2;
+```
+
+Here:
+
+- The function takes a parameter `value` of type `T`, constrained to `number`.
+- The return type is also `T`, ensuring that the function always returns a number of the same type.
+
+Attempting to call this function with a type that doesn’t extend `number` will result in an error:
+
+```typescript
+doubleNumber(21); // Works fine
+doubleNumber("21"); // Error: Argument of type '"21"' is not assignable to parameter of type 'number'.
+```
+
+---
+
+### Why Use Constraints?
+
+Constraints are invaluable in scenarios where:
+
+1. **Type Safety Is Crucial**: Constraints prevent unintended types from being used, reducing runtime errors and improving code robustness.
+2. **Reusable Components**: Generic components can be tailored to work only with types that meet specific requirements.
+3. **Developer Intent**: Constraints make your code’s purpose clear, providing self-documenting benefits.
+
+---
+
+### Real-World Example
+
+Suppose you’re building a function to extract a `name` property from objects that have one:
+
+```typescript
+type HasName = { name: string };
+
+function getName<T extends HasName>(obj: T): string {
+  return obj.name;
+}
+```
+
+This function:
+
+- Restricts the type `T` to objects that include a `name` property of type `string`.
+- Guarantees that you can safely access `obj.name`.
+
+Using this function:
+
+```typescript
+const validObject = { name: "Alice", age: 30 };
+const invalidObject = { age: 30 };
+
+getName(validObject); // Works fine: Returns "Alice"
+getName(invalidObject); // Error: Property 'name' is missing in type '{ age: number }'.
+```
+
+---
+
+## Conclusion
+
+Adding constraints to generics with the `extends` keyword is a cornerstone of writing robust, reusable, and type-safe TypeScript code. By understanding and applying this concept, you can create components that are both flexible and constrained to the intended types, reducing errors and enhancing developer productivity.
+
+Whether you’re defining types, interfaces, or functions, remember that constraints are your tool for balancing flexibility with precision. As you continue exploring TypeScript, you’ll find constraints an essential part of your toolkit.
