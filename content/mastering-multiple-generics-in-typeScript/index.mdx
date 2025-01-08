@@ -1,0 +1,121 @@
+---
+title: "Mastering Multiple Generics in TypeScript"
+description: "Explore how to use multiple generics in TypeScript to build reusable, type-safe abstractions with real-world examples and best practices."
+image: "../../public/posts/typescript-multiple-generics.jpeg"
+publishedAt: "2025-01-08"
+updatedAt: "2025-01-08"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - TypeScript
+  - Generics
+  - Programming
+  - Best Practices
+---
+
+> **TypeScript generics** provide a powerful way to create reusable and type-safe abstractions. While single generics like `<T>` are common and useful, TypeScript allows you to go a step further: you can use multiple generics in functions, type helpers, and other constructs. This article explores how to effectively use multiple generics, complete with examples and best practices.
+
+## Why Use Multiple Generics?
+
+Generics allow TypeScript to infer types based on inputs and maintain type safety across your code. By introducing multiple generics, you can:
+
+- **Increase flexibility:** Handle diverse input types without sacrificing type safety.
+- **Improve type inference:** Allow TypeScript to infer relationships between inputs and outputs.
+- **Avoid duplication:** Write reusable functions that work seamlessly with various types.
+
+## Example: A Function Using Multiple Generics
+
+Consider a function that takes two arguments of different types and returns them as properties of an object. Here's how you can implement it with multiple generics:
+
+```typescript
+const returnBothOfWhatIPassIn = <A, B>(a: A, b: B) => {
+  return { a, b };
+};
+```
+
+### How It Works
+
+1. **Generics Declaration:** The function declares two generics, `<A, B>`, which can represent any type.
+2. **Type Binding:** Each parameter (`a` and `b`) is bound to a specific generic type (`A` and `B`, respectively).
+3. **Return Type:** The returned object has properties `a` and `b` typed as `A` and `B`, ensuring strong type safety.
+
+### Usage Example
+
+When calling this function, TypeScript infers the types automatically:
+
+```typescript
+const result = returnBothOfWhatIPassIn("a", 1);
+// Hovering over `result` shows:
+// const result: { a: string; b: number; }
+```
+
+This ensures the returned object is correctly typed with `a: string` and `b: number`, maintaining clarity and type safety.
+
+## Adding Constraints with `extends`
+
+To narrow down the acceptable types for the generics, you can use the `extends` keyword:
+
+```typescript
+const returnBothOfWhatIPassIn = <A extends string, B>(a: A, b: B) => {
+  return { a, b };
+};
+```
+
+### Benefits of Constraints
+
+- **Type Narrowing:** Ensures `A` is always a string (or a subtype of string).
+- **Stronger Inference:** Improves TypeScript's ability to infer literal types.
+
+### Example Usage with Constraints
+
+```typescript
+const result = returnBothOfWhatIPassIn("hello", 42);
+// const result: { a: "hello"; b: number; }
+
+const invalid = returnBothOfWhatIPassIn(123, 42);
+// Error: Argument of type 'number' is not assignable to parameter of type 'string'.
+```
+
+Constraints provide additional safety and prevent unintended usage.
+
+## Best Practices with Multiple Generics
+
+### 1. Use Descriptive Names
+
+While single-letter generics like `<A>` and `<B>` are fine in small functions, prefer descriptive names for clarity in complex scenarios:
+
+```typescript
+const mergeObjects = <KeyType, ValueType>(key: KeyType, value: ValueType) => {
+  return { key, value };
+};
+```
+
+### 2. Leverage Type Inference
+
+Avoid over-specifying types unless necessary. Let TypeScript infer types wherever possible:
+
+```typescript
+const result = returnBothOfWhatIPassIn("example", 10); // TypeScript infers the types.
+```
+
+### 3. Combine Generics with Utility Types
+
+Generics pair well with TypeScript’s utility types to create more expressive constructs:
+
+```typescript
+type Pair<A, B> = { first: A; second: B };
+
+const createPair = <A, B>(first: A, second: B): Pair<A, B> => {
+  return { first, second };
+};
+```
+
+### 4. Avoid Overuse
+
+While generics are powerful, overusing them can make your code harder to read. Always balance flexibility with simplicity.
+
+## Conclusion
+
+Multiple generics unlock a new level of flexibility and type safety in TypeScript. Whether you’re building reusable functions, managing complex types, or improving inference, mastering this feature is essential for advanced TypeScript development.
+
+By understanding how to use, constrain, and combine generics, you can write cleaner, more robust, and maintainable code. Experiment with these techniques in your projects to get the most out of TypeScript’s powerful type system.
