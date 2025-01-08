@@ -1,0 +1,190 @@
+---
+title: "Approaches for Typing Object Parameters in TypeScript"
+description: "Explore various approaches for typing object parameters in TypeScript using generics. Learn how to ensure type safety and maintain flexibility in function parameters."
+image: "../../public/posts/typescript-generics-on-objects.jpg"
+publishedAt: "2025-01-09"
+updatedAt: "2025-01-09"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - programming
+  - web development
+---
+
+When working with TypeScript generics, one common challenge is ensuring type safety while maintaining flexibility in function parameters. This article explores various approaches for typing object parameters using generics, inspired by scenarios from the TypeScript Generics Workshop.
+
+> **Problem Overview**  
+> We aim to create a function that takes an object with two properties (`x` and `y`) of generic types and returns an object mapping these properties to `primary` and `secondary`. Here's a basic implementation:
+
+```tsx
+const mapProperties = <U, V>(input: { x: U; y: V }) => {
+  return {
+    primary: input.x,
+    secondary: input.y,
+  };
+};
+```
+
+The function should infer the types of `x` and `y` and return an object with corresponding types for `primary` and `secondary`.
+
+### Testing the Function
+
+We validate the implementation using `vitest` and type-level tests:
+
+```tsx
+import { expect, it } from "vitest";
+import { Equal, Expect } from "../helpers/type-utils";
+
+it("Should return an object where x -> primary and y -> secondary", () => {
+  const result = mapProperties({
+    x: "example",
+    y: 100,
+  });
+
+  expect(result).toEqual({
+    primary: "example",
+    secondary: 100,
+  });
+
+  type test1 = Expect<
+    Equal<
+      typeof result,
+      {
+        primary: string;
+        secondary: number;
+      }
+    >
+  >;
+});
+```
+
+The goal is to ensure both runtime and type-level correctness.
+
+---
+
+## Solution 1: Basic Generic Parameters
+
+This straightforward solution introduces two generic parameters, `U` and `V`, for the types of `x` and `y`:
+
+```tsx
+const mapProperties = <U, V>(input: { x: U; y: V }) => {
+  return {
+    primary: input.x,
+    secondary: input.y,
+  };
+};
+```
+
+### Advantages:
+
+- **Type Inference**: TypeScript automatically infers the types of `U` and `V` based on the arguments provided.
+- **Flexibility**: The function can handle any combination of types for `x` and `y`.
+
+**Example Usage:**
+
+```tsx
+const result = mapProperties({ x: "hello", y: 42 });
+// TypeScript infers: { primary: string; secondary: number }
+```
+
+---
+
+## Solution 2: Using an Interface
+
+This approach creates a reusable `Input` interface that declares the structure of the input object:
+
+```tsx
+interface Input<U, V> {
+  x: U;
+  y: V;
+}
+
+const mapProperties = <U, V>(input: Input<U, V>) => {
+  return {
+    primary: input.x,
+    secondary: input.y,
+  };
+};
+```
+
+### Advantages:
+
+- **Reusability**: The `Input` interface can be reused in other parts of the codebase.
+- **Readability**: Encapsulating the parameter structure in a named type improves code clarity.
+
+**Example Usage:**
+
+```tsx
+const result = mapProperties({ x: "world", y: true });
+// TypeScript infers: { primary: string; secondary: boolean }
+```
+
+---
+
+## Solution 3: Using a Type Alias
+
+This solution is similar to the interface approach but uses a type alias:
+
+```tsx
+type Input<U, V> = {
+  x: U;
+  y: V;
+};
+
+const mapProperties = <U, V>(input: Input<U, V>) => {
+  return {
+    primary: input.x,
+    secondary: input.y,
+  };
+};
+```
+
+**Differences Between Interface and Type:**
+
+- **Type alias** can define unions, intersections, and primitives, while interfaces cannot.
+- **Interface** supports declaration merging, while types do not.
+
+**Example Usage:**
+
+```tsx
+const result = mapProperties({ x: "TypeScript", y: 3.14 });
+// TypeScript infers: { primary: string; secondary: number }
+```
+
+---
+
+## Advanced Typing: Adding Constraints
+
+You can further constrain the generic types using `extends`:
+
+```tsx
+const mapProperties = <
+  U extends string | number,
+  V extends boolean | null,
+>(input: {
+  x: U;
+  y: V;
+}) => {
+  return {
+    primary: input.x,
+    secondary: input.y,
+  };
+};
+```
+
+This ensures `x` can only be `string` or `number`, and `y` can only be `boolean` or `null`.
+
+---
+
+## Best Practices
+
+- **Use Generic Parameters Sparingly**: Avoid excessive generics if simpler type annotations suffice.
+- **Reuse Types**: Leverage interfaces or type aliases for clarity and reusability.
+- **Constrain Generics When Necessary**: Use `extends` to enforce specific types when flexibility is not required.
+
+---
+
+## Conclusion
+
+Typing object parameters with generics in TypeScript provides powerful tools for crafting flexible and type-safe functions. By using interfaces, type aliases, or constraints, you can adapt the solution to your project's needs while ensuring robust type inference and safety.
