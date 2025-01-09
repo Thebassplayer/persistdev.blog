@@ -1,0 +1,150 @@
+---
+title: "Adding Generics to a Class in TypeScript"
+description: "Learn how to incorporate generics into a TypeScript class to ensure robust typing and reusability. Explore practical examples and the mechanics behind this pattern."
+image: "../../public/posts/typescript-generics-class.jpg"
+publishedAt: "2025-01-13"
+updatedAt: "2025-01-13"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - generics
+  - programming
+---
+
+> Generics in TypeScript are a powerful tool that allows us to create reusable and type-safe components, especially when dealing with dynamic types. This article explores how to incorporate generics into a class to ensure robust typing. We’ll also break down the example provided, explain the underlying mechanics, and discuss why this is a common pattern in both open-source libraries and application code.
+
+## Understanding the Problem
+
+Consider a simple `Component` class that needs to accept a set of properties (props) and store them internally. The goal is to maintain type safety when accessing these properties. Here's the initial implementation:
+
+```tsx
+export class Component<TProps> {
+  private props: TProps;
+
+  constructor(props: TProps) {
+    this.props = props;
+  }
+
+  getProps = () => this.props;
+}
+```
+
+---
+
+## How It Works
+
+### 1. Adding a Generic Slot
+
+The key to making this class reusable and type-safe is to introduce a generic type parameter `TProps`. This parameter allows TypeScript to infer the type of props dynamically based on the object passed to the constructor.
+
+Here’s the breakdown:
+
+- **`TProps`** acts as a placeholder for the type of props.
+- When the class is instantiated, **`TProps`** is inferred from the provided argument.
+
+For example:
+
+```tsx
+const component = new Component({ a: 1, b: 2, c: 3 });
+```
+
+In this case, `TProps` is inferred as `{ a: number; b: number; c: number }`.
+
+---
+
+### 2. Ensuring Type Safety
+
+The type `TProps` is used in:
+
+- The `private` property `props` to store the passed data.
+- The `getProps` method to ensure that the returned value matches the type of `props`.
+
+This provides a stable and type-safe API. If we change the properties passed to the constructor, TypeScript automatically updates the inferred type, ensuring that our code remains consistent.
+
+---
+
+## Refining the Class Structure
+
+While the original implementation works, it can be refined for better readability and alignment with how TypeScript infers types.
+
+### Original Order
+
+```tsx
+export class Component<TProps> {
+  private props: TProps;
+
+  constructor(props: TProps) {
+    this.props = props;
+  }
+
+  getProps = () => this.props;
+}
+```
+
+### Revised Order
+
+Reordering the class can make the flow of type inference clearer:
+
+```tsx
+export class Component<TProps> {
+  constructor(props: TProps) {
+    this.props = props;
+  }
+
+  private props: TProps;
+
+  getProps = () => this.props;
+}
+```
+
+This small change aligns the type inference chain:
+
+1. **Constructor first:** Infers the type of `TProps`.
+2. **Private property next:** Uses the inferred type for internal storage.
+
+---
+
+## Adapting to New Types
+
+Let’s test what happens when the types change. Suppose we modify `a` to be a string:
+
+```tsx
+const component = new Component({ a: "1234", b: 2, c: 3 });
+const result = component.getProps();
+
+type tests = [
+  Expect<Equal<typeof result, { a: string; b: number; c: number }>>,
+];
+```
+
+In this case:
+
+- `TProps` is inferred as `{ a: string; b: number; c: number }`.
+- The method `getProps` returns this type, ensuring that any downstream code is aware of the updated structure.
+
+---
+
+## Why Use This Pattern?
+
+### 1. Stability
+
+Generics in classes infer types once during instantiation. This ensures type stability throughout the lifecycle of the class instance.
+
+### 2. Reusability
+
+By making the class generic, you can use it with any shape of props, making the code more flexible and reusable.
+
+### 3. Common in Libraries
+
+This pattern is widely used in open-source libraries (e.g., React components) to handle dynamic props while maintaining type safety.
+
+---
+
+## Conclusion
+
+Generics in TypeScript offer an elegant solution for creating flexible and type-safe classes. By introducing a generic parameter (`TProps`) to our `Component` class, we ensured that the types of props were inferred accurately and consistently. This pattern is not just limited to open-source libraries but is equally beneficial in application code.
+
+Mastering this approach will help you write more robust TypeScript code and better understand how type inference works in complex scenarios.
+
+> **Finished this lesson?** Mark it as complete and try experimenting with generics in your own projects!
