@@ -1,0 +1,155 @@
+---
+title: "Stop Avoiding Classes in TypeScript: Why They’re More Than Just Syntax"
+description: "Learn why classes in TypeScript should not be avoided, how they enhance object creation and type safety, and when they become essential in your codebase."
+image: "../../public/posts/stop-avoiding-classes-in-typescript.jpg"
+publishedAt: "2025/01/11"
+updatedAt: "2025/01/11"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - programming
+  - web development
+---
+
+In the TypeScript world, developers often start by defining their data structures using type or interface declarations. These tools are excellent for ensuring type safety, but as applications grow in complexity, they might not suffice to guarantee the consistent creation and behavior of objects throughout your codebase. This is where classes step in as a powerful alternative.
+
+In this article, we’ll explore why classes in TypeScript should not be avoided, how they enhance object creation and type safety, and when they become essential in your codebase.
+
+> **The Problem with Loose Object Structures**  
+> When using type or interface, you define the "shape" of your objects but leave the creation of those objects to developers or external sources. Consider this example:
+
+```typescript
+interface Person {
+  name: string;
+  age: number;
+  zip?: string; // Optional
+}
+
+const createPerson = (): Person => ({
+  name: "John",
+  age: 30,
+});
+```
+
+At first glance, this works fine. However, as your application scales:
+
+- **Human Errors Creep In:** Developers may forget optional properties like `zip`, or accidentally assign incorrect types.
+- **Runtime Issues:** Despite compile-time checks, there’s no guarantee that objects created dynamically at runtime will align with the defined type.
+- **Code Duplication:** Each time you create a `Person` object, you need to ensure you’re populating the right properties. Mistakes compound as the codebase grows.
+
+## Why Classes? The Benefits Beyond Types
+
+Using classes instead of plain `type` or `interface` definitions introduces several advantages.
+
+### 1. Enforced Object Construction
+
+With a class, you define not just the shape but also the process of creating an object. This ensures that every instance adheres to a well-defined blueprint.
+
+```typescript
+class Person {
+  constructor(
+    public name: string,
+    public age: number,
+    public zip?: string,
+  ) {}
+}
+
+// Creating a new person
+const john = new Person("John", 30, "12345");
+```
+
+If you miss a required property or provide a value of the wrong type, TypeScript will throw an error at the time of object creation, rather than leaving you to debug inconsistencies later.
+
+### 2. Instance Validation
+
+Unlike `type` or `interface`, classes allow you to use the `instanceof` operator to validate whether an object is an instance of a specific class. This check works at runtime, making your applications more robust.
+
+```typescript
+console.log(john instanceof Person); // true
+```
+
+This feature can prevent subtle bugs caused by mistakenly treating similar objects as the same type.
+
+### 3. Encapsulation and Methods
+
+Classes enable you to encapsulate behavior within the object itself. Instead of writing separate functions that operate on raw data, you can define methods directly on the class:
+
+```typescript
+class Person {
+  constructor(
+    public name: string,
+    public age: number,
+    public zip?: string,
+  ) {}
+
+  greet(): string {
+    return `Hi, I'm ${this.name} and I'm ${this.age} years old.`;
+  }
+}
+
+const jane = new Person("Jane", 25);
+console.log(jane.greet()); // Hi, I'm Jane and I'm 25 years old.
+```
+
+This encapsulation keeps your logic tied to the relevant data, improving both readability and maintainability.
+
+### 4. Type Safety During Refactoring
+
+When you update a class definition, TypeScript automatically checks all instances where the class is used. This proactive approach minimizes the risk of bugs during refactoring.
+
+For example, if you add a new required property:
+
+```typescript
+class Person {
+  constructor(
+    public name: string,
+    public age: number,
+    public zip: string, // Now required
+  ) {}
+}
+```
+
+TypeScript will alert you to every instance of `Person` creation that needs updating, ensuring no invalid objects slip through the cracks.
+
+### 5. Modularity
+
+Classes can be easily modularized, living in their own files and imported wherever needed. This approach keeps your code organized and scalable.
+
+```typescript
+// person.ts
+export class Person {
+  constructor(
+    public name: string,
+    public age: number,
+    public zip?: string,
+  ) {}
+}
+
+// main.ts
+import { Person } from "./person";
+
+const alice = new Person("Alice", 28, "67890");
+```
+
+## When to Use Classes Over Types or Interfaces
+
+While `type` and `interface` are lightweight and sufficient for simple use cases, classes shine in scenarios where:
+
+- **Object Creation Logic Is Complex:** If you need constructors, validation, or computed properties.
+- **Behavior Tied to Data:** When objects need methods or additional logic.
+- **Runtime Validation:** To leverage features like `instanceof`.
+- **Scalability:** In larger projects, classes help centralize and enforce consistent object creation patterns.
+
+## Classes and TypeScript: A Synergistic Duo
+
+By combining TypeScript’s static type system with JavaScript’s class-based syntax, you get the best of both worlds:
+
+- Compile-time type safety.
+- Runtime validation and encapsulation.
+- A clear blueprint for creating and managing objects.
+
+> **Final Thoughts**  
+> TypeScript developers often shy away from classes, favoring `type` or `interface` due to their simplicity. While these tools are invaluable, there comes a point where they fall short in ensuring consistent and error-free object creation. Classes provide a robust mechanism to address these gaps.
+
+Next time you find yourself defining the shape of an object in TypeScript, ask yourself: Would a class provide better structure, safety, and organization? If the answer is yes, it’s time to embrace the power of classes in your codebase.

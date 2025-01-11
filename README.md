@@ -71,4 +71,5 @@
 - Photo by [Mike Dorner](https://unsplash.com/@dorner?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/riped-banana-on-pink-surface-sf_1ZDA1YFw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Agê Barros](https://unsplash.com/@agebarros?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/a-close-up-of-a-silver-watch-face-rBPOfVqROzY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [T I M E L O R D](https://unsplash.com/@timelordmp?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/green-moss-on-brown-tree-trunk-TgvgRXcDZWY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
+- Photo by [Erik Kroon](https://unsplash.com/@erikkroon?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/closeup-photo-of-gray-and-red-metal-machine-mInXJBqkf2A?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
   --- roylopez ---
