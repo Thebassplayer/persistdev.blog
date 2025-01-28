@@ -1,0 +1,131 @@
+---
+title: "Leveraging Generics in TypeScript Classes: A Practical Guide"
+description: "Learn how to effectively apply generics in TypeScript classes, with practical examples and constraints for enhanced type safety."
+image: "../../public/posts/generics-types-in-classes.jpg"
+publishedAt: "2025-01-28"
+updatedAt: "2025-01-28"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - programming
+  - generics
+---
+
+> Generics in TypeScript provide a powerful mechanism to create reusable, type-safe components. This article explores how to apply generics effectively in a class, including extending generic constraints to enforce specific structures.
+
+## The Problem: Inferring Types Dynamically
+
+Imagine we have a `Component` class that takes some properties and exposes a method to retrieve them. Here’s an example:
+
+```tsx
+export class Component<TProps> {
+  private props: TProps;
+
+  constructor(props: TProps) {
+    this.props = props;
+  }
+
+  getProps = () => this.props;
+}
+
+// Example usage:
+const component = new Component({ a: 1, b: 2, c: 3 });
+const result = component.getProps(); // result: { a: number; b: number; c: number }
+```
+
+### Breaking Down the Code
+
+- **Generic Slot:**
+  The `TProps` type parameter allows the `Component` class to infer the type of props passed to the constructor.
+
+- **Type-Safe Properties:**
+  The class uses `TProps` for the `props` property and the `getProps` method, ensuring strong type safety.
+
+- **Dynamic Inference:**
+  When creating the `Component`, TypeScript infers the type of `props` from the object passed to the constructor.
+
+## Extending the Generic Prop with Constraints
+
+We can enforce that the generic type must meet certain criteria using constraints. For example, we can ensure that `props` is always an object.
+
+```tsx
+export class Component<TProps extends object> {
+  constructor(props: TProps) {
+    this.props = props;
+  }
+
+  private props: TProps;
+
+  getProps = () => this.props;
+}
+
+// Example usage:
+const component = new Component({ a: 1, b: 2 });
+const result = component.getProps(); // result: { a: number; b: number }
+
+// This will cause a TypeScript error:
+// const invalidComponent = new Component(42); // Error: number does not extend object
+```
+
+## Adding Specific Constraints
+
+Let’s say we want to ensure that every `props` object has a `name` property of type `string`. We can extend the constraint like this:
+
+```tsx
+export class Component<TProps extends { name: string }> {
+  constructor(props: TProps) {
+    this.props = props;
+  }
+
+  private props: TProps;
+
+  getProps = () => this.props;
+}
+
+// Example usage:
+const component = new Component({ name: "MyComponent", age: 30 });
+const result = component.getProps(); // result: { name: string; age: number }
+
+// This will cause a TypeScript error because 'name' is missing:
+// const invalidComponent = new Component({ age: 30 });
+```
+
+## Real-World Example: Using Base Types
+
+You can also use a predefined base type to enforce consistent structure while allowing additional fields:
+
+```tsx
+type BaseProps = { id: string };
+
+export class Component<TProps extends BaseProps> {
+  constructor(props: TProps) {
+    this.props = props;
+  }
+
+  private props: TProps;
+
+  getProps = () => this.props;
+}
+
+// Example usage:
+const component = new Component({ id: "abc123", customField: 42 });
+const result = component.getProps(); // result: { id: string; customField: number }
+
+// This will cause a TypeScript error if 'id' is missing:
+// const invalidComponent = new Component({ customField: 42 });
+```
+
+## Why Extend Generics?
+
+Extending generics provides a way to balance flexibility and type safety. It ensures that:
+
+- Specific constraints are met (e.g., required fields like `name` or `id`).
+
+- Type inference still works dynamically for additional fields.
+
+- Code remains reusable and maintainable.
+
+## Conclusion
+
+Generics in TypeScript, combined with constraints, allow developers to build reusable and type-safe components that adapt to various structures while enforcing specific rules. This approach is especially useful in libraries, APIs, and frameworks, ensuring robust and predictable behavior in your code.
