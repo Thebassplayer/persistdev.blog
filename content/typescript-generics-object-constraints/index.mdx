@@ -1,0 +1,95 @@
+---
+title: "Mastering TypeScript Generics: Adding Constraints to Object Properties"
+description: "Learn how to effectively add constraints to generics in TypeScript for better type safety and IntelliSense support. This guide walks you through the process step-by-step."
+image: "../../public/posts/typescript-generics-object-constraints.jpg"
+publishedAt: "2025-01-29"
+updatedAt: "2025-01-29"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - generics
+  - programming
+---
+
+Generics in TypeScript are a powerful feature that provides flexibility while ensuring type safety. However, working with generics often involves constraints to avoid unexpected errors and ensure the compiler has enough information to validate the code. In this guide, we’ll focus on **adding constraints to generics** using a practical example.
+
+---
+
+## **Step 1: Adding the Generic**
+
+Let’s begin by defining a generic function that combines `firstName` and `lastName` into a `fullName`. The generic type is represented by `TUser`:
+
+```typescript
+export const concatenateFirstNameAndLastName = <TUser>(user: TUser) => {
+  return {
+    ...user,
+    fullName: `${user.firstName} ${user.lastName}`,
+  };
+};
+```
+
+At this stage, the function attempts to merge a `fullName` string into the provided object. However, TypeScript raises an error because the properties `firstName` and `lastName` do not exist on the generic type `TUser`. This happens because `TUser` defaults to `unknown`, meaning TypeScript cannot infer the shape of the object.
+
+---
+
+**Step 2: Adding Constraints** To resolve the issue, we need to ensure that the generic type `TUser` is constrained to objects that include `firstName` and `lastName` as `string` properties. This can be achieved using the `extends` keyword:
+
+```typescript
+export const concatenateFirstNameAndLastName = <
+  TUser extends { firstName: string; lastName: string },
+>(
+  user: TUser,
+) => {
+  return {
+    ...user,
+    fullName: `${user.firstName} ${user.lastName}`,
+  };
+};
+```
+
+Now, TypeScript enforces that any object passed as `user` must include `firstName` and `lastName` properties of type `string`. If these properties are missing, the compiler will throw an error, helping you catch issues early in development.
+
+---
+
+**VS Code IntelliSense Benefits** With the constraints in place, modern IDEs like VS Code will now provide auto-completion and inline error detection. For instance, if you forget to include `firstName` or `lastName`, you’ll be notified instantly. This saves time and reduces the likelihood of runtime errors.
+
+---
+
+**Step 3: Declaring the Return Type (Optional)**
+In the previous step, TypeScript inferred the return type automatically. However, you can explicitly declare the return type if you want to make your code more readable or ensure strict type enforcement:
+
+```typescript
+export const concatenateFirstNameAndLastName = <
+  TUser extends { firstName: string; lastName: string },
+>(
+  user: TUser,
+): TUser & { fullName: string } => {
+  return {
+    ...user,
+    fullName: `${user.firstName} ${user.lastName}`,
+  };
+};
+```
+
+Explicitly declaring the return type ensures clarity for other developers reading your code. However, in most cases, TypeScript is smart enough to infer the correct type, so this step is optional.
+
+---
+
+**Key Takeaways**
+
+1. **Generics Default to `unknown`**
+   When using generics, the default type is `unknown`, which means TypeScript won’t know what properties are available unless you specify constraints.
+
+2. **Using `extends` for Constraints**
+   Adding constraints with `extends` ensures that the generic type includes the required properties, enabling IntelliSense and type safety.
+
+3. **Optional Return Type Declaration**
+   TypeScript can infer return types for functions that merge generic types. Explicitly declaring return types is optional but can enhance code clarity.
+
+---
+
+**Why Constraints Matter**
+Without constraints, generic functions lack clarity and may lead to subtle bugs. By defining constraints, you provide both TypeScript and your team with a clear understanding of the shape and requirements of the data being passed into functions.
+
+With this approach, your codebase becomes more robust and developer-friendly, making TypeScript’s type system work harder for you.
