@@ -74,4 +74,5 @@
 - Photo by [Erik Kroon](https://unsplash.com/@erikkroon?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/closeup-photo-of-gray-and-red-metal-machine-mInXJBqkf2A?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Edge2Edge Media](https://unsplash.com/@edge2edgemedia?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/black-puzzle-piece-on-white-paper-x21KgBfOd_4?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 - Photo by [Daniel Schludi](https://unsplash.com/@schluditsch?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/white-cassette-tape-l8cvrt3Hpec?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
+- Photo by [Keagan Henman](https://unsplash.com/@henmankk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/black-folding-chair-on-canvas-pPxJTtxfV1A?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
   --- roylopez ---

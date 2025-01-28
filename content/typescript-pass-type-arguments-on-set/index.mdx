@@ -1,0 +1,154 @@
+---
+title: "Mastering Generics in TypeScript: Passing Type Arguments to Functions"
+description: "Learn how to add type arguments to functions in TypeScript, enhance type safety, and better utilize generics for built-in types like Set or Map."
+image: "../../public/posts/typescript-pass-type-arguments-on-set.jpg"
+publishedAt: "2025-01-30"
+updatedAt: "2025-01-30"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - generics
+  - programming
+---
+
+Generics in TypeScript allow developers to create reusable and type-safe components. One key concept when working with generics is the ability to **pass type arguments to functions**. This article will walk you through how to effectively pass type arguments and add flexibility to your code using an example with the `Set` type.
+
+---
+
+## **The Problem: Missing Type Arguments**
+
+Let’s start by creating a function to generate a new `Set`. Initially, the function doesn’t accept any type arguments:
+
+```typescript
+export const createSet = () => {
+  return new Set();
+};
+```
+
+When you try to create a `Set` with a specific type using this function, TypeScript raises an error:
+
+```typescript
+const stringSet = createSet<string>();
+const numberSet = createSet<number>();
+// Error: Expected 0 type arguments, but got 1.
+```
+
+This happens because the function does not have a generic type parameter (`<T>`). To fix this, we can add a generic to the function declaration.
+
+---
+
+**Solution: Adding a Generic Type Argument** To allow the function to accept a type argument, we add `<T>` to the function:
+
+```typescript
+export const createSet = <T>() => {
+  return new Set<T>();
+};
+```
+
+Now, when we create a `Set` with a type argument, it works perfectly:
+
+```typescript
+const stringSet = createSet<string>();
+const numberSet = createSet<number>();
+```
+
+TypeScript ensures that the `Set` only accepts values of the specified type:
+
+```typescript
+stringSet.add("hello"); // ✅ Works
+stringSet.add(42); // ❌ Error: Argument of type 'number' is not assignable to parameter of type 'string'.
+```
+
+---
+
+**The Default Type Argument** By default, TypeScript assigns the type `unknown` if no type argument is provided. Consider the following example:
+
+```typescript
+const set = new Set();
+```
+
+This is equivalent to:
+
+```typescript
+const set = new Set<unknown>();
+```
+
+When the type is `unknown`, you can add any value to the `Set`, but this often defeats the purpose of type safety:
+
+```typescript
+set.add("hello"); // ✅ Works
+set.add(42); // ✅ Works
+```
+
+To avoid this, explicitly passing a type argument or using type inference is recommended.
+
+---
+
+**Enhancing the Function with an Initial Value** Sometimes, you might want to infer the type argument from the function arguments instead of explicitly specifying it. This can be achieved by adding an optional `initialValue` parameter to the `createSet` function:
+
+```typescript
+export const createSet = <T>(initialValue?: T) => {
+  const newSet = new Set<T>();
+  if (initialValue !== undefined) {
+    newSet.add(initialValue);
+  }
+  return newSet;
+};
+```
+
+Here’s how this updated function works:
+
+```typescript
+const stringSet = createSet("hello");
+const numberSet = createSet(42);
+
+stringSet.add("world"); // ✅ Works
+stringSet.add(123); // ❌ Error: Argument of type 'number' is not assignable to parameter of type 'string'.
+```
+
+With this approach, TypeScript infers the type based on the `initialValue` provided. If no value is provided, you can still explicitly specify the type:
+
+```typescript
+const emptySet = createSet<number>(); // Explicit type argument
+emptySet.add(10); // ✅ Works
+```
+
+---
+
+Exploring the Built-in `Set` Type\*\* The `Set` type in TypeScript is a generic interface that accepts a single type argument, `<T>`. This means you can declare a `Set` for any type, like so:
+
+```typescript
+const stringSet = new Set<string>();
+const numberSet = new Set<number>();
+```
+
+By default, if no type argument is provided, `Set` assumes the type is `unknown`:
+
+```typescript
+const defaultSet = new Set(); // Equivalent to Set<unknown>
+```
+
+This flexibility allows `Set` to be used for various use cases, but it’s important to specify the type argument when you need stricter type safety.
+
+---
+
+**Key Takeaways**
+
+1. **Add Generics to Functions for Type Arguments**
+   By adding `<T>` to your function, you enable it to accept type arguments, making it more reusable and type-safe.
+
+2. **Type Inference Simplifies Usage**
+   Using an optional parameter like `initialValue` allows TypeScript to infer the type argument without requiring explicit specification.
+
+3. **Default Type is `unknown`**
+   When no type is specified, TypeScript defaults to `unknown`. This allows flexibility but sacrifices type safety.
+
+4. **Generics and Built-in Types**
+   Many built-in types like `Set` and `Map` utilize generics, making them more powerful and versatile when used with type arguments.
+
+---
+
+Generics in TypeScript are a cornerstone of type-safe, reusable code. By learning to pass type arguments to functions, you can unlock the full potential of TypeScript’s type system and build more maintainable and reliable applications.
+
+Try applying these techniques to your own codebase and share your thoughts in the comments below!
