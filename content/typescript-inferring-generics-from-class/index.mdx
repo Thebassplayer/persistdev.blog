@@ -1,0 +1,95 @@
+---
+title: "Inferring Generic Type Arguments from Class Instances in TypeScript"
+description: "Learn how to leverage TypeScript generics to infer type arguments from class instances, ensuring type safety and reducing redundancy in your code."
+image: "../../public/posts/typescript-inferring-generics-from-class.jpg"
+publishedAt: "2025/01/31"
+updatedAt: "2025/01/31"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - generics
+  - programming
+---
+
+One of the most powerful features of TypeScript is its ability to infer types through generics. Today, we'll explore how to leverage generic parameters not only in functions but also within class type arguments. We'll walk through a practical example where we create a `duplicateWidget` function that clones an instance of a class, preserving its dynamic properties.
+
+Imagine you have a class `Widget` that holds a set of properties whose types can vary. When you duplicate a widget, you want the new instance to carry the same type information as the original. Let’s dive in!
+
+## Setting the Stage
+
+Consider the following simple implementation of a `Widget` class:
+
+```typescript
+class Widget<TData> {
+  constructor(private data: TData) {}
+
+  getData(): TData {
+    return this.data;
+  }
+}
+```
+
+Here, the generic parameter `TData` represents the type of the widget’s data. When you create a new `Widget`, you specify what type `TData` should be. For instance:
+
+```typescript
+const numberWidget = new Widget({ x: 10, y: 20 });
+```
+
+Even though we didn’t explicitly annotate the type for `TData`, TypeScript infers it from the object we passed in.
+
+## The Challenge: Cloning a Widget
+
+Suppose we want to create a helper function named `duplicateWidget` that takes an existing widget and returns a new widget with the same data. Initially, you might be tempted to write it like this:
+
+```typescript
+const duplicateWidget = (widget: Widget<any>): Widget<any> => {
+  return new Widget(widget.getData());
+};
+
+const clonedWidget = duplicateWidget(numberWidget);
+```
+
+At first glance, this works. However, because we used `any` for the type parameter, the return type of `clonedWidget` becomes `Widget<any>`. This loses the type information we had in the original widget (i.e., that the data is of the inferred type `{ x: number; y: number }`).
+
+## Introducing Generics for Precision
+
+To retain the type information of the widget’s data, we can make `duplicateWidget` a generic function. The idea is to capture the data type from the input widget and use it as the type for the new widget. Here’s how you can do it:
+
+```typescript
+const duplicateWidget = <TData>(widget: Widget<TData>): Widget<TData> => {
+  return new Widget(widget.getData());
+};
+```
+
+Now, TypeScript will infer the type of `TData` from the argument passed to `duplicateWidget`. For example:
+
+```typescript
+const clonedWidget = duplicateWidget(numberWidget);
+// clonedWidget is of type Widget<{ x: number; y: number }>
+```
+
+This means that all type information is preserved, and you get full type safety when working with the cloned widget.
+
+## Letting TypeScript Infer the Return Type
+
+TypeScript is smart enough to infer the return type from the function’s implementation. Once you ensure that the logic of your function maintains the correct types, you can simplify your function signature by omitting the explicit return type:
+
+```typescript
+const duplicateWidget = <TData>(widget: Widget<TData>) => {
+  return new Widget(widget.getData());
+};
+```
+
+Even without an explicit return type annotation, TypeScript understands that `duplicateWidget` returns a `Widget<TData>` because the `getData()` method returns `TData`.
+
+## Why This Matters
+
+> **Preserve type information** : When you clone objects or components, you keep the precise type of their properties.**Reduce boilerplate** : Allowing TypeScript to infer types leads to cleaner and more maintainable code.**Enhance type safety** : Ensuring that types remain consistent throughout your codebase prevents many common bugs.
+> This pattern can be extended to various scenarios. For example, you might apply similar logic when working with asynchronous operations, such as extracting the resolved type from a promise, or when manipulating collections of typed objects.
+
+## Final Thoughts
+
+Understanding how to work with generics both in functions and within class type arguments can transform the way you write TypeScript code. It helps ensure that your abstractions remain type-safe while reducing redundancy. The `duplicateWidget` example is just one illustration of this concept.
+Experiment with these ideas in your own projects and see how much cleaner and more robust your code can become!
+**Happy coding!**
