@@ -1,0 +1,93 @@
+---
+title: "Representing Generics at the Lowest Level in TypeScript: A Practical Approach"
+description: "Learn how to simplify TypeScript generics by targeting only the necessary type information. This article explores two approaches to overriding a nested configuration property and demonstrates why a lower-level generic type leads to better readability and maintainability."
+image: "../../public/posts/representing-generics-lowest-level-typescript.jpg"
+publishedAt: "2025/05/02"
+updatedAt: "2025/05/02"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - generics
+  - web development
+---
+
+When working with generics in TypeScript, choosing the right level of abstraction can make your code significantly more readable and maintainable. In this article, we’ll explore two different approaches to typing a function that overrides a nested configuration property. The key idea is to represent generics at the lowest level necessary—capturing only the part of the type you actually need.
+
+Consider a scenario where you have a configuration object for a web application:
+
+```typescript
+interface AppConfig {
+  systemConfig: {
+    userProfile: {
+      theme: string;
+      layout: "grid" | "list";
+      notificationsEnabled: boolean;
+    };
+    // ... other system configurations
+  };
+  // ... other global settings
+}
+```
+
+Suppose you want to write a function, `applyUserProfileConfig`, that accepts the configuration and an override function. The override function takes the current `userProfile` settings and returns a modified version. Let’s examine two solutions.
+
+## Solution 1: Capturing the Entire Configuration
+
+In the first approach, we capture the entire configuration object in the generic type. We then index into it to extract the type of the `userProfile` property. While this works, it results in a verbose function signature that carries much more type information than necessary.
+
+```typescript
+export const applyUserProfileConfig = <
+  TConfig extends {
+    systemConfig: {
+      userProfile: any;
+    };
+  },
+>(
+  config: TConfig,
+  override: (
+    currentProfile: TConfig["systemConfig"]["userProfile"],
+  ) => TConfig["systemConfig"]["userProfile"],
+): TConfig["systemConfig"]["userProfile"] => {
+  return override(config.systemConfig.userProfile);
+};
+```
+
+> In this solution, the generic parameter `TConfig` represents the entire configuration object.
+> Although the function works correctly, the signature is cluttered by additional details that aren’t relevant to the task at hand.
+
+## Solution 2: Targeting the Specific Generic Type
+
+A cleaner and more elegant approach is to focus the generic type on only the part of the configuration we intend to manipulate. In this case, we directly represent the type of the `userProfile` property. This not only simplifies the function signature but also improves code readability.
+
+```typescript
+export const applyUserProfileConfig = <UserProfile>(
+  config: {
+    systemConfig: {
+      userProfile: UserProfile;
+    };
+  },
+  override: (currentProfile: UserProfile) => UserProfile,
+): UserProfile => {
+  return override(config.systemConfig.userProfile);
+};
+```
+
+> Here, the generic parameter `UserProfile` directly represents the type of the user profile configuration.
+> This focused approach results in a more concise signature, making it immediately clear which part of the configuration is being overridden.
+
+## Key Takeaways
+
+- **Minimize Unnecessary Complexity** : Use generics to capture only the specific type you need rather than a large, encompassing type.
+
+- **Enhance Readability** : A lower-level generic type makes the function’s purpose clearer, as it highlights the exact property being manipulated.
+
+- **Simplify Type Inference** : By narrowing the generic scope, you help TypeScript provide more accurate and useful type information.
+
+By representing generics at the lowest level possible, you reduce boilerplate and make your code easier to understand. This principle is especially valuable when dealing with deeply nested objects or complex configurations.
+
+## Conclusion
+
+Generics are a powerful tool in TypeScript, but their effectiveness depends on how precisely they are used. When overriding specific parts of an object, consider defining your generic types to represent only what is necessary. This approach leads to cleaner, more maintainable code and leverages TypeScript’s type inference to its fullest potential.
+
+Happy coding!
