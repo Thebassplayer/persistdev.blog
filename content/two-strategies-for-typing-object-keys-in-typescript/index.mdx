@@ -87,7 +87,9 @@ const settingKeys = extractSpecificKeys(settings);
 - Provides a complete mapping between the object’s properties and the keys.
 
 - Useful when the context of the entire object is necessary elsewhere in your code.
-  ❌ **Cons:**
+
+❌ **Cons:**
+
 - The generic captures more information than needed if you’re only interested in the keys.
 
 - Requires an explicit cast to match the precise key types.
@@ -101,7 +103,9 @@ const settingKeys = extractSpecificKeys(settings);
 - Isolates the key extraction, making the intent crystal clear.
 
 - Results in a more elegant and focused type signature when only keys matter.
-  ❌ **Cons:**
+
+❌ **Cons:**
+
 - Limits the function to objects where the value types are irrelevant.
 
 - Doesn’t retain the broader context of the object’s full type.
