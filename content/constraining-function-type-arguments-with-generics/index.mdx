@@ -1,0 +1,140 @@
+---
+title: "Constraining Function Type Arguments with Generics: Building a Safe Execution Wrapper"
+description: "Learn how to build a robust TypeScript function wrapper using generics. This article explores two strategies to ensure type safety while handling errors gracefully."
+image: "../../public/posts/constraining-function-type-arguments-with-generics.jpg"
+publishedAt: "2025-02-07"
+updatedAt: "2025-02-07"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - generics
+  - functional programming
+  - error handling
+---
+
+In TypeScript, writing a higher-order function that wraps another function to handle errors gracefully can be greatly enhanced by properly constraining its type arguments. In this article, we'll explore two different approaches for building a **safe execution wrapper**.
+
+Both methods ensure that the wrapper preserves the original function's argument types and return type while adding error handling.
+
+---
+
+## The Problem: Wrapping a Function Safely
+
+Imagine you have a function that might throw an error, and you want to wrap it so that instead of crashing your application, it returns an object indicating success or failure.
+
+For example, the wrapper should return:
+
+- `{ status: "ok", value: result }` on success
+- `{ status: "error", error: error }` on failure
+
+Below are **two strategies** to achieve this using TypeScript generics.
+
+---
+
+## Approach 1: Using Separate Generic Parameters
+
+The first solution uses **two generic parameters**—one for the function’s parameters and another for its return type.
+
+```typescript
+const wrapWithSafety = <TArgs extends any[], TResult>(
+  fn: (...args: TArgs) => TResult,
+) => {
+  return (
+    ...args: TArgs
+  ): { status: "ok"; value: TResult } | { status: "error"; error: Error } => {
+    try {
+      const result = fn(...args);
+      return { status: "ok", value: result };
+    } catch (error) {
+      return { status: "error", error: error as Error };
+    }
+  };
+};
+```
+
+### 🔍 Explanation
+
+> `TArgs extends any[]` → Captures the function’s parameters as an array, allowing for **any number of arguments** .`TResult` → Represents the **return type** of the function.
+> The parameter `fn` is of type `(...args: TArgs) => TResult`, meaning it takes parameters of type `TArgs` and returns `TResult`.The wrapper function **preserves** this type, ensuring type safety.
+> ✅ On **success** : `{ status: "ok", value: TResult }`❌ On **failure** : `{ status: "error", error: Error }`This approach **directly maps** the original function’s parameters and return type into the wrapper’s type signature, making it explicit and easy to follow.
+
+---
+
+## Approach 2: Constraining the Entire Function Type
+
+The second solution takes a **different approach** by capturing the **entire function type** with a **single generic parameter** . It then extracts the parameters and return type using **TypeScript’s built-in utility types** .
+
+```typescript
+const wrapWithSafetyAlt = <TFunc extends (...args: any[]) => any>(
+  fn: TFunc,
+) => {
+  return (
+    ...args: Parameters<TFunc>
+  ):
+    | { status: "ok"; value: ReturnType<TFunc> }
+    | { status: "error"; error: Error } => {
+    try {
+      const result = fn(...args);
+      return { status: "ok", value: result };
+    } catch (error) {
+      return { status: "error", error: error as Error };
+    }
+  };
+};
+```
+
+### 🔍 Explanation
+
+> `TFunc extends (...args: any[]) => any` → Constrains `TFunc` to be **any function** .
+> `Parameters<TFunc>` → Extracts the **parameter types** of `TFunc` as a tuple.`ReturnType<TFunc>` → Extracts the **return type** of `TFunc`.
+> The parameter `fn` is **typed as a whole function** (`TFunc`).The returned function:
+
+- ✅ Accepts arguments of type `Parameters<TFunc>`
+
+- ✅ Returns `{ status: "ok"; value: ReturnType<TFunc> } | { status: "error"; error: Error }`This approach **reduces cognitive load** by keeping the type definitions more compact. It’s especially useful when working with **complex function types** .
+
+---
+
+## Comparing the Two Approaches
+
+**Approach 1: Using Separate Generics** ✅ **Pros:**
+
+- **Explicitly** separates parameter types (`TArgs`) and return type (`TResult`).
+
+- Useful when you need **fine-grained control** over parameters and return values.
+  ❌ **Cons:**
+- Slightly more verbose.
+
+- Requires defining multiple generic parameters.
+
+---
+
+**Approach 2: Using a Single Generic** ✅ **Pros:**
+
+- **More concise** by leveraging TypeScript's built-in utility types.
+
+- Reduces boilerplate by **directly extracting** function parameters and return type.
+  ❌ **Cons:**
+- Less **explicit** about the function's parameter and return types.
+
+- Requires familiarity with TypeScript’s `Parameters<T>` and `ReturnType<T>` utilities.
+
+---
+
+## Choosing the Right Strategy
+
+Both approaches are valid and provide strong type safety, so the **choice depends on your preference and project needs** :
+
+- Use **Approach 1** if you **prefer explicit typing** and want **more control** over generics.
+
+- Use **Approach 2** if you want **cleaner, more concise** code that leverages **TypeScript utility types** .
+  Regardless of which approach you choose, **both ensure that your wrapper function accurately reflects the original function’s type signature** , preventing type mismatches when used.
+
+---
+
+## Conclusion
+
+By **constraining function type arguments with generics** , you can build **flexible and safe higher-order functions** in TypeScript.Whether you:
+✅ Define **separate generics** for parameters and return types
+✅ Leverage **utility types** to capture the entire function… **both methods provide robust type safety** that helps catch errors early in development.Mastering generics in TypeScript **empowers you to write cleaner, safer, and more scalable code** .**Happy coding!** 🚀
