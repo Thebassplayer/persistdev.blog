@@ -1,0 +1,103 @@
+---
+title: "Using TypeScript Generics to Safely Type Your Fetch Requests"
+description: "Learn how to use TypeScript generics to enforce type safety in your fetch requests and eliminate the use of 'any'."
+image: "../../public/posts/typescript-generics-fetch.jpg"
+publishedAt: "2025/04/02"
+updatedAt: "2025/04/02"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - generics
+  - fetch
+  - web development
+---
+
+> TypeScript’s generics are a powerful tool to enforce type safety and eliminate the dreaded `any` type from your codebase. When working with the native `fetch` API, you may have noticed that its design doesn’t provide a way to specify the expected shape of the JSON response.
+>
+> This article will guide you through several strategies for typing fetch requests using generics, ensuring that the data you work with is as safe and predictable as possible.
+
+## The Problem with `fetch`
+
+The built-in `fetch` function is defined in TypeScript as follows:
+
+```ts
+declare function fetch(
+  input: RequestInfo | URL,
+  init?: RequestInit,
+): Promise<Response>;
+```
+
+The returned `Response` object has a method `json()` which is declared to return a `Promise<any>`:
+
+```ts
+interface Body {
+  // ...
+  json(): Promise<any>;
+  // ...
+}
+```
+
+Because `json()` is typed to return `any`, any data you extract from it loses the type information that TypeScript is so good at enforcing. Without proper handling, this can allow unexpected values to propagate through your application.
+
+## Strategies for Typing Fetch Responses
+
+Below are several approaches to ensure that the JSON data you receive is correctly typed using generics.
+
+### 1. Specifying the Return Type
+
+One common approach is to annotate your function’s return type as `Promise<T>`, where `T` represents the expected shape of the data:
+
+```ts
+const fetchData = async <T>(url: string): Promise<T> => {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data as T;
+};
+```
+
+Here, even though `response.json()` returns `Promise<any>`, we cast the result to `T` when returning it. This ensures that any code consuming `fetchData` will treat its result as type `T`. However, note that the cast only affects the returned value and doesn’t prevent potential misuse of `data` within the function itself.
+
+### 2. Typing the Data Immediately
+
+A more robust strategy is to type the data as soon as it is retrieved, confining the impact of `any` strictly to the call to `json()`:
+
+```ts
+const fetchData = async <T>(url: string): Promise<T> => {
+  const response = await fetch(url);
+  // Immediately assert the type of the fetched data
+  const data: T = await response.json();
+  return data;
+};
+```
+
+By declaring `data` with the type `T`, you ensure that all subsequent operations within the function are aware of the data’s structure. This approach minimizes the window where an `any` type might inadvertently slip through your code.
+
+### 3. Typing Within a Promise Chain
+
+Another option is to specify the expected type directly in the `.then` clause of your promise chain:
+
+```ts
+const fetchData = async <T>(url: string): Promise<T> => {
+  const data = await fetch(url).then((response): Promise<T> => response.json());
+  return data;
+};
+```
+
+In this variant, the arrow function inside `.then` explicitly indicates that `response.json()` should be interpreted as returning a `Promise<T>`. The inferred type of `data` becomes `T` (or more precisely, `Awaited<T>`), which can be particularly helpful when dealing with more complex asynchronous flows.Avoiding the Pitfalls of `any`Each of the above methods works to limit the scope of the `any` type to just the interaction with the `fetch` API. However, care must be taken to ensure that this `any` does not “leak” into the broader codebase. For example, avoid reassigning variables in a way that might invalidate your type assertions:
+
+```ts
+// This is discouraged because it bypasses the type safety you've just set up.
+const fetchData = async <T>(url: string): Promise<T> => {
+  let data: T = await fetch(url).then((response) => response.json());
+  // Reassigning data could lead to unexpected type errors or runtime issues.
+  // data = null; // Uncommenting this line would cause TypeScript to raise an error.
+  return data;
+};
+```
+
+By applying your type assertions immediately and carefully, you can ensure that your functions remain robust, and any misuse of data types is caught at compile time.
+
+## Conclusion
+
+Using generics with your fetch requests is an excellent way to harness TypeScript’s strong typing system. Whether you choose to specify the return type, assert the type of `data` immediately upon retrieval, or leverage promise chains with explicit type annotations, the key is to confine the use of `any` as much as possible. With these strategies in place, you can develop more reliable and maintainable applications while enjoying the full benefits of TypeScript’s type safety.**Happy coding!**
