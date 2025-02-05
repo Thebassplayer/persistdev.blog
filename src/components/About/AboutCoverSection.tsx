@@ -9,7 +9,7 @@ const AboutCoverSection = () => {
           src={
             "https://res.cloudinary.com/dukkbmkvk/image/upload/v1712087374/persistdev.blog/uh9yenwaj89rsvi91td9.png"
           }
-          alt="Roy codign in a laptop computer"
+          alt="Roy codign in a laptop"
           className="h-full w-4/5 object-contain object-center xs:w-3/4 md:w-full"
           sizes="(max-width: 768px) 100vw,(max-width: 1180px) 50vw, 50vw"
           width={500}
