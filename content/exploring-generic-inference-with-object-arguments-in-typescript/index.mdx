@@ -107,7 +107,10 @@ const wholeResultConst = getWholeObject({
 
 ## 🔑 Key Takeaways
 
-✔ **Direct Return Preserves Literals** : When a function returns a value directly, TypeScript maintains its **literal type** .✔ **Object Wrapping Causes Widening** : When a value is wrapped inside an **object** , TypeScript **widens** its type—unless you use `as const`.✔ **Constraints Can Refine Inference** : Applying a **constraint** directly on a **field** (e.g., `T extends string`) can **help maintain literal types** .✔ **Whole-Object Constraints May Lose Precision** : When the **generic parameter applies to the entire object** , even `as const` **may not preserve** the literal type for nested properties.
+✔ **Direct Return Preserves Literals** : When a function returns a value directly, TypeScript maintains its **literal type** .
+✔ **Object Wrapping Causes Widening** : When a value is wrapped inside an **object** , TypeScript **widens** its type—unless you use `as const`.
+✔ **Constraints Can Refine Inference** : Applying a **constraint** directly on a **field** (e.g., `T extends string`) can **help maintain literal types** .
+✔ **Whole-Object Constraints May Lose Precision** : When the **generic parameter applies to the entire object** , even `as const` **may not preserve** the literal type for nested properties.
 
 ---
 
