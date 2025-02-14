@@ -1,0 +1,58 @@
+---
+title: "Two Methods for Creating a CSS Class Name Factory in TypeScript"
+description: "Learn two different approaches for dynamically constructing CSS class names in TypeScript using generics. Enhance your UI component styling with type-safe class mappings."
+image: "../../public/posts/two-methods-css-class-factory-typescript.jpg"
+publishedAt: "2025/02/14"
+updatedAt: "2025/02/14"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - css
+  - web development
+---
+
+When building UI components, it's often useful to have a small utility that dynamically constructs class name strings. In TypeScript, we can leverage generics to enforce strict types for our class mappings. In this article, we'll explore two different approaches for building a class name factory that maps variant keys to CSS class strings.
+
+## Method 1: Using a Generic Variant Type
+
+In the first method, we define a generic type parameter that extends `string`. This type represents the possible variant keys, and we then use it to type the mapping object. Here's an example using a utility function named `buildAlertClassFactory`:
+
+```typescript
+const buildAlertClassFactory =
+  <TAlert extends string>(styles: Record<TAlert, string>) =>
+  (alertType: TAlert, ...extraClasses: string[]): string => {
+    const classArray = [styles[alertType], ...extraClasses];
+    return classArray.join(" ");
+  };
+```
+
+> **Generic Constraint:** The generic type `TAlert` is constrained to `string`. This ensures that the keys used in the mapping are strings.**Mapping Object:** The `styles` parameter is typed as a `Record<TAlert, string>`, meaning every key (of type `TAlert`) maps to a string value (the CSS class name).**Function Return:** The inner function takes an `alertType` (one of the keys defined by `TAlert`) and any additional class names. It combines them into a single space-separated string.
+> This approach is ideal when you want to define a strict set of valid variant keys without caring about the exact types of the mapping values.
+
+## Method 2: Using a Generic Record for the Entire Mapping
+
+The alternative method captures the entire mapping object as a generic record. In this case, we let TypeScript infer the keys of the object and then use `keyof` to constrain the variant parameter. Here's how you might implement it:
+
+```typescript
+const buildAlertClassFactory =
+  <TStyles extends Record<string, string>>(styles: TStyles) =>
+  (alertType: keyof TStyles, ...extraClasses: string[]): string => {
+    const classArray = [styles[alertType], ...extraClasses];
+    return classArray.join(" ");
+  };
+```
+
+> **Generic Mapping:** The generic parameter `TStyles` is defined as a record with `string` keys and `string` values. This captures the entire structure of the mapping.**Variant Parameter:** Instead of a separate generic for the variant key, we use `keyof TStyles` for the `alertType` parameter. This ensures that only keys present in the mapping can be used.**Function Return:** Similar to Method 1, the function constructs an array of class names and joins them into a single string.
+> This approach offers more flexibility if you have a complex mapping and want TypeScript to infer both the keys and their associated values automatically.
+
+## Recap
+
+Both methods allow you to create a type-safe factory for CSS class names:
+
+- **Method 1** focuses solely on the variant keys by explicitly declaring a generic type that extends `string`.
+
+- **Method 2** captures the entire mapping and uses `keyof` to enforce valid keys, offering a slightly broader approach.
+
+Each method leverages TypeScript’s generic inference to catch potential errors at compile time, ensuring that your components always receive valid class names.
+Feel free to choose the method that best suits your project's needs. **Happy coding!** 🚀
