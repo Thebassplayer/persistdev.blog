@@ -1,0 +1,91 @@
+---
+title: "Understanding Generics in Function Interfaces"
+description: "Learn how to properly use generics in function interfaces in TypeScript. This guide explores defining generics at the function level for better flexibility and type safety."
+image: "../../public/posts/understanding-generics-in-function-interfaces.jpg"
+publishedAt: "2025/03/04"
+updatedAt: "2025/03/04"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - generics
+  - programming
+---
+
+## Understanding Generics in Function Interfaces
+
+Generics are a powerful feature in TypeScript that allow functions, classes, and interfaces to be more flexible while maintaining strong type safety. In this post, we’ll explore how to properly use generics inside an interface, particularly when defining function signatures.
+
+> **The key takeaway**: Defining generics at the function level can improve flexibility and maintainability.
+
+## The Challenge: A Generic `clone` Method
+
+Consider an interface representing a simple cache system:
+
+```typescript
+export interface Cache<T> {
+  get: (key: string) => T | undefined;
+  set: (key: string, value: T) => void;
+  clone: (transform: (elem: unknown) => unknown) => Cache<unknown>;
+}
+```
+
+Here, `clone` is a method that applies a transformation to every item in the cache and returns a new cache. However, its current type definition isn't ideal—it forces the returned `Cache` to have `unknown` as its type, losing information about what the transformation actually does.Why Defining `U` at the Interface Level Doesn't WorkA common first attempt might be to modify the `Cache` interface like this:
+
+```typescript
+export interface Cache<T, U> { ... }
+```
+
+However, this approach is problematic because it requires specifying both `T` and `U` when the cache is initially created. Instead, the transformation's output type should be determined at the moment `clone` is called.
+
+## A Better Approach: Generics on the Function
+
+A more effective solution is to define the new type `U` directly on the `clone` function:
+
+```typescript
+export interface Cache<T> {
+  get: (key: string) => T | undefined;
+  set: (key: string, value: T) => void;
+  clone: <U>(transform: (elem: T) => U) => Cache<U>;
+}
+```
+
+This change allows `clone` to be used dynamically, ensuring that the type of the new cache adapts based on the transformation applied.
+
+## How It Works in Practice
+
+Now, when calling `clone`, TypeScript correctly infers the new type:
+
+```typescript
+const numberCache: Cache<number> = ...;
+
+const stringCache = numberCache.clone((elem) => String(elem));
+
+// TypeScript infers stringCache as Cache<string>
+```
+
+If we change the transformation function, the cache's type updates accordingly:
+
+```typescript
+const booleanCache = numberCache.clone((elem) => elem > 2);
+
+// TypeScript infers booleanCache as Cache<boolean>
+```
+
+## The Takeaway: Function-Level Generics Enable Flexibility
+
+By placing generics directly on function signatures inside an interface, we:
+
+- Avoid unnecessary complexity in the interface definition.
+
+- Allow functions to dynamically determine their output type.
+
+- Improve type inference and maintainability.
+
+This approach is especially useful in patterns that involve transformations, such as functional programming techniques and builder patterns.
+
+## Looking Ahead
+
+The ability to define generics at different levels is a crucial skill in TypeScript. In future discussions, we’ll explore how this principle applies to method chaining and other advanced patterns.
+
+> **Got any interesting use cases for generics?** Share your thoughts in the comments!
