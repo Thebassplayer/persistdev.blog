@@ -1,0 +1,121 @@
+---
+title: "Ensuring Type Safety with Conditional Types in TypeScript"
+description: "Learn how to use conditional types in TypeScript to enforce stricter type safety and guarantee correct return types in functions."
+image: "../../public/posts/ensuring-type-safety-with-conditional-types-in-typescript.jpg"
+publishedAt: "2025/03/03"
+updatedAt: "2025/03/03"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - type safety
+  - generics
+---
+
+TypeScript provides powerful tools for ensuring both runtime and type-level safety. One such tool is **conditional types**, which allow us to define types that depend on a given condition. In this article, we'll explore how to use them effectively to guarantee correct return types in functions.
+
+## Building the Function Step by Step
+
+Consider the following simple function:
+
+```ts
+function flipGreeting(greeting: unknown) {
+  return greeting === "goodbye" ? "hello" : "goodbye";
+}
+```
+
+This function takes a greeting and flips it: if you pass `"goodbye"`, it returns `"hello"`, and vice versa. However, there are a few issues:
+
+> **Lack of Type Safety:** Since `greeting` is `unknown`, TypeScript can't infer what values it can accept.
+> **Return Type Inference:** The function always returns either `"hello"` or `"goodbye"`, but TypeScript sees the return type as a generic `string`.Let's refine this using **generics and conditional types** .
+
+## Adding a Generic Type
+
+To enforce stricter type safety, we introduce a **generic type parameter** `TGreeting`:
+
+```ts
+function flipGreeting<TGreeting extends "hello" | "goodbye">(
+  greeting: TGreeting,
+) {
+  return greeting === "goodbye" ? "hello" : "goodbye";
+}
+```
+
+### Why Use a Generic Type?
+
+> The `extends "hello" | "goodbye"` constraint ensures that only `"hello"` or `"goodbye"` can be passed.If a developer tries to pass `"hi"` or `"farewell"`, TypeScript will flag it as an error.
+
+## Introducing a Conditional Return Type
+
+Currently, our function returns a **union type** (`"hello" | "goodbye"`), but we can be more precise. Using a **conditional type** , we explicitly map `"hello"` to `"goodbye"` and vice versa:
+
+```ts
+function flipGreeting<TGreeting extends "hello" | "goodbye">(
+  greeting: TGreeting,
+): TGreeting extends "hello" ? "goodbye" : "hello" {
+  return greeting === "goodbye" ? "hello" : "goodbye";
+}
+```
+
+### Understanding the Return Type
+
+> If `TGreeting` is `"hello"`, the return type is `"goodbye"`.If `TGreeting` is `"goodbye"`, the return type is `"hello"`.At this point, **TypeScript provides autocomplete support** , helping developers quickly see valid input and output values.
+
+## Handling TypeScript's Inference Limitations
+
+Despite our improvements, TypeScript still throws an error:
+
+```rust
+Type '"hello" | "goodbye"' is not assignable to type 'TGreeting extends "hello" ? "goodbye" : "hello"'.
+```
+
+### Why Does This Happen?
+
+> TypeScript isn’t smart enough to infer that our function logic correctly enforces the return type. It sees the possible return values as `"hello" | "goodbye"`, rather than mapping inputs to specific outputs.The Fix: Using `as any`To override TypeScript's strict inference, we can use a **type assertion** :
+
+```ts
+function flipGreeting<TGreeting extends "hello" | "goodbye">(
+  greeting: TGreeting,
+): TGreeting extends "hello" ? "goodbye" : "hello" {
+  return (greeting === "goodbye" ? "hello" : "goodbye") as any;
+}
+```
+
+> This may seem unusual, but it’s a **necessary workaround** when working with conditional return types in functions.
+
+## Extracting a Type Helper for Clarity
+
+To make the code cleaner, we can **extract the conditional type** into a separate helper type:
+
+```ts
+type OppositeGreeting<TGreeting> = TGreeting extends "hello"
+  ? "goodbye"
+  : "hello";
+```
+
+Now, we can use this helper in our function:
+
+```ts
+function flipGreeting<TGreeting extends "hello" | "goodbye">(
+  greeting: TGreeting,
+): OppositeGreeting<TGreeting> {
+  return (
+    greeting === "goodbye" ? "hello" : "goodbye"
+  ) as OppositeGreeting<TGreeting>;
+}
+```
+
+### Why Use a Type Helper?
+
+> It improves readability by **separating logic from type definitions** .If we ever need to **reuse this logic** elsewhere, we can easily do so.
+
+## Key Takeaways
+
+- **Use generics** to enforce input constraints (`TGreeting extends "hello" | "goodbye"`).
+
+- **Leverage conditional types** to correctly map return values (`TGreeting extends "hello" ? "goodbye" : "hello"`).
+
+- **Understand TypeScript's limitations** —sometimes, it can’t infer relationships between runtime and type-level code.
+
+- Use **Use `as any` or a type helper** to work around inference issues when necessary.
+  By applying these techniques, you can **write type-safe, predictable functions** that guide developers with **proper autocompletion and error prevention** .
