@@ -1,18 +1,38 @@
-"use client";
-import { useMDXComponent } from "next-contentlayer/hooks";
-import { Post } from "@/.contentlayer/generated";
+import { evaluate } from "@mdx-js/mdx";
 import Image from "next/image";
+import * as runtime from "react/jsx-runtime";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
 
 type RenderMdxProps = {
-  post: Post;
+  source: string;
 };
 
 const mdxComponent = {
   Image,
 };
 
-const RenderMdx = ({ post }: RenderMdxProps) => {
-  const MDXContent = useMDXComponent(post.body.code);
+const codeOptions = {
+  theme: "github-dark",
+  grid: false,
+};
+
+const RenderMdx = async ({ source }: RenderMdxProps) => {
+  const { default: MDXContent } = await evaluate(
+    source,
+    {
+      ...(runtime as any),
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [
+        rehypeSlug,
+        [rehypeAutolinkHeadings, { behavior: "append" }],
+        [rehypePrettyCode, codeOptions],
+      ],
+    } as any,
+  );
+
   return (
     <div
       className="prose prose-sm col-span-12 max-w-max font-in dark:prose-invert sm:prose-base md:prose-lg first-letter:text-3xl

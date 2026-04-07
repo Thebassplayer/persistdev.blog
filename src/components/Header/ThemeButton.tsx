@@ -1,4 +1,5 @@
 import React from "react";
+import { useSyncExternalStore } from "react";
 import { MoonIcon, SunIcon } from "../Icons";
 import { cx } from "@/src/utils/cx";
 import { Theme } from "@/src/types";
@@ -9,6 +10,16 @@ type ThemeButtonProps = {
 };
 
 const ThemeButton = ({ theme, setTheme }: ThemeButtonProps) => {
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+
+  if (!mounted) {
+    return <div className="ml-2 h-6 w-6 rounded-full p-1" aria-hidden="true" />;
+  }
+
   return (
     <button
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}

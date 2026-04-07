@@ -3,7 +3,7 @@ import Image from "next/image";
 import SearchRaulIcon from "../SearchRaulIcon/SearchRaulIcon";
 import { getHighlightedContent } from "@/src/utils/fuse/highlightText";
 import { FuseResult } from "fuse.js";
-import { Post } from "@/.contentlayer/generated";
+import type { Post } from "@/src/content/generated";
 
 type SearchResultsProps = {
   searchResults: FuseResult<Post>[];
@@ -37,11 +37,11 @@ export function SearchResults({
                       blurDataURL={result.item?.image?.blurhashDataUrl}
                       width={10}
                       height={10}
-                      className="w-8 rounded-sm object-cover object-center"
+                      className="w-8 rounded-xs object-cover object-center"
                       priority
                     />
                   ) : null}
-                  <h2 className="text-gray-700 line-clamp-1 w-full bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat font-bold transition-[background-size] duration-500 hover:bg-[length:100%_5px] dark:from-accentDark dark:to-accentDark/50 dark:text-light sm:text-xl">
+                  <h2 className="text-gray-700 line-clamp-1 w-full bg-linear-to-r from-accent to-accent bg-size-[0px_5px] bg-bottom-left bg-no-repeat font-bold transition-[background-size] duration-500 hover:bg-size-[100%_5px] dark:from-accentDark dark:to-accentDark/50 dark:text-light sm:text-xl">
                     {result.item.title}
                   </h2>
                 </div>

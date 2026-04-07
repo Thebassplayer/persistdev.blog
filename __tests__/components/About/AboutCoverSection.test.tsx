@@ -11,7 +11,7 @@ describe("AboutCoverSection", () => {
     render(<AboutCoverSection />);
     expect(
       screen.getByText(
-        "Never stop learning, because life never stops teaching.",
+        /Talent is cheaper than table salt\./i,
       ),
     ).toBeInTheDocument();
     expect(screen.getByText(/Hello! I´m Roy Lopez/i)).toBeInTheDocument();
@@ -22,8 +22,6 @@ describe("AboutCoverSection", () => {
 
   it("displays the image with correct alt text", () => {
     render(<AboutCoverSection />);
-    expect(
-      screen.getByAltText("Roy codign in a laptop computer"),
-    ).toBeInTheDocument();
+    expect(screen.getByAltText("Roy codign in a laptop")).toBeInTheDocument();
   });
 });

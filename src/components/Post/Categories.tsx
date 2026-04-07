@@ -1,34 +1,10 @@
-import GithubSlugger, { slug } from "github-slugger";
+import { slug } from "github-slugger";
 import Category from "./Category";
-import { allPosts } from "@/.contentlayer/generated";
 
 type CategoriesProps = {
   categories: any;
   currentSlug: string;
 };
-
-const slugger = new GithubSlugger();
-
-export async function generateStaticParams() {
-  const categories: any = [];
-  const paths = [{ slug: "all" }];
-
-  allPosts.map((post) => {
-    if (post.isPublished) {
-      post.tags?.map((tag) => {
-        let slugified = slugger.slug(tag);
-        console.log(slugified);
-        if (!categories.includes(slugified)) {
-          categories.push(slugified);
-          paths.push({
-            slug: slugified,
-          });
-        }
-      });
-    }
-  });
-  return paths;
-}
 
 const Categories = ({ categories, currentSlug }: CategoriesProps) => {
   return (

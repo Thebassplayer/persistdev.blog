@@ -8,7 +8,7 @@ export const POST = async (req: Request) => {
     const validBody = subscriptionSchema.safeParse(body);
 
     if (!validBody.success) {
-      throw new Error(validBody.error.errors[0].message);
+      throw new Error(validBody.error.issues[0]?.message ?? "Invalid request");
     }
 
     const email = validBody.data.email;

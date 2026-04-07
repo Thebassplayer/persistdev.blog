@@ -13,6 +13,9 @@ const config = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testEnvironment: "jsdom",
   preset: "ts-jest",
+  moduleNameMapper: {
+    "^github-slugger$": "<rootDir>/__mocks__/github-slugger.js",
+  },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

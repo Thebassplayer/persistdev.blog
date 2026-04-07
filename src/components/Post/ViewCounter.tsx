@@ -34,11 +34,9 @@ const ViewCounter = ({
         if (response.ok) {
           const data = await response.json();
           setViews(data.count);
-        } else {
-          console.error("Error incrementing views");
         }
       } catch (error) {
-        console.error("An error occurred while incrementing views: ", error);
+        console.warn("Unable to increment views.", error);
       }
     };
 
@@ -55,11 +53,9 @@ const ViewCounter = ({
         if (response.ok) {
           const data = await response.json();
           setViews(data.count);
-        } else {
-          console.error("Error fetching views");
         }
       } catch (error) {
-        console.error("An error occurred while getting views: ", error);
+        console.warn("Unable to fetch views.", error);
       }
     };
 

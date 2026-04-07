@@ -1,4 +1,4 @@
-import { allPosts } from "@/.contentlayer/generated";
+import { getAllPosts, getPostBySlug } from "@/src/content/generated";
 import PostDetails from "@/src/components/Post/PostDetails";
 import RenderMdx from "@/src/components/Post/RenderMdx";
 import ButtonTag from "@/src/components/Elements/ButtonTag";
@@ -12,15 +12,17 @@ import { notFound } from "next/navigation";
 import parseDate from "@/src/utils/dateParser";
 
 export async function generateStaticParams() {
+  const allPosts = await getAllPosts();
   return allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata | void> {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  const { slug: postSlug } = await params;
+  const post = await getPostBySlug(postSlug);
   if (!post) {
     notFound();
   }
@@ -71,8 +73,9 @@ export async function generateMetadata({
   };
 }
 
-const PostPage = ({ params }: { params: { slug: string } }) => {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const { slug: postSlug } = await params;
+  const post = await getPostBySlug(postSlug);
   const firstPostTag = post?.tags?.[0];
 
   const datePublished = parseDate(post?.publishedAt);
@@ -145,12 +148,12 @@ const PostPage = ({ params }: { params: { slug: string } }) => {
             />
           ) : null}
         </div>
-        {post ? <PostDetails post={post} slug={params.slug} /> : null}
+        {post ? <PostDetails post={post} slug={postSlug} /> : null}
         <div className="mt-8 grid grid-cols-12 gap-y-8 px-5 md:px-10 lg:gap-8 sxl:gap-16">
           <div className="col-span-12 lg:col-span-2">
             <TableOfContent post={post} />
           </div>
-          {post ? <RenderMdx post={post} /> : null}
+          {post ? <RenderMdx source={post.body.raw} /> : null}
         </div>
       </article>
     </>

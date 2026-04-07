@@ -1,10 +1,22 @@
-/** @type {import('next').NextConfig} */
+const createMDX = require("@next/mdx");
 
-const { withContentlayer } = require("next-contentlayer");
+/** @type {import('next').NextConfig} */
+const withMDX = createMDX({
+  extension: /\.(md|mdx)$/,
+});
 
 const nextConfig = {
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   images: {
-    domains: ["res.cloudinary.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
+  },
+  turbopack: {
+    root: __dirname,
   },
   async redirects() {
     return [
@@ -17,4 +29,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withContentlayer({ ...nextConfig });
+module.exports = withMDX({ ...nextConfig });

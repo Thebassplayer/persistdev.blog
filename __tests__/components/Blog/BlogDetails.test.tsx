@@ -1,12 +1,13 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import PostDetails from "@/src/components/Post/PostDetails";
-import { Post } from "@/.contentlayer/generated";
+import type { Post } from "@/src/content/generated";
 
 // Mock the ViewCounter component
-jest.mock("../../../src/components/Post/ViewCounter", () => (
-  <div data-testid="mock-view-counter">Mock View Counter</div>
-));
+jest.mock("../../../src/components/Post/ViewCounter", () => ({
+  __esModule: true,
+  default: () => <div data-testid="mock-view-counter">Mock View Counter</div>,
+}));
 
 describe("BlogDetails", () => {
   const sampleBlog: Post = {
@@ -26,10 +27,11 @@ describe("BlogDetails", () => {
     isPublished: true,
     author: "Sample Author",
     tags: ["Sample Tag"],
-    body: { code: "sample-mdx-code", raw: "sample-mdx-raw" },
+    body: { raw: "sample-mdx-raw" },
     url: "sample-url",
-    readingTime: {},
-    toc: {},
+    readingTime: { text: "5 min read", time: 300000, words: 100, minutes: 0.5 },
+    toc: [],
+    content: "sample-mdx-raw",
   };
 
   it("renders without crashing", () => {
@@ -37,7 +39,7 @@ describe("BlogDetails", () => {
     expect(screen.getByText("January 1, 2023")).toBeInTheDocument();
     expect(screen.getByText("Mock View Counter")).toBeInTheDocument();
     expect(screen.getByText("5 min read")).toBeInTheDocument();
-    expect(screen.getByText("#Technology")).toBeInTheDocument();
+    expect(screen.getByText("#Sample Tag")).toBeInTheDocument();
   });
 
   it("renders with missing tags", () => {
@@ -47,18 +49,18 @@ describe("BlogDetails", () => {
         slug="sample-slug"
       />,
     );
-    expect(screen.queryByText("#Technology")).not.toBeInTheDocument();
+    expect(screen.queryByText("#Sample Tag")).not.toBeInTheDocument();
   });
 
-  it("renders with missing ViewCounter", () => {
+  it("renders the mocked ViewCounter", () => {
     render(<PostDetails post={sampleBlog} slug="sample-slug" />);
-    expect(screen.queryByTestId("mock-view-counter")).not.toBeInTheDocument();
+    expect(screen.getByTestId("mock-view-counter")).toBeInTheDocument();
   });
 
   it("renders with empty tags array", () => {
     render(
       <PostDetails post={{ ...sampleBlog, tags: [] }} slug="sample-slug" />,
     );
-    expect(screen.queryByText("#Technology")).not.toBeInTheDocument();
+    expect(screen.queryByText("#Sample Tag")).not.toBeInTheDocument();
   });
 });

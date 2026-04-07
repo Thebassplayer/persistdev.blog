@@ -1,4 +1,4 @@
-import { Post } from "@/.contentlayer/generated";
+import type { Post } from "@/src/content/generated";
 import { FuseResult } from "fuse.js";
 
 const highlightText = (

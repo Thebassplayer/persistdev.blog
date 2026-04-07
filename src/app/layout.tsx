@@ -11,7 +11,7 @@ import GoogleAnalytics from "../components/GoogleAnalytics";
 import ToastProvider from "../lib/react-toastify/ToastProvider";
 import { cx } from "../utils/cx";
 import { SearchModal } from "../components/SearchModal/SearchModal";
-import { allPosts, Post } from "@/.contentlayer/generated";
+import { getAllPosts } from "@/src/content/generated";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -70,13 +70,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const allPosts = await getAllPosts();
+
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+    >
       <head>
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />

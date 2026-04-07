@@ -1,4 +1,4 @@
-import { Post } from "@/.contentlayer/generated";
+import type { Post } from "@/src/content/generated";
 import { sortPosts } from "@/src/utils/Post";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,7 +21,7 @@ const HomeCoverSection = ({ posts }: HomeCoverSectionProps) => {
   return (
     <div className="inline-block w-full">
       <article className="relative mx-5 flex h-[60vh] flex-col items-start justify-end sm:mx-10 sm:h-[85vh]">
-        <div className="absolute bottom-0 left-0 right-0 top-0 z-0 h-full rounded-3xl bg-gradient-to-b from-transparent from-0% to-dark/90" />
+        <div className="absolute bottom-0 left-0 right-0 top-0 z-0 h-full rounded-3xl bg-linear-to-b from-transparent from-0% to-dark/90" />
         {latestPost?.image ? (
           <Image
             src={coverImage}
@@ -39,7 +39,7 @@ const HomeCoverSection = ({ posts }: HomeCoverSectionProps) => {
             <ButtonTag link={linkTag} name={firstPostTag} />
             <Link href={latestPost.url} className="mt-6">
               <h1 className="md-text-3xl text-lg font-bold capitalize sm:text-xl lg:text-4xl">
-                <span className="bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 hover:bg-[length:100%_5px] dark:from-accentDark dark:to-accentDark/50">
+                <span className="bg-linear-to-r from-accent to-accent bg-size-[0px_5px] bg-bottom-left bg-no-repeat transition-[background-size] duration-500 hover:bg-size-[100%_5px] dark:from-accentDark dark:to-accentDark/50">
                   {latestPost?.title}
                 </span>
               </h1>

@@ -1,4 +1,4 @@
-import { Post } from "@/.contentlayer/generated";
+import type { Post } from "@/src/content/generated";
 import { compareDesc, parseISO } from "date-fns";
 
 export const sortPosts = (posts: Post[]) => {

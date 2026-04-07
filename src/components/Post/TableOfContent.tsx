@@ -1,4 +1,4 @@
-import { Post } from "@/.contentlayer/generated";
+import type { Post } from "@/src/content/generated";
 
 type Heading = {
   level: "one" | "two" | "three" | "four" | "five" | "six";

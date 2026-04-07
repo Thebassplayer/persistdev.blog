@@ -1,50 +1,39 @@
-import { allPosts } from "@/.contentlayer/generated";
+import { getAllPosts, getCategorySlugs } from "@/src/content/generated";
 import PostLayoutThree from "@/src/components/Post/PostLayoutThree";
 import Categories from "@/src/components/Post/Categories";
 import GithubSlugger, { slug } from "github-slugger";
 import { Metadata } from "next";
 
 type CategoryPageParams = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 const slugger = new GithubSlugger();
 
 export async function generateStaticParams() {
-  const categories: any = [];
-  const paths = [{ slug: "all" }];
-
-  allPosts.map((post) => {
-    if (post.isPublished) {
-      post.tags?.map((tag) => {
-        let slugified = slugger.slug(tag);
-        if (!categories.includes(slugified)) {
-          categories.push(slugified);
-          paths.push({ slug: slugified });
-        }
-      });
-    }
-  });
-
-  return paths;
+  const categories = await getCategorySlugs();
+  return categories.map((category) => ({ slug: category }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata | void> {
+  const { slug } = await params;
   return {
-    title: `${params.slug.replaceAll("-", " ")} Blog Posts`,
+    title: `${slug.replaceAll("-", " ")} Blog Posts`,
     description: `Learn more about ${
-      params.slug === "all" ? "Web development" : params.slug
+      slug === "all" ? "Web development" : slug
     } from our blog`,
   };
 }
 
-const CategoryPage = ({ params }: CategoryPageParams) => {
+const CategoryPage = async ({ params }: CategoryPageParams) => {
+  const { slug: currentSlug } = await params;
+  const allPosts = await getAllPosts();
   const allCategories = ["all"];
   const posts = allPosts
     .filter((post) => {
@@ -58,10 +47,10 @@ const CategoryPage = ({ params }: CategoryPageParams) => {
         if (!allCategories.includes(slugified)) {
           allCategories.push(slugified);
         }
-        if (params.slug === "all") {
+        if (currentSlug === "all") {
           return true;
         }
-        return slugified === params.slug;
+        return slugified === currentSlug;
       });
     })
     .sort((a, b) => {
@@ -73,13 +62,13 @@ const CategoryPage = ({ params }: CategoryPageParams) => {
     <article className="mt-2 flex flex-col text-dark dark:text-light lg:mt-12">
       <div className=" flex flex-col px-5 sm:px-10 md:px-24 sxl:px-32">
         <h1 className="mt-6 text-2xl font-semibold md:text-4xl lg:text-5xl">
-          #{params.slug}
+          #{currentSlug}
         </h1>
         <span className="mt-2 inline-block">
           Discover more categories and expand your knowledge!
         </span>
       </div>
-      <Categories categories={allCategories} currentSlug={params.slug} />
+      <Categories categories={allCategories} currentSlug={currentSlug} />
       <div className="mt-10 grid grid-cols-1 gap-8 px-8 sm:grid-cols-2 sm:gap-10 sm:px-24 lg:mt-24 lg:grid-cols-3 lg:gap-16 lg:px-32">
         {posts.map((post, index) => {
           return (

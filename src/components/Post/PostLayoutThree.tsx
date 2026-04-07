@@ -1,4 +1,4 @@
-import { Post } from "@/.contentlayer/generated";
+import type { Post } from "@/src/content/generated";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,7 +20,7 @@ const PostLayoutThree = ({ post }: PostLayoutThreeProps) => {
             blurDataURL={post.image?.blurhashDataUrl}
             height={post.image?.height}
             width={post.image?.width}
-            className="ease aspect-[4/3] h-full w-full object-cover object-center transition-all duration-300 group-hover:scale-105"
+            className="ease aspect-4/3 h-full w-full object-cover object-center transition-all duration-300 group-hover:scale-105"
             sizes="(max-width: 640px) 100vw,(max-width: 1124px) 50vw, 33vw"
           />
         ) : null}
@@ -32,7 +32,7 @@ const PostLayoutThree = ({ post }: PostLayoutThreeProps) => {
           </span>
           <Link href={post.url} className="my-1 block">
             <h2 className="text-base font-semibold capitalize sm:text-lg">
-              <span className="bg-gradient-to-r from-accent/50 to-accent/50 bg-[length:0px_5px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_5px] dark:from-accentDark/50 dark:to-accentDark/50">
+              <span className="bg-linear-to-r from-accent/50 to-accent/50 bg-size-[0px_5px] bg-bottom-left bg-no-repeat transition-[background-size] duration-500 group-hover:bg-size-[100%_5px] dark:from-accentDark/50 dark:to-accentDark/50">
                 {post?.title}
               </span>
             </h2>

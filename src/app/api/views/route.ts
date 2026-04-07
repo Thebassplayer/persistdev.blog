@@ -1,8 +1,9 @@
 import { prisma } from "@/src/app/api/utils/prisma/prisma";
 import { NextResponse } from "next/server";
 
+const VIEWS_FALLBACK_RESPONSE = { count: 0, disabled: true };
+
 export async function GET(req: Request) {
-  console.log("GET /api/views");
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get("slug");
 
@@ -17,11 +18,8 @@ export async function GET(req: Request) {
     const count = view ? view.count : 0;
     return NextResponse.json({ count }, { status: 200 });
   } catch (error) {
-    console.error("Error fetching views:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch views" },
-      { status: 500 },
-    );
+    console.warn("Views lookup unavailable, returning fallback count.", error);
+    return NextResponse.json(VIEWS_FALLBACK_RESPONSE, { status: 200 });
   }
 }
 
@@ -40,10 +38,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json({ count: view.count }, { status: 200 });
   } catch (error) {
-    console.error("Error incrementing views:", error);
-    return NextResponse.json(
-      { error: "Failed to increment views" },
-      { status: 500 },
-    );
+    console.warn("Views increment unavailable, returning fallback count.", error);
+    return NextResponse.json(VIEWS_FALLBACK_RESPONSE, { status: 200 });
   }
 }

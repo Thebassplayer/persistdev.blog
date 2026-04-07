@@ -1,4 +1,4 @@
-import { Post } from "@/.contentlayer/generated";
+import type { Post } from "@/src/content/generated";
 import { numberOfPosts, sortPosts } from "@/src/utils/Post";
 import Link from "next/link";
 import PostLayoutThree from "../Post/PostLayoutThree";

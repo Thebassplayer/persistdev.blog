@@ -37,7 +37,7 @@ const SuscriptionForm = () => {
       </p>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-6 flex w-fit items-stretch rounded bg-light dark:bg-dark sm:min-w-[384px] sm:p-2"
+        className="mt-6 flex w-fit items-stretch rounded-sm bg-light dark:bg-dark sm:min-w-[384px] sm:p-2"
       >
         <input
           type="email"
@@ -50,7 +50,7 @@ const SuscriptionForm = () => {
           type="submit"
           value={subscribeButtonValue({ loading, success, error })}
           disabled={loading || success || error}
-          className="my-1 cursor-pointer rounded bg-dark px-3 text-sm font-medium text-light dark:bg-light dark:text-dark sm:my-0"
+          className="my-1 cursor-pointer rounded-sm bg-dark px-3 text-sm font-medium text-light dark:bg-light dark:text-dark sm:my-0"
         />
         )
       </form>

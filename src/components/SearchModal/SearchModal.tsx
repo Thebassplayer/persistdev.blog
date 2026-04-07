@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import Fuse, { FuseResult } from "fuse.js";
-import { Post } from "@/.contentlayer/generated";
+import type { Post } from "@/src/content/generated";
 import { XIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -135,23 +135,27 @@ export function SearchModal({ posts }: SearchModalProps) {
     handleSearch("");
   }, [handleSearch, setSearchTerm, searchTerm, router, pathname]);
 
+  const closeModal = useCallback(() => {
+    router.replace(pathname);
+  }, [router, pathname]);
+
   return (
     <>
       {searchModal && (
-        <Link href={pathname} className="fixed inset-0 z-50 cursor-default">
-          <div
-            className="fixed left-1/2 z-50 flex h-screen w-screen -translate-x-1/2 justify-center bg-black bg-opacity-50 py-20"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="search-modal-title"
-          >
-            <div
-              className="h-min w-5/6 cursor-default rounded-lg bg-white shadow-lg dark:bg-dark sm:w-1/2"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-            >
+        <div
+          className="fixed inset-0 z-50 cursor-default"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="search-modal-title"
+        >
+          <button
+            type="button"
+            aria-label="Close search modal"
+            className="fixed inset-0 bg-black bg-opacity-50"
+            onClick={closeModal}
+          />
+          <div className="fixed left-1/2 z-50 flex h-screen w-screen -translate-x-1/2 justify-center py-20">
+            <div className="h-min w-5/6 cursor-default rounded-lg bg-white shadow-lg dark:bg-dark sm:w-1/2">
               <div className="p-6">
                 <div className="relative pb-4">
                   <input
@@ -161,7 +165,7 @@ export function SearchModal({ posts }: SearchModalProps) {
                     value={searchTerm}
                     onChange={handleInputChange}
                     className="text-gray-700 
-                    w-full rounded-md px-4 py-2 pl-10 shadow-[rgba(0,_0,_0,_0)_0px_0px_8px] shadow-light focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-dark dark:text-light"
+                    w-full rounded-md px-4 py-2 pl-10 shadow-[rgba(0,0,0,0)_0px_0px_8px] shadow-light focus:outline-hidden focus:ring-2 focus:ring-blue-500 dark:bg-dark dark:text-light"
                   />
                   <button
                     title="Clear search"
@@ -194,11 +198,11 @@ export function SearchModal({ posts }: SearchModalProps) {
                                   }
                                   width={10}
                                   height={10}
-                                  className="w-8 rounded-sm object-cover object-center"
+                                  className="w-8 rounded-xs object-cover object-center"
                                   priority
                                 />
                               ) : null}
-                              <h2 className="text-gray-700 line-clamp-1 w-full bg-gradient-to-r from-accent to-accent bg-[length:0px_5px] bg-left-bottom bg-no-repeat font-bold transition-[background-size] duration-500 hover:bg-[length:100%_5px] dark:from-accentDark dark:to-accentDark/50 dark:text-light sm:text-xl">
+                              <h2 className="text-gray-700 line-clamp-1 w-full bg-linear-to-r from-accent to-accent bg-size-[0px_5px] bg-bottom-left bg-no-repeat font-bold transition-[background-size] duration-500 hover:bg-size-[100%_5px] dark:from-accentDark dark:to-accentDark/50 dark:text-light sm:text-xl">
                                 {result.item.title}
                               </h2>
                             </div>
@@ -222,7 +226,7 @@ export function SearchModal({ posts }: SearchModalProps) {
               </div>
             </div>
           </div>
-        </Link>
+        </div>
       )}
     </>
   );

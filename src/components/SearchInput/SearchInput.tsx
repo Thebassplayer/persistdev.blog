@@ -27,7 +27,7 @@ export function SearchInput({ value, onChange, onClear }: SearchInputProps) {
         value={value}
         onChange={onChange}
         placeholder="Search posts..."
-        className="text-gray-700 w-full rounded-md px-4 py-2 pl-10 shadow-light focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-dark dark:text-light"
+        className="text-gray-700 w-full rounded-md px-4 py-2 pl-10 shadow-light focus:outline-hidden focus:ring-2 focus:ring-blue-500 dark:bg-dark dark:text-light"
       />
       <button
         onClick={onClear}
