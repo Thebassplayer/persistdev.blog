@@ -5,6 +5,8 @@ const withMDX = createMDX({
   extension: /\.(md|mdx)$/,
 });
 
+const buildWorkers = Number(process.env.NEXT_BUILD_WORKERS ?? 4);
+
 const nextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   images: {
@@ -17,6 +19,11 @@ const nextConfig = {
   },
   turbopack: {
     root: __dirname,
+  },
+  experimental: {
+    cpus: Number.isInteger(buildWorkers) && buildWorkers > 0 ? buildWorkers : 4,
+    staticGenerationMaxConcurrency: 8,
+    staticGenerationMinPagesPerWorker: 20,
   },
   async redirects() {
     return [

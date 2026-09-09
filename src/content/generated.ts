@@ -3,12 +3,14 @@ import path from "node:path";
 import { cache } from "react";
 import matter from "gray-matter";
 import readingTime, { type ReadTimeResults } from "reading-time";
-import GithubSlugger from "github-slugger";
+import GithubSlugger, { slug } from "github-slugger";
 import sharp from "sharp";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 const PUBLIC_DIR = path.join(process.cwd(), "public");
-const slugger = new GithubSlugger();
+let allPostsPromise: Promise<Post[]> | undefined;
+let postsBySlugPromise: Promise<Map<string, Post>> | undefined;
+let categorySlugsPromise: Promise<string[]> | undefined;
 
 type PostFrontmatter = {
   title: string;
@@ -192,28 +194,38 @@ async function readPostFromFile(filePath: string): Promise<Post> {
 }
 
 export const getAllPosts = cache(async (): Promise<Post[]> => {
-  const files = await findMdxFiles(CONTENT_DIR);
-  return Promise.all(files.map((filePath) => readPostFromFile(filePath)));
+  allPostsPromise ??= findMdxFiles(CONTENT_DIR).then((files) =>
+    Promise.all(files.map((filePath) => readPostFromFile(filePath))),
+  );
+
+  return allPostsPromise;
 });
 
 export const getPostBySlug = cache(async (slug: string): Promise<Post | null> => {
-  const posts = await getAllPosts();
-  return posts.find((post) => post._raw.flattenedPath === slug) ?? null;
+  postsBySlugPromise ??= getAllPosts().then((posts) => {
+    return new Map(posts.map((post) => [post._raw.flattenedPath, post]));
+  });
+
+  const postsBySlug = await postsBySlugPromise;
+  return postsBySlug.get(slug) ?? null;
 });
 
 export const getCategorySlugs = cache(async (): Promise<string[]> => {
-  const posts = await getAllPosts();
-  const categories = new Set<string>(["all"]);
+  categorySlugsPromise ??= getAllPosts().then((posts) => {
+    const categories = new Set<string>(["all"]);
 
-  posts.forEach((post) => {
-    if (!post.isPublished) {
-      return;
-    }
+    posts.forEach((post) => {
+      if (!post.isPublished) {
+        return;
+      }
 
-    post.tags?.forEach((tag) => {
-      categories.add(slugger.slug(tag));
+      post.tags?.forEach((tag) => {
+        categories.add(slug(tag));
+      });
     });
+
+    return [...categories];
   });
 
-  return [...categories];
+  return categorySlugsPromise;
 });
