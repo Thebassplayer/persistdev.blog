@@ -38,7 +38,9 @@ This happens because the function does not have a generic type parameter (`<T>`)
 
 ---
 
-**Solution: Adding a Generic Type Argument** To allow the function to accept a type argument, we add `<T>` to the function:
+## Solution: Adding a Generic Type Argument
+
+To allow the function to accept a type argument, we add `<T>` to the function:
 
 ```typescript
 export const createSet = <T>() => {
@@ -62,7 +64,9 @@ stringSet.add(42); // ❌ Error: Argument of type 'number' is not assignable to 
 
 ---
 
-**The Default Type Argument** By default, TypeScript assigns the type `unknown` if no type argument is provided. Consider the following example:
+## The Default Type Argument
+
+By default, TypeScript assigns the type `unknown` if no type argument is provided. Consider the following example:
 
 ```typescript
 const set = new Set();
@@ -85,7 +89,9 @@ To avoid this, explicitly passing a type argument or using type inference is rec
 
 ---
 
-**Enhancing the Function with an Initial Value** Sometimes, you might want to infer the type argument from the function arguments instead of explicitly specifying it. This can be achieved by adding an optional `initialValue` parameter to the `createSet` function:
+## Enhancing the Function with an Initial Value
+
+Sometimes, you might want to infer the type argument from the function arguments instead of explicitly specifying it. This can be achieved by adding an optional `initialValue` parameter to the `createSet` function:
 
 ```typescript
 export const createSet = <T>(initialValue?: T) => {
@@ -116,7 +122,9 @@ emptySet.add(10); // ✅ Works
 
 ---
 
-Exploring the Built-in `Set` Type\*\* The `Set` type in TypeScript is a generic interface that accepts a single type argument, `<T>`. This means you can declare a `Set` for any type, like so:
+## Exploring the Built-in `Set` Type
+
+The `Set` type in TypeScript is a generic interface that accepts a single type argument, `<T>`. This means you can declare a `Set` for any type, like so:
 
 ```typescript
 const stringSet = new Set<string>();
@@ -133,7 +141,7 @@ This flexibility allows `Set` to be used for various use cases, but it’s impor
 
 ---
 
-**Key Takeaways**
+## Key Takeaways
 
 1. **Add Generics to Functions for Type Arguments**
    By adding `<T>` to your function, you enable it to accept type arguments, making it more reusable and type-safe.
