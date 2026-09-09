@@ -69,5 +69,11 @@
     "prisma": "^7.7.0",
     "sharp": "^0.34.5",
     "ts-jest": "^29.4.9"
+  },
+  "allowScripts": {
+    "prisma@7.7.0": true,
+    "sharp@0.34.5": true,
+    "unrs-resolver@1.11.1": true,
+    "@prisma/engines@7.7.0": true
   }
 }
