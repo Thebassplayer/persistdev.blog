@@ -1,0 +1,323 @@
+---
+title: "TypeScript 7 Template Literal Types Now Preserve Unicode Code Points"
+description: "Learn how TypeScript 7 changes template literal type inference for Unicode characters, why surrogate pairs mattered before, and how this affects type-level string utilities."
+image: "../../public/posts/typescript-template-literals.jpg"
+publishedAt: "2026/09/09"
+updatedAt: "2026/09/09"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - typescript
+  - template literal types
+  - type inference
+---
+
+TypeScript 7 includes a small-looking change that is actually important if you write type-level string utilities: **template literal type inference now preserves Unicode code points**.
+
+This update comes from the official [TypeScript 7.0 announcement](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/), and it changes how TypeScript splits strings like `"🐶Raul"` when using `infer` inside template literal types.
+
+In this article, we will unpack what changed, why the old behavior was surprising, and what this means for utilities like `Head`, `Tail`, and `Length`.
+
+## The Problem: Strings Are Not Always One Character Per Index
+
+It is easy to think of a string as a list of characters:
+
+```typescript
+const value = "abc";
+```
+
+In this case, the mental model works well:
+
+```typescript
+value[0]; // "a"
+value[1]; // "b"
+value[2]; // "c"
+```
+
+But JavaScript strings are stored as UTF-16 code units. That means some characters are represented by more than one code unit.
+
+A common example is an emoji at the beginning of a name:
+
+```typescript
+const input = "🐶Raul";
+
+input[0]; // "\ud83d"
+input[1]; // "\udc36"
+input[2]; // "R"
+```
+
+That result looks strange because `"🐶"` is the character we see on screen, but JavaScript indexing exposes the two UTF-16 pieces that make up the emoji.
+
+Those two pieces are called a **surrogate pair**.
+
+## What Happens in JavaScript at Runtime?
+
+Let's use this input:
+
+```typescript
+const input = "🐶Raul";
+
+for (const char of input) {
+  console.log(char);
+}
+
+console.log(input[0]);
+console.log(input[1]);
+console.log(input[2]);
+```
+
+The `for...of` loop prints this:
+
+```txt
+🐶
+R
+a
+u
+l
+```
+
+That is because `for...of` walks through the string by Unicode code points. It treats `"🐶"` as one unit.
+
+But the indexed access behaves differently:
+
+```typescript
+console.log(input[0]); // first half of "🐶"
+console.log(input[1]); // second half of "🐶"
+console.log(input[2]); // "R"
+```
+
+In the terminal, the first two logs often appear as broken symbols or replacement characters because each one is only half of the emoji. Neither half is meaningful by itself.
+
+This is the exact runtime difference that helps explain the TypeScript 7 change:
+
+- `for...of` thinks in Unicode code points
+- `[...input]` thinks in Unicode code points
+- `input[index]` thinks in UTF-16 code units
+
+## Code Units vs Code Points
+
+Before looking at the TypeScript change, we need to define two terms.
+
+### Code Unit
+
+A code unit is the storage-level piece JavaScript uses when indexing strings. Since JavaScript strings use UTF-16, a single visible character may require one or two code units.
+
+For `"a"`, there is one code unit.
+
+For `"🐶"`, there are two code units.
+
+### Code Point
+
+A code point represents the actual Unicode character. From a developer's perspective, this is usually the unit you intended to work with.
+
+For example:
+
+```typescript
+const input = "🐶Raul";
+
+[...input]; // ["🐶", "R", "a", "u", "l"]
+```
+
+Spreading the string uses Unicode-aware iteration. It treats `"🐶"` as one unit instead of splitting it into its surrogate pair.
+
+TypeScript 7 brings template literal type inference closer to this intuition.
+
+## The Template Literal Type Example
+
+Consider a type that tries to split a string into its first part and the rest:
+
+```typescript
+type HeadTail<S> = S extends `${infer Head}${infer Tail}`
+  ? [Head, Tail]
+  : never;
+```
+
+With a regular ASCII string, the result is straightforward:
+
+```typescript
+type Result = HeadTail<"abc">;
+// ["a", "bc"]
+```
+
+But the more interesting case is a string that starts with an emoji:
+
+```typescript
+type Result = HeadTail<"🐶Raul">;
+```
+
+Before TypeScript 7, TypeScript followed JavaScript's UTF-16 indexing behavior more closely:
+
+```typescript
+type Result = HeadTail<"🐶Raul">;
+// Previously: ["\ud83d", "\udc36Raul"]
+```
+
+That means the inferred `Head` was not the emoji. It was only the first half of the emoji's surrogate pair.
+
+In TypeScript 7, the result is now:
+
+```typescript
+type Result = HeadTail<"🐶Raul">;
+// ["🐶", "Raul"]
+```
+
+This is usually what developers expect when they are doing type-level string manipulation.
+
+## Why the Old Behavior Was Technically Consistent
+
+The previous behavior was not random. It matched how JavaScript string indexing works:
+
+```typescript
+const input = "🐶Raul";
+
+input[0]; // "\ud83d"
+```
+
+So if TypeScript inferred the first part of `"🐶Raul"` as `"\ud83d"`, it was behaving consistently with `input[0]`.
+
+The problem is that this consistency was not very useful for most type-level string utilities.
+
+When you write a type like this:
+
+```typescript
+type FirstCharacter<S> = S extends `${infer Head}${infer Tail}`
+  ? Head
+  : never;
+```
+
+You probably want this:
+
+```typescript
+type First = FirstCharacter<"🐶Raul">;
+// "🐶"
+```
+
+You probably do not want this:
+
+```typescript
+type First = FirstCharacter<"🐶Raul">;
+// "\ud83d"
+```
+
+An unpaired surrogate is not meaningful by itself. It is only half of the character.
+
+## Why This Is a Breaking Change
+
+This update is more natural, but it can still break some type-level utilities.
+
+The most important example is a string `Length` type that counted UTF-16 code units.
+
+You might have seen a recursive type like this:
+
+```typescript
+type Length<
+  S extends string,
+  Count extends unknown[] = [],
+> = S extends `${infer Head}${infer Tail}`
+  ? Length<Tail, [...Count, Head]>
+  : Count["length"];
+```
+
+Before TypeScript 7, this kind of utility counted an emoji as two units:
+
+```typescript
+type Result = Length<"🐶">;
+// Previously: 2
+```
+
+In TypeScript 7, it counts the emoji as one code point:
+
+```typescript
+type Result = Length<"🐶">;
+// 1
+```
+
+For most applications, that is an improvement. But if your utility intentionally modeled JavaScript's UTF-16 indexing behavior, you may need to revisit it.
+
+## The New Mental Model
+
+The easiest way to understand the TypeScript 7 behavior is this:
+
+> Template literal inference now behaves more like `[...str]` or `for...of` than `str[index]`.
+
+At runtime:
+
+```typescript
+const input = "🐶Raul";
+
+input[0]; // "\ud83d"
+[...input][0]; // "🐶"
+
+for (const char of input) {
+  console.log(char);
+}
+// "🐶"
+// "R"
+// "a"
+// "u"
+// "l"
+```
+
+At the type level in TypeScript 7:
+
+```typescript
+type Result = HeadTail<"🐶Raul">;
+// ["🐶", "Raul"]
+```
+
+That makes template literal type inference align better with the way developers usually think about characters.
+
+## A Practical Recursive Example
+
+Let's build a type that turns a string into a tuple of its characters:
+
+```typescript
+type StringToTuple<
+  S extends string,
+  Result extends string[] = [],
+> = S extends `${infer Head}${infer Tail}`
+  ? StringToTuple<Tail, [...Result, Head]>
+  : Result;
+```
+
+For a simple string:
+
+```typescript
+type Letters = StringToTuple<"cat">;
+// ["c", "a", "t"]
+```
+
+For a string with an emoji:
+
+```typescript
+type EmojiText = StringToTuple<"🐶Raul">;
+// TypeScript 7: ["🐶", "R", "a", "u", "l"]
+```
+
+This is much easier to reason about than splitting the emoji into two invalid-looking pieces.
+
+## What You Should Check When Upgrading
+
+Most projects will not need to change anything. This mainly affects code that does advanced type-level string manipulation.
+
+Review utilities that:
+
+- Recursively split strings with template literal types
+- Count string length at the type level
+- Extract the first or last character from a string literal
+- Parse user-facing strings that may include emoji or non-BMP Unicode characters
+- Intentionally depend on JavaScript UTF-16 code unit behavior
+
+If your utility is supposed to work with user-visible characters, the TypeScript 7 behavior is probably better.
+
+If your utility is supposed to model JavaScript indexing exactly, you should add tests that include characters like `"🐶"` so the intended behavior is clear.
+
+## Conclusion
+
+TypeScript 7's Unicode code point preservation makes template literal type inference more intuitive.
+
+Before, a type like `HeadTail<"🐶Raul">` could split the emoji into two surrogate halves. Now, TypeScript treats the emoji as the first unit and leaves the rest of the string as `"Raul"`.
+
+That is a better default for most type-level string manipulation because it matches how developers think about strings when using `for...of` or `[...str]`.
+
+The key lesson is simple: **if your type utility works with characters, TypeScript 7 now gives you a more natural definition of a character**.
