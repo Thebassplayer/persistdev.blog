@@ -93,6 +93,7 @@ export default async function RootLayout({
         />
       </head>
       <body
+        suppressHydrationWarning
         className={cx(
           inter.variable,
           manrope.variable,
