@@ -10,7 +10,10 @@ const createPrismaClient = () => {
 
   return new PrismaClient({
     adapter,
-    log: ["query", "info", "warn", "error"],
+    log:
+      process.env.PRISMA_QUERY_LOGS === "true"
+        ? ["query", "info", "warn"]
+        : ["warn"],
   });
 };
 

@@ -2,6 +2,21 @@ import { prisma } from "@/src/app/api/utils/prisma/prisma";
 import { NextResponse } from "next/server";
 
 const VIEWS_FALLBACK_RESPONSE = { count: 0, disabled: true };
+const isViewsPersistenceEnabled = process.env.VIEWS_PERSISTENCE_ENABLED !== "false";
+
+const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "Unknown error";
+};
+
+const warnViewsUnavailable = (operation: "lookup" | "increment", error: unknown) => {
+  console.warn(
+    `Views ${operation} unavailable, returning fallback count: ${getErrorMessage(error)}`,
+  );
+};
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -11,6 +26,10 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Slug is required" }, { status: 400 });
   }
 
+  if (!isViewsPersistenceEnabled) {
+    return NextResponse.json(VIEWS_FALLBACK_RESPONSE, { status: 200 });
+  }
+
   try {
     const view = await prisma.views.findUnique({
       where: { slug },
@@ -18,7 +37,7 @@ export async function GET(req: Request) {
     const count = view ? view.count : 0;
     return NextResponse.json({ count }, { status: 200 });
   } catch (error) {
-    console.warn("Views lookup unavailable, returning fallback count.", error);
+    warnViewsUnavailable("lookup", error);
     return NextResponse.json(VIEWS_FALLBACK_RESPONSE, { status: 200 });
   }
 }
@@ -30,6 +49,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Slug is required" }, { status: 400 });
   }
 
+  if (!isViewsPersistenceEnabled) {
+    return NextResponse.json(VIEWS_FALLBACK_RESPONSE, { status: 200 });
+  }
+
   try {
     const view = await prisma.views.upsert({
       where: { slug },
@@ -38,7 +61,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json({ count: view.count }, { status: 200 });
   } catch (error) {
-    console.warn("Views increment unavailable, returning fallback count.", error);
+    warnViewsUnavailable("increment", error);
     return NextResponse.json(VIEWS_FALLBACK_RESPONSE, { status: 200 });
   }
 }
