@@ -135,7 +135,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 className="px-6 py-2 text-sm"
               />
             ) : null}
-            <h1 className="text-light relative mt-6 inline-block w-5/6 text-2xl leading-normal font-semibold capitalize md:text-3xl lg:text-5xl">
+            <h1 className="text-light relative mt-6 inline-block w-5/6 text-2xl leading-normal font-semibold normal-case md:text-3xl lg:text-5xl">
               {post?.title}
             </h1>
           </div>

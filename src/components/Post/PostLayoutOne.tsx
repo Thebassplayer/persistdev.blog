@@ -33,7 +33,7 @@ const PostLayoutOne = ({ post }: PostLayoutOneProps) => {
             className="border! px-6 py-1 text-xs sm:py-2 sm:text-sm"
           />
           <Link href={post.url} className="mt-6">
-            <h2 className="ms:text-xl mt-2 text-sm font-bold capitalize text-light xs:text-base sm:mt-4 md:text-2xl">
+            <h2 className="ms:text-xl mt-2 text-sm font-bold normal-case text-light xs:text-base sm:mt-4 md:text-2xl">
               <span className="bg-linear-to-r from-accent to-accent bg-size-[0px_5px] bg-bottom-left bg-no-repeat transition-[background-size] duration-500 group-hover:bg-size-[100%_5px]">
                 {post?.title}
               </span>

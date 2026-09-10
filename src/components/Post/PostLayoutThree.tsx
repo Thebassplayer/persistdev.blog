@@ -31,7 +31,7 @@ const PostLayoutThree = ({ post }: PostLayoutThreeProps) => {
             {firstPostTag}
           </span>
           <Link href={post.url} className="my-1 block">
-            <h2 className="text-base font-semibold capitalize sm:text-lg">
+            <h2 className="text-base font-semibold normal-case sm:text-lg">
               <span className="bg-linear-to-r from-accent/50 to-accent/50 bg-size-[0px_5px] bg-bottom-left bg-no-repeat transition-[background-size] duration-500 group-hover:bg-size-[100%_5px] dark:from-accentDark/50 dark:to-accentDark/50">
                 {post?.title}
               </span>

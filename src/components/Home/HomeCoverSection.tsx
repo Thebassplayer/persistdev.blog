@@ -38,7 +38,7 @@ const HomeCoverSection = ({ posts }: HomeCoverSectionProps) => {
           <div className="z-0 flex w-full flex-col items-start justify-center p-6 text-light sm:p-8 md:p-12 lg:w-3/4 lg:p-16">
             <ButtonTag link={linkTag} name={firstPostTag} />
             <Link href={latestPost.url} className="mt-6">
-              <h1 className="md-text-3xl text-lg font-bold capitalize sm:text-xl lg:text-4xl">
+              <h1 className="md-text-3xl text-lg font-bold normal-case sm:text-xl lg:text-4xl">
                 <span className="bg-linear-to-r from-accent to-accent bg-size-[0px_5px] bg-bottom-left bg-no-repeat transition-[background-size] duration-500 hover:bg-size-[100%_5px] dark:from-accentDark dark:to-accentDark/50">
                   {latestPost?.title}
                 </span>
