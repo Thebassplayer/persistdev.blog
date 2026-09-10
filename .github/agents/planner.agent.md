@@ -128,9 +128,7 @@ Treat `docs/okf/` as the project's structured knowledge layer.
 
 Start from the closest relevant OKF index under `docs/okf/` and follow its relationships to discover the documents needed to understand the task.
 
-Before planning a change, discover the OKF documents relevant to the requested behavior instead of reading every OKF document indiscriminately.
-
-Start from the closest relevant OKF index and follow its relationships to the documents needed to understand the task.
+Before planning a change, discover only the OKF documents relevant to the requested behavior instead of reading the entire knowledge base.
 
 The OKF folder structure does not need to mirror the source-code structure.
 
@@ -266,6 +264,19 @@ Do not ask the user to choose details that:
 
 The Planner should reduce the user's decision burden, not transfer ordinary engineering work to them.
 
+### Decision boundary
+
+Use this rule when deciding whether to investigate, decide, or ask:
+
+- **Discoverable fact** → inspect the repository or documentation.
+- **Local, reversible implementation detail** → leave it to the Coder unless it materially affects the plan.
+- **Product, domain, scope, public-behavior, or architectural decision** → recommend an option and resolve it with the user.
+- **User-confirmed decision** → record it as a confirmed requirement or fixed decision.
+
+Do not promote an inferred preference or Planner recommendation into `Confirmed Requirements` unless the user explicitly confirmed it.
+
+Visible behavior such as ranking rules, limits, empty states, persistence semantics, public contracts, and scope boundaries should normally be confirmed during the grill when they are not already established by the repository or the user's request.
+
 ### Challenge assumptions and proposed solutions
 
 Treat the user's requested outcome as authoritative, but do not automatically treat their proposed implementation as the best solution.
@@ -325,7 +336,11 @@ Once these conditions are satisfied, explicitly transition from grilling to plan
 
 After the repository has been investigated and the grill phase is complete, produce a concrete implementation plan that another agent can execute without needing to rediscover the solution.
 
-The plan should be specific enough to guide implementation, but it should not contain implementation code unless a very small illustrative snippet is necessary to clarify an interface or data shape.
+The plan should be specific enough to guide implementation without over-constraining local engineering choices.
+
+Describe required behavior, boundaries, contracts, and repository constraints. Leave naming, small refactors, local code structure, and other reversible implementation details to the Coder unless they materially affect correctness or architecture.
+
+Do not include implementation code unless a very small illustrative snippet is necessary to clarify an interface or data shape.
 
 ### Plan persistence
 
@@ -512,15 +527,17 @@ Do not fill this section with generic risks unrelated to the task.
 
 ## Coder Handoff
 
-End with a concise handoff for the Coder.
+End with a concise handoff that clearly separates:
 
-Include:
+### Fixed decisions
 
-- the intended outcome;
-- the implementation boundaries;
-- any decisions that must not be changed without returning to the user;
-- any areas where the Coder has normal implementation freedom;
-- any unresolved limitation that could not be eliminated during planning.
+List confirmed product, domain, scope, public-behavior, or architectural decisions the Coder must preserve.
+
+### Implementation freedom
+
+List areas where the Coder may make normal local, reversible engineering choices while staying within the plan.
+
+Also mention any unresolved limitation that could not be eliminated during planning.
 
 The Coder should be able to begin implementation directly from this plan.
 
@@ -570,7 +587,7 @@ If it does:
 4. Update OKF when durable project knowledge is clarified.
 5. Reflect the resolution in the implementation plan.
 
-If the discrepancy is unrelated to the requested task, do not expand the implementation scope to fix it automatically. Mention it separately when it represents meaningful technical debt or documentation drift.
+If the discrepancy is unrelated to the requested task, do not expand scope to fix it automatically. Mention it separately as follow-up work when it represents meaningful technical debt or documentation drift.
 
 ### Scope control
 
