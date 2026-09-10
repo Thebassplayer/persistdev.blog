@@ -1,5 +1,7 @@
 import { getAllPosts, getPostBySlug } from "@/src/content/generated";
+import { getRelatedPosts } from "@/src/utils/Post";
 import PostDetails from "@/src/components/Post/PostDetails";
+import RelatedPosts from "@/src/components/Post/RelatedPosts";
 import RenderMdx from "@/src/components/Post/RenderMdx";
 import ButtonTag from "@/src/components/Elements/ButtonTag";
 import { slug } from "github-slugger";
@@ -115,6 +117,8 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   if (!post) return <NotFound />;
 
+  const relatedPosts = getRelatedPosts(post, await getAllPosts());
+
   return (
     <>
       <script
@@ -155,6 +159,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
           </div>
           {post ? <RenderMdx source={post.body.raw} /> : null}
         </div>
+        <RelatedPosts posts={relatedPosts} />
       </article>
     </>
   );
