@@ -1,0 +1,220 @@
+---
+title: "AGENTS.md vs Custom Agents: Global Instructions vs Specialized Roles"
+description: "Learn how repository-level AGENTS.md instructions differ from specialized agent definitions, and how the two layers work together to make AI-assisted development more consistent."
+image: "../../public/posts/agents-md-vs-custom-agents-puzzle.png"
+publishedAt: "2026-09-10"
+updatedAt: "2026-09-10"
+author: "Roy Lopez"
+isPublished: true
+tags:
+  - ai agents
+  - developer tools
+  - software engineering
+---
+
+When I started adding instructions for coding agents to a repository, one question came up quickly: should everything live in `AGENTS.md`, or should I create separate agents for planning, coding, and review?
+
+The answer is not to choose one over the other. They solve different problems.
+
+`AGENTS.md` is the repository-wide contract. A specialized agent file, such as `reviewer.agent.md`, defines a focused role. One tells every agent how to work safely in this project; the other tells a particular agent what it is responsible for.
+
+## The Short Version
+
+Think of the relationship like this:
+
+```text
+AGENTS.md
+  └── Rules that apply to everyone in this repository
+
+Custom agent definition
+  └── Responsibilities and workflow for one role
+```
+
+For example, an `AGENTS.md` file can establish rules such as:
+
+- blog posts live in `content/<slug>/index.mdx`
+- request data must be validated at route boundaries
+- generated Prisma code must not be edited manually
+- run linting, type checks, and relevant tests before handing off work
+
+Those rules matter whether the current task is implemented by a coding agent, reviewed by a reviewer agent, or documented by a post-creation agent.
+
+A reviewer agent has a narrower job. It can be told to inspect an approved plan, look for regressions, verify coverage, and report actionable findings without implementing fixes itself.
+
+## What Belongs in `AGENTS.md`?
+
+I treat `AGENTS.md` as the shared operating manual for the repository. It should contain information that remains true regardless of who is doing the work.
+
+That usually includes:
+
+- the project stack and directory layout
+- repository conventions and import aliases
+- security boundaries and environment-variable rules
+- testing and verification commands
+- content, API, or database conventions
+- documentation expectations
+
+Here is a simplified example:
+
+```md
+# AGENTS.md
+
+## Code conventions
+
+- Use the `@/` alias for imports rooted at the repository root.
+- Prefer Server Components by default.
+- Do not edit generated Prisma client files manually.
+
+## Verification
+
+- Run `npm run lint`.
+- Run `npx tsc --noEmit`.
+- Run relevant Jest tests.
+```
+
+These are not instructions for one task. They are constraints for every task.
+
+That is why `AGENTS.md` is a good place for rules that protect consistency. If an agent needs to know that a post slug defines its public URL, or that secrets must stay in local environment files, it should not depend on which specialized role happens to be active.
+
+## What Belongs in a Custom Agent?
+
+A custom agent should define a role with a clear boundary. It can build on the repository rules, but it should not repeat them all.
+
+For instance, a reviewer definition can focus on review behavior:
+
+```md
+# Reviewer Agent
+
+## Role
+
+Review an implementation against its approved plan,
+repository-wide rules, and the current codebase.
+
+## Boundaries
+
+- Identify correctness issues and regressions.
+- Check relevant tests and documentation.
+- Do not implement fixes unless explicitly asked.
+
+## Outcome
+
+Report actionable findings with severity, location,
+impact, and a recommended fix.
+```
+
+The important part is the boundary: this agent knows it is reviewing, not coding. Without that boundary, an agent asked to review a pull request might start refactoring files, change the scope of the task, or spend time on unrelated cleanup.
+
+Other useful roles might include:
+
+- a planner that turns a request into an implementation plan
+- a coder that implements an approved plan without changing product decisions
+- a post creator that turns a technical topic into a repository-ready MDX article
+
+Each role can have its own workflow, but all of them still inherit the same repository-level constraints.
+
+## Why Not Put Everything in One File?
+
+It is tempting to put every workflow into `AGENTS.md`. At first, that feels simpler: there is only one file to read.
+
+The problem is that the file becomes a mixture of durable project knowledge and temporary role instructions.
+
+Imagine adding all of these instructions to the same document:
+
+```text
+When planning, create a task plan.
+When coding, follow the approved plan.
+When reviewing, report severity levels.
+When creating posts, match the existing MDX style.
+```
+
+Every agent now has to understand rules that do not apply to its task. More importantly, the distinction between a project rule and a role preference becomes blurry.
+
+"Never expose secrets to the client" is a repository-wide constraint. "Do not implement fixes while reviewing" is a reviewer-specific constraint. Keeping them in different places makes both easier to maintain.
+
+## Why Not Only Use Custom Agents?
+
+The opposite approach has a different problem: duplicated instructions.
+
+Suppose every specialized agent repeats the same requirements:
+
+```text
+Use TypeScript.
+Use the @/ import alias.
+Do not edit generated Prisma files.
+Run linting and type checks.
+```
+
+Eventually, one agent definition is updated while another is not. A coder might follow the new testing requirement, while a reviewer still checks against the old one.
+
+Centralizing shared constraints in `AGENTS.md` gives the repository one source of truth. Custom agents should reference that source and add only the instructions unique to their role.
+
+## A Practical Layering Model
+
+The model I find most useful has three layers:
+
+```text
+Repository layer: AGENTS.md
+  Defines durable rules, conventions, and boundaries.
+
+Task layer: implementation plan
+  Defines the requested outcome, scope, decisions, and non-goals.
+
+Role layer: custom agent definition
+  Defines how a planner, coder, reviewer, or writer approaches its part.
+```
+
+For a feature request, the flow can look like this:
+
+```text
+User request
+  → Planner creates a task-specific plan
+  → Coder implements the approved plan
+  → Reviewer validates the implementation
+```
+
+At every step, `AGENTS.md` remains in force. The plan changes from task to task, and the active role changes from agent to agent, but the repository rules do not need to be copied into each definition.
+
+## Using the Reviewer as an Example
+
+Consider a reviewer file named `.github/agents/reviewer.agent.md`.
+
+Its job is not to define where blog content lives or how database clients are generated. Those facts belong to the repository contract. Instead, the reviewer file can tell the agent to:
+
+1. Read the repository instructions.
+2. Read the exact plan for the task.
+3. Inspect the implementation and affected tests.
+4. Prioritize correctness and requirement compliance.
+5. Report only actionable findings.
+
+This gives the reviewer enough structure to make useful decisions without creating a second copy of the whole repository handbook.
+
+It also makes the review more predictable. A reviewer is less likely to turn into a second implementation pass when its role explicitly says that fixes belong to the coding phase unless the user asks otherwise.
+
+## Keeping the Two Layers Healthy
+
+The split only works if the files stay focused.
+
+Update `AGENTS.md` when a change affects durable repository knowledge. For example:
+
+- a new environment variable is required
+- the project adopts a new test command
+- content moves to a different directory
+- an API validation rule changes
+
+Update a custom agent definition when the role itself changes. For example:
+
+- reviewers now need to verify accessibility regressions
+- planners must record explicit non-goals
+- post creators must check internal links before publishing
+
+If the same instruction appears in several custom agents, it is usually a signal that the instruction belongs in `AGENTS.md` instead.
+
+## The Main Takeaway
+
+`AGENTS.md` answers: **"How do we work in this repository?"**
+
+A custom agent answers: **"What is my job in this workflow?"**
+
+Using both gives AI-assisted work a useful separation of concerns. The repository stays consistent, while each agent can stay focused on planning, implementation, review, writing, or another specialized responsibility.
+
+That separation is small, but it makes an agent setup easier to understand, easier to evolve, and much less likely to drift as a project grows.
