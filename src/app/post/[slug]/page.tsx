@@ -126,8 +126,8 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <article>
-        <div className="relative mb-8 h-[30vh] w-full bg-dark text-center">
-          <div className="absolute left-1/2 top-1/2 z-10 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center">
+        <div className="bg-dark relative mb-8 h-[30vh] w-full text-center">
+          <div className="absolute top-1/2 left-1/2 z-10 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center">
             {firstPostTag ? (
               <ButtonTag
                 name={firstPostTag}
@@ -135,11 +135,11 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 className="px-6 py-2 text-sm"
               />
             ) : null}
-            <h1 className="relative mt-6 inline-block w-5/6 text-2xl font-semibold capitalize leading-normal text-light md:text-3xl lg:text-5xl">
+            <h1 className="text-light relative mt-6 inline-block w-5/6 text-2xl leading-normal font-semibold capitalize md:text-3xl lg:text-5xl">
               {post?.title}
             </h1>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 top-0 h-full bg-dark/60 dark:bg-dark/40" />
+          <div className="bg-dark/60 dark:bg-dark/40 absolute top-0 right-0 bottom-0 left-0 h-full" />
           {post?.image ? (
             <Image
               src={postImage}
@@ -153,7 +153,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
           ) : null}
         </div>
         {post ? <PostDetails post={post} slug={postSlug} /> : null}
-        <div className="mt-8 grid grid-cols-12 gap-y-8 px-5 md:px-10 lg:gap-8 sxl:gap-16">
+        <div className="sxl:gap-16 mt-8 grid grid-cols-12 gap-y-8 px-5 md:px-10 lg:gap-8">
           <div className="col-span-12 lg:col-span-2">
             <TableOfContent post={post} />
           </div>

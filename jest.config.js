@@ -14,6 +14,7 @@ const config = {
   testEnvironment: "jsdom",
   preset: "ts-jest",
   moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/$1",
     "^github-slugger$": "<rootDir>/__mocks__/github-slugger.js",
   },
 };

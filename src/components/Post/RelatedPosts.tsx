@@ -11,8 +11,8 @@ const RelatedPosts = ({ posts }: RelatedPostsProps) => {
   }
 
   return (
-    <section className="mt-16 flex w-full flex-col px-5 sm:mt-24 sm:px-10 md:mt-32 md:px-24 sxl:px-32">
-      <h2 className="inline-block w-fit font-bold capitalize text-dark dark:text-light md:text-4xl">
+    <section className="sxl:px-32 mt-16 flex w-full flex-col px-5 sm:mt-24 sm:px-10 md:mt-32 md:px-24">
+      <h2 className="text-dark dark:text-light inline-block w-fit font-bold capitalize md:text-4xl">
         Related Posts
       </h2>
       <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3 lg:gap-16">

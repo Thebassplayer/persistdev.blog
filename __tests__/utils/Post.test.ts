@@ -33,10 +33,26 @@ const createPost = (
 
 describe("getRelatedPosts", () => {
   it("ranks posts by shared tag count, then by newest publication date", () => {
-    const currentPost = createPost("current", ["TypeScript", "React"], "2024-01-01T00:00:00Z");
-    const newestSingleMatch = createPost("newest-single", ["react"], "2024-08-01T00:00:00Z");
-    const olderSingleMatch = createPost("older-single", ["TypeScript"], "2024-07-01T00:00:00Z");
-    const strongestMatch = createPost("strongest", ["typescript", "React", "React"], "2024-06-01T00:00:00Z");
+    const currentPost = createPost(
+      "current",
+      ["TypeScript", "React"],
+      "2024-01-01T00:00:00Z",
+    );
+    const newestSingleMatch = createPost(
+      "newest-single",
+      ["react"],
+      "2024-08-01T00:00:00Z",
+    );
+    const olderSingleMatch = createPost(
+      "older-single",
+      ["TypeScript"],
+      "2024-07-01T00:00:00Z",
+    );
+    const strongestMatch = createPost(
+      "strongest",
+      ["typescript", "React", "React"],
+      "2024-06-01T00:00:00Z",
+    );
 
     const relatedPosts = getRelatedPosts(currentPost, [
       currentPost,
@@ -53,15 +69,37 @@ describe("getRelatedPosts", () => {
   });
 
   it("limits results and excludes ineligible candidates without mutating the source", () => {
-    const currentPost = createPost("current", ["TypeScript"], "2024-01-01T00:00:00Z");
+    const currentPost = createPost(
+      "current",
+      ["TypeScript"],
+      "2024-01-01T00:00:00Z",
+    );
     const first = createPost("first", ["TypeScript"], "2024-08-01T00:00:00Z");
     const second = createPost("second", ["TypeScript"], "2024-07-01T00:00:00Z");
     const third = createPost("third", ["TypeScript"], "2024-06-01T00:00:00Z");
     const fourth = createPost("fourth", ["TypeScript"], "2024-05-01T00:00:00Z");
-    const unpublished = createPost("unpublished", ["TypeScript"], "2024-08-15T00:00:00Z", { isPublished: false });
+    const unpublished = createPost(
+      "unpublished",
+      ["TypeScript"],
+      "2024-08-15T00:00:00Z",
+      { isPublished: false },
+    );
     const future = createPost("future", ["TypeScript"], "9999-10-01T00:00:00Z");
-    const unrelated = createPost("unrelated", ["JavaScript"], "2024-09-01T00:00:00Z");
-    const posts = [currentPost, fourth, unpublished, future, unrelated, third, second, first];
+    const unrelated = createPost(
+      "unrelated",
+      ["JavaScript"],
+      "2024-09-01T00:00:00Z",
+    );
+    const posts = [
+      currentPost,
+      fourth,
+      unpublished,
+      future,
+      unrelated,
+      third,
+      second,
+      first,
+    ];
     const originalOrder = posts.map((post) => post._id);
 
     const relatedPosts = getRelatedPosts(currentPost, posts);
@@ -75,8 +113,16 @@ describe("getRelatedPosts", () => {
   });
 
   it("returns no posts when the current post has no tags", () => {
-    const currentPost = createPost("current", undefined, "2024-01-01T00:00:00Z");
-    const candidate = createPost("candidate", ["TypeScript"], "2024-08-01T00:00:00Z");
+    const currentPost = createPost(
+      "current",
+      undefined,
+      "2024-01-01T00:00:00Z",
+    );
+    const candidate = createPost(
+      "candidate",
+      ["TypeScript"],
+      "2024-08-01T00:00:00Z",
+    );
 
     expect(getRelatedPosts(currentPost, [currentPost, candidate])).toEqual([]);
   });
