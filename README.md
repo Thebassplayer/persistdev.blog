@@ -6,7 +6,6 @@
 
 #### Contact
 
-🌎 [**roylopez.dev**](https://www.roylopezdev.dev) <br>
 ✉️ [**roylopezdev@gmail.com**](mailto:roylopezdev@gmail.com)
 
 #### Resources Used in This Project
