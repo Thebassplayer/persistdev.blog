@@ -45,3 +45,5 @@ next-env.d.ts
 # Proyect files
 /project_files
 /project_images
+
+post-creator.agent.md
